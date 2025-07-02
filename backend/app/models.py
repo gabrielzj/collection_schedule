@@ -16,7 +16,6 @@ class User(models.Model):
         return self.username
     
 class CollectionCall(models.Model):
-    
     CHOICES_URGENCY = [
         ('low', 'Low'),
         ('medium', 'Medium'),
