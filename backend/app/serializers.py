@@ -7,16 +7,20 @@ class UserSerializer(serializers.ModelSerializer):
         fields = '__all__'
         
     def validate_password(self, value):
-        if len(value.get('password')) < 8:
+        if len(value) < 8:
             raise serializers.ValidationError(
                 {"password":"A senha deve conter pelo menos 8 caracteres."}
             )
         return value
 
     def validate_phone_number(self, value):
-        if not value.isdigit() or len(value) < 10:
+        if not value.isdigit():
             raise serializers.ValidationError(
-                {"phone_number":"O número de telefone deve conter apenas números e ter pelo menos 10 dígitos."}
+                "O número de telefone deve conter apenas números"
+            )
+        elif len(value) < 10:
+            raise serializers.ValidationError(
+                "O número de telefone deve ter pelo menos 10 dígitos."
             )
         return value
     
