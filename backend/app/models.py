@@ -10,7 +10,7 @@ class User(models.Model):
     class Meta:
         verbose_name = 'Usuário'
         verbose_name_plural = 'Usuários'
-        ordering = ['username']
+        ordering = ['-id']
         
     def __str__(self):
         return self.username
@@ -43,4 +43,4 @@ class CollectionCall(models.Model):
         ordering = ['-created_at']
 
     def __str__(self):
-        return f"Chamado de coleta criado por {self.user.username} em {self.call_date} - Status: {self.status}"
+        return f"Chamado de coleta criado por {self.user.username}"

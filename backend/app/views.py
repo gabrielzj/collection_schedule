@@ -1,134 +1,166 @@
 from .models import CollectionCall, User
 from .serializers import UserSerializer, CollectionCallSerializer
 from rest_framework.response import Response
-from rest_framework import generics, status
+from rest_framework import status
 from rest_framework.exceptions import ValidationError
+from rest_framework.decorators import api_view
+from django.shortcuts import get_object_or_404
+from django.http import Http404
 
-#TODO: implementar as views do user
-#TODO: implementar validação de user em outras views
-class UserCreateView(generics.CreateAPIView):
-    serializer_class = UserSerializer
-
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
+@api_view(['POST'])
+def create_user(request):
+    try:
+        serializer = UserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
+        serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
     
-class UserUpdateView(generics.UpdateAPIView):
-    serializer_class = UserSerializer
-    lookup_field = 'pk'
-    
-    def get_queryset(self):
-        return User.objects.all()
-    
-    def update(self, request, *args, **kwargs):
-        instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        self.perform_update(serializer)
+@api_view(['GET'])
+def list_users(request):
+    try:
+        users = User.objects.all()
+        if not User.objects.exists():
+            raise ValidationError("Não existem usuários para listagem.")
+        serializer = UserSerializer(users, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    except ValidationError as e:
+        return Response(e.detail, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
-class UserListView(generics.ListAPIView):
-    serializer_class = UserSerializer
-    
-    def get_queryset(self):
-        return User.objects.all().order_by('-id')
-
-class UserRetrieveView(generics.RetrieveAPIView):
-    serializer_class = UserSerializer
-    lookup_field = 'pk'
-    
-    def get_queryset(self):
-        return User.objects.all()
-    
-class UserDeleteView(generics.DestroyAPIView):
-    serializer_class = UserSerializer
-    lookup_field = 'pk'
-    
-    def get_queryset(self):
-        return User.objects.all()
-
-    def destroy(self, request, *args, **kwargs):
-        instance = self.get_object()
-        self.perform_destroy(instance)
-        return Response('Usuário deletado com sucesso', status=status.HTTP_204_NO_CONTENT)
-
-
-class CollectionCallCreateView(generics.CreateAPIView):
-    serializer_class = CollectionCallSerializer
-
-    def create(self, request, *args, **kwargs):
-        user = request.data.get('user')
-        
+@api_view(['GET'])
+def retrieve_user(request, pk):
+    try:
+        user = get_object_or_404(User, pk=pk)
         if not user:
-            raise ValidationError({'user': 'Não é possível criar um chamado de coleta sem um usuário vinculado.'})
-        
-        if not User.objects.filter(id=user).exists():
-            raise ValidationError({'user': 'Usuário vinculado ao chamado não encontrado.'})
-        
-        serializer = self.get_serializer(data=request.data)
+            raise ValidationError("Usuário com ID informado não existente.")
+        serializer = UserSerializer(user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except Http404:
+        return Response(
+            {"detail": "Usuário com o ID informado não foi encontrado."},
+            status=status.HTTP_404_NOT_FOUND
+        )
+    except ValidationError as e:
+        return Response(e.detail, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+    
+@api_view(['PUT', 'PATCH'])
+def update_user(request, pk):
+    try:
+        user = get_object_or_404(User, pk=pk)
+        serializer = UserSerializer(user, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
-        # chama o save, padrão do CreateAPIView
-        self.perform_create(serializer)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except Http404:
+        return Response(
+            {"detail": "Usuário com o ID informado não foi encontrado."},
+            status=status.HTTP_404_NOT_FOUND
+        )
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+    
+@api_view(['DELETE'])
+def delete_user(request, pk):
+    try:
+        # user = User.objects.get(pk=pk)
+        user = get_object_or_404(User, pk=pk)
+        user.delete()
+        return Response({'Usuário deletado com sucesso:'}, status=status.HTTP_200_OK)
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+    
+@api_view(['POST'])
+def create_collection_call(request):
+    user_id = request.data.get('user')
+    
+    if not user_id:
+        return Response(
+            {'error': 'É obrigatório informar um usuário para criar um chamado de coleta.'}, 
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    
+    if not User.objects.filter(id=user_id).exists():
+        return Response(
+            {'error': 'Usuário com o ID informado não foi encontrado.'}, 
+            status=status.HTTP_404_NOT_FOUND
+        )
+    
+    try:
+        serializer = CollectionCallSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    
-class CollectionCallListView(generics.ListAPIView):
-    serializer_class = CollectionCallSerializer
-     
-    # retorna a queryset da view
-    def get_queryset(self):
-        # queryset = CollectionCall.objects.filter(user=self.request.user)
-        queryset = CollectionCall.objects.all().order_by('-created_at')
-        return queryset
-    
-class CollectionCallRetrieveView(generics.RetrieveAPIView):
-    serializer_class = CollectionCallSerializer
-    lookup_field = 'pk'
-    
-    # por trás chama o get_object passando self.kwargs['pk'] da URL
-    def get_queryset(self):
-        # queryset = CollectionCall.objects.filter(user=self.request.user)
-        queryset = CollectionCall.objects.all()
-        return queryset
-    
-class CollectionCallUpdateView(generics.UpdateAPIView):
-    serializer_class = CollectionCallSerializer
-    lookup_field = 'pk'
-    
-    def get_queryset(self):
-        # queryset = CollectionCall.objects.filter(user=self.request.user)
-        queryset = CollectionCall.objects.all()
-        return queryset
-    
-    def update(self, request, *args, **kwargs):
-        user = request.data.get('user')
-        
-        if not user:
-            raise ValidationError({'user': 'Não é possível atualizar um chamado de coleta sem um usuário vinculado.'})
-        
-        if not User.objects.filter(id=user).exists():
-            raise ValidationError({'user': 'Usuário vinculado ao chamado não encontrado.'})
-        
-        instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        self.perform_update(serializer)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    
-    
-class CollectionCallDeleteView(generics.DestroyAPIView):
-    serializer_class = CollectionCallSerializer
-    lookup_field = 'pk'
-    
-    def get_queryset(self):
-        return CollectionCall.objects.filter(user=self.request.user)
+    except ValidationError as e:
+        return Response(e.detail, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-    def destroy(self, request, *args, **kwargs):
-        instance = self.get_object()
-        self.perform_destroy(instance)
-        return Response('Chamado deletado com sucesso', status=status.HTTP_204_NO_CONTENT)
+@api_view(['GET'])
+def list_collection_call(request):
+    try:
+        collection_calls = CollectionCall.objects.all().order_by('-created_at')
+        serializer = CollectionCallSerializer(collection_calls, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+        
+    except ValidationError as e:
+        return Response(e.detail, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
+@api_view(['GET'])
+def retrieve_collection_call(request, pk):
+    try:
+        collection_call = get_object_or_404(CollectionCall, pk=pk)
+        user = CollectionCall.objects.filter(user_id=collection_call.user_id).exists()
+        if not user:
+            raise ValidationError({'collection_calls': 'Chamado sem usuário vinculado'})
+        serializer = CollectionCallSerializer(collection_call)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except Http404:
+        return Response(
+            {"detail": "Chamado com ID informado não foi encontrado."},
+            status=status.HTTP_404_NOT_FOUND
+        )
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
     
+@api_view(['PUT', 'PATCH'])
+def update_collection_call(request, pk):
+    try:
+        collection_call = get_object_or_404(CollectionCall, pk=pk)
+        serializer = CollectionCallSerializer(collection_call, data=request.data, partial=True)
+        user = request.data.get('user')
+        if user:
+            if not CollectionCall.objects.filter(user_id=user).exists():
+                return Response({'collection_calls': 'Usuário vinculado ao chamado inexistente'}, status=status.HTTP_404_NOT_FOUND)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except Http404:
+        return Response(
+            {"detail": "Chamado com o ID informado não foi encontrado."},
+            status=status.HTTP_404_NOT_FOUND
+        )
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+    
+@api_view(['DELETE'])
+def delete_collection_call(request, pk):
+    try:
+        collection_call = get_object_or_404(CollectionCall, pk=pk)
+        collection_call.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    except Http404:
+        return Response(
+            {"detail": "Chamado com ID informado não foi encontrado."},
+            status=status.HTTP_404_NOT_FOUND
+        )
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
     
     
