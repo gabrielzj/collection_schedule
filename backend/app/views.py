@@ -8,31 +8,10 @@ from django.shortcuts import get_object_or_404
 from django.http import Http404
 # from rest_framework.authtoken.models import Token
 # from django.contrib.auth import authenticate
-from rest_framework_simplejwt.tokens import RefreshToken
-from django.contrib.auth.hashers import check_password
+# from rest_framework_simplejwt.tokens import RefreshToken
+# from django.contrib.auth.hashers import check_password
 # from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated, AllowAny
-
-
-@api_view(['POST'])
-@permission_classes([AllowAny])
-def login_user(request):
-    email = request.data.get('email')
-    password = request.data.get('password')
-
-    try:
-        user = User.objects.get(email=email)
-        
-        if check_password(password, user.password):
-            refresh_token = RefreshToken.for_user(user=user)
-            return Response({
-                'refresh': str(refresh_token),
-                'access': str(refresh_token.access_token),
-            })
-        else:
-            return Response({'error': 'Senha Incorreta'}, status=status.HTTP_401_UNAUTHORIZED)
-    except User.DoesNotExist:
-        return Response({'error': 'Usuário não encontrado'}, status=status.HTTP_401_UNAUTHORIZED)
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
