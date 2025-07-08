@@ -3,12 +3,40 @@ from .serializers import UserSerializer, CollectionCallSerializer
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.exceptions import ValidationError
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from django.shortcuts import get_object_or_404
 from django.http import Http404
+# from rest_framework.authtoken.models import Token
+# from django.contrib.auth import authenticate
+from rest_framework_simplejwt.tokens import RefreshToken
+from django.contrib.auth.hashers import check_password
+# from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated, AllowAny
+
 
 @api_view(['POST'])
-def create_user(request):
+@permission_classes([AllowAny])
+def login_user(request):
+    email = request.data.get('email')
+    password = request.data.get('password')
+
+    try:
+        user = User.objects.get(email=email)
+        
+        if check_password(password, user.password):
+            refresh_token = RefreshToken.for_user(user=user)
+            return Response({
+                'refresh': str(refresh_token),
+                'access': str(refresh_token.access_token),
+            })
+        else:
+            return Response({'error': 'Senha Incorreta'}, status=status.HTTP_401_UNAUTHORIZED)
+    except User.DoesNotExist:
+        return Response({'error': 'Usuário não encontrado'}, status=status.HTTP_401_UNAUTHORIZED)
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def register_user(request):
     try:
         serializer = UserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -55,7 +83,18 @@ def update_user(request, pk):
         serializer = UserSerializer(user, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        
+        if 'password' in serializer.validated_data:
+            password = serializer.validated_data.pop('password')
+            user.set_password(password)
+        
+        for  attr, value in serializer.validated_data.items():
+            setattr(user, attr, value)
+        
+        user.save()
+        
+        response_serializer = UserSerializer(user)
+        return Response(response_serializer.data, status=status.HTTP_200_OK)
     except Http404:
         return Response(
             {"detail": "Usuário com o ID informado não foi encontrado."},
@@ -65,9 +104,9 @@ def update_user(request, pk):
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
     
 @api_view(['DELETE'])
+@permission_classes([AllowAny])
 def delete_user(request, pk):
     try:
-        # user = User.objects.get(pk=pk)
         user = get_object_or_404(User, pk=pk)
         user.delete()
         return Response({'Usuário deletado com sucesso:'}, status=status.HTTP_200_OK)
@@ -99,7 +138,7 @@ def create_collection_call(request):
         return Response(e.detail, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
+    
 @api_view(['GET'])
 def list_collection_call(request):
     try:
@@ -148,7 +187,7 @@ def update_collection_call(request, pk):
         )
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
-    
+
 @api_view(['DELETE'])
 def delete_collection_call(request, pk):
     try:
@@ -162,5 +201,3 @@ def delete_collection_call(request, pk):
         )
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
-    
-    

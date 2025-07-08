@@ -1,11 +1,13 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 
-class User(models.Model):
-    username = models.CharField(max_length=100, null=False, blank=False)
-    password = models.CharField(max_length=128, null=False, blank=False)
-    email = models.EmailField(unique=True, null=True, blank=True)
-    address = models.CharField(max_length=255, null=False, blank=False)
-    phone_number = models.CharField(max_length=15, null=False, blank=False)
+class User(AbstractUser):
+    email = models.EmailField(unique=True, null=False, blank=True, default='', verbose_name='Email')
+    address = models.CharField(max_length=255, null=False, blank=False, verbose_name='Endereço')
+    phone_number = models.CharField(max_length=15, null=False, blank=False, verbose_name='Número de Telefone')
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username']
     
     class Meta:
         verbose_name = 'Usuário'

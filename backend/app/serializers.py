@@ -7,6 +7,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields = '__all__'
         
     def validate_password(self, value):
+        print(value, len(value))
         if len(value) < 8:
             raise serializers.ValidationError(
                 {"password":"A senha deve conter pelo menos 8 caracteres."}
@@ -23,6 +24,9 @@ class UserSerializer(serializers.ModelSerializer):
                 "O número de telefone deve ter pelo menos 10 dígitos."
             )
         return value
+    
+    def create(self, validated_data):
+        return User.objects.create_user(**validated_data)
     
 class CollectionCallSerializer(serializers.ModelSerializer):
     class Meta:
