@@ -1,4 +1,4 @@
-from .models import CollectionCall, User
+from core.models import User, CollectionCall
 from .serializers import UserSerializer, CollectionCallSerializer
 from rest_framework.response import Response
 from rest_framework import status
@@ -6,12 +6,7 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.decorators import api_view, permission_classes
 from django.shortcuts import get_object_or_404
 from django.http import Http404
-# from rest_framework.authtoken.models import Token
-# from django.contrib.auth import authenticate
-# from rest_framework_simplejwt.tokens import RefreshToken
-# from django.contrib.auth.hashers import check_password
-# from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import AllowAny
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
