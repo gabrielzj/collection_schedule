@@ -1,4 +1,4 @@
-from .models import User, CollectionCall
+from core.models import User, CollectionCall
 from rest_framework import serializers
 
 class UserSerializer(serializers.ModelSerializer):

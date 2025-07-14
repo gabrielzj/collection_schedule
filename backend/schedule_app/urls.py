@@ -9,7 +9,7 @@ schema_view = get_schema_view(
     openapi.Info(
         title="Collection Schedule API",
         default_version='v1',
-        description="Documentação da API do projeto Agendamente de Coleta",
+        description="Documentação da API do projeto Agendamento de Coleta",
         terms_of_service="https://www.google.com/policies/terms/",
         contact=openapi.Contact(email="gabrielzuinj@gmail.com"),
         license=openapi.License(name="BSD License"),
@@ -22,5 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
-    path('', include('app.urls')),
+    path('app-api/', include('app.urls')),
+    path('web-api/', include('app_web.urls')),
 ]

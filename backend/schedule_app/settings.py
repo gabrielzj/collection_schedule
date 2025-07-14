@@ -31,7 +31,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = True
 
 ALLOWED_HOSTS = []
-AUTH_USER_MODEL = 'app.User'
+AUTH_USER_MODEL = 'core.User'
 USERNAME_FIELD = 'email' 
 
 SIMPLE_JWT = {
@@ -54,6 +54,8 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'drf_yasg',
     'app',
+    'app_web',
+    'core',
 ]
 
 MIDDLEWARE = [
