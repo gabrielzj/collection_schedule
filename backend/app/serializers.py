@@ -1,5 +1,22 @@
 from core.models import User, CollectionCall
 from rest_framework import serializers
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework.exceptions import AuthenticationFailed
+
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    class Meta:
+        ref_name = 'AppCustomTokenObtainPairSerializer'
+
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        user = self.user
+
+        if not user.is_active:
+            raise AuthenticationFailed('Usuário Inativo')
+        if user.profile_type != User.USER_TYPE_APP:
+            raise AuthenticationFailed('Tipo de usuário inválido.')
+        
+        return data
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -7,7 +24,6 @@ class UserSerializer(serializers.ModelSerializer):
         fields = '__all__'
         
     def validate_password(self, value):
-        print(value, len(value))
         if len(value) < 8:
             raise serializers.ValidationError(
                 {"password":"A senha deve conter pelo menos 8 caracteres."}
@@ -25,6 +41,12 @@ class UserSerializer(serializers.ModelSerializer):
             )
         return value
     
+    def validate_profile_type(self, value):
+        if value != User.USER_TYPE_APP:
+            raise serializers.ValidationError(
+                'Tipo de perfil inválido'
+            )
+
     def create(self, validated_data):
         return User.objects.create_user(**validated_data)
     

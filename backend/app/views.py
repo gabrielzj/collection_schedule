@@ -1,5 +1,7 @@
+from rest_framework_simplejwt.views import TokenObtainPairView
+
 from core.models import User, CollectionCall
-from .serializers import UserSerializer, CollectionCallSerializer
+from .serializers import UserSerializer, CollectionCallSerializer, CustomTokenObtainPairSerializer
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.exceptions import ValidationError
@@ -7,6 +9,12 @@ from rest_framework.decorators import api_view, permission_classes
 from django.shortcuts import get_object_or_404
 from django.http import Http404
 from rest_framework.permissions import AllowAny
+
+#TODO: criar view para verify token, ou refresh de token, talvez não 
+# precise criar um serializer para isso, mas sim usar o serializer do SimpleJWT
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
