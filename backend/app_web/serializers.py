@@ -6,7 +6,6 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-#TODO: verificar porque da pra fazer login com um usuário do tipo 'app'
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     class Meta:
         ref_name = 'WebCustomTokenObtainPairSerializer'
