@@ -14,49 +14,29 @@
 
       <div class="waste-info-container">
         <WasteInfoCard
-          @click="openModalPaper"
-          image="/src/assets/paper-waste.jpg"
-          title="Papéis"
-          description="Lorem ipsum dolor sit amet. At beatae porro et amet velit est delectus  dolorum sit amet nostrum. Est corporis repellendus ab iste dolorem est magnam quae"
-        />
-        <WasteInfoCard
-          @click="openModalMetal"
-          image="/src/assets/metal-waste.jpg"
-          title="Metais"
-          description="Lorem ipsum dolor sit amet. At beatae porro et amet velit est delectus  dolorum sit amet nostrum. Est corporis repellendus ab iste dolorem est magnam quae"
-        />
-        <WasteInfoCard
-          @click="openModalPlastic"
-          image="/src/assets/plastic-waste.jpg"
-          title="Plásticos"
-          description="Lorem ipsum dolor sit amet. At beatae porro et amet velit est delectus  dolorum sit amet nostrum. Est corporis repellendus ab iste dolorem est magnam quae"
+          v-for="(item, index) in wasteInfo"
+          :key="index"
+          @click="openModal(item.type)"
+          :image="item.image"
+          :title="item.title"
+          :description="item.description"
         />
       </div>
       <WasteInfoModal
-        :is-open="isModalOpenPaper"
-        @dismiss="closeModal"
-        title="Papéis"
-        description="Lorem ipsum dolor sit amet. At beatae porro et amet velit est delectus  dolorum sit amet nostrum. Est corporis repellendus ab iste dolorem est magnam quae"
+        v-for="(modal, index) in wasteModals"
+        :key="index"
+        :is-open="isModalOpen[modal.type]"
+        @dismiss="closeModal(modal.type)"
+        :title="modal.title"
+        :description="modal.description"
       />
-      <WasteInfoModal
-        :is-open="isModalOpenMetal"
-        @dismiss="closeModal"
-        title="Metais"
-        description="Lorem ipsum dolor sit amet. At beatae porro et amet velit est delectus  dolorum sit amet nostrum. Est corporis repellendus ab iste dolorem est magnam quae"
-      />
-      <WasteInfoModal
-        :is-open="isModalOpenPlastic"
-        @dismiss="closeModal"
-        title="Plásticos"
-        description="Lorem ipsum dolor sit amet. At beatae porro et amet velit est delectus  dolorum sit amet nostrum. Est corporis repellendus ab iste dolorem est magnam quae"
-      />
-      <!-- <ExploreContainer name="Tab 1 page" /> -->
     </ion-content>
   </ion-page>
 </template>
 
 <script setup>
 import { ref } from "vue";
+
 import {
   IonPage,
   IonHeader,
@@ -64,30 +44,66 @@ import {
   IonTitle,
   IonContent,
 } from "@ionic/vue";
-// import ExploreContainer from "@/components/ExploreContainer.vue";
 import WasteInfoCard from "@/components/WasteInfoCard.vue";
 import WasteInfoModal from "@/components/WasteInfoModal.vue";
 
-const isModalOpenPaper = ref(false);
-const isModalOpenMetal = ref(false);
-const isModalOpenPlastic = ref(false);
+const wasteInfo = [
+  {
+    type: "paper",
+    image: "/src/assets/paper-waste.jpg",
+    title: "Papéis",
+    description:
+      "Lorem ipsum dolor sit amet. At beatae porro et amet velit est delectus dolorum sit amet nostrum. Est corporis repellendus ab iste dolorem est magnam quae",
+  },
+  {
+    type: "metal",
+    image: "/src/assets/metal-waste.jpg",
+    title: "Metais",
+    description:
+      "Lorem ipsum dolor sit amet. At beatae porro et amet velit est delectus dolorum sit amet nostrum. Est corporis repellendus ab iste dolorem est magnam quae",
+  },
+  {
+    type: "plastic",
+    image: "/src/assets/plastic-waste.jpg",
+    title: "Plásticos",
+    description:
+      "Lorem ipsum dolor sit amet. At beatae porro et amet velit est delectus dolorum sit amet nostrum. Est corporis repellendus ab iste dolorem est magnam quae",
+  },
+];
 
-const openModalPaper = () => {
-  isModalOpenPaper.value = true;
+const wasteModals = [
+  {
+    type: "paper",
+    title: "Papéis",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vel nisi nec justo.",
+  },
+  {
+    type: "metal",
+    title: "Metais",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vel nisi nec justo.",
+  },
+  {
+    type: "plastic",
+    title: "Plásticos",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vel nisi nec justo.",
+  },
+];
+
+const isModalOpen = ref({
+  paper: false,
+  metal: false,
+  plastic: false,
+});
+
+const openModal = (type) => {
+  isModalOpen.value[type] = true;
 };
 
-const openModalMetal = () => {
-  isModalOpenMetal.value = true;
-};
-
-const openModalPlastic = () => {
-  isModalOpenPlastic.value = true;
-};
-
-const closeModal = () => {
-  isModalOpenPaper.value = false;
-  isModalOpenMetal.value = false;
-  isModalOpenPlastic.value = false;
+const closeModal = (type) => {
+  isModalOpen.value[type] = false;
 };
 </script>
 
