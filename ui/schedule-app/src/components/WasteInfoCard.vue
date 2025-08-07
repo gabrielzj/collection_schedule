@@ -42,6 +42,7 @@ ion-card {
   border-radius: 20px;
   cursor: pointer;
   transition: transform 0.2s ease-in-out;
+  max-width: 400px;
 }
 
 ion-card:hover {
@@ -57,10 +58,6 @@ img {
 }
 
 @media (min-width: 500px) {
-  /* img {
-    max-width: fit-content;
-  } */
-
   ion-card {
     max-width: 400px;
   }

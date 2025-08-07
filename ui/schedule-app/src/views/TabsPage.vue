@@ -5,7 +5,7 @@
       <ion-tab-bar slot="bottom">
         <ion-tab-button tab="tab1" href="/home/tab1">
           <ion-icon aria-hidden="true" :icon="trashBin" />
-          <ion-label>Descarte</ion-label>
+          <ion-label>Resíduos</ion-label>
         </ion-tab-button>
 
         <ion-tab-button tab="tab2" href="/home/tab2">
@@ -16,6 +16,10 @@
         <ion-tab-button tab="tab3" href="/home/tab3">
           <ion-icon aria-hidden="true" :icon="square" />
           <ion-label>Tab 3</ion-label>
+        </ion-tab-button>
+        <ion-tab-button tab="tab4" href="/home/tab4">
+          <ion-icon aria-hidden="true" :icon="atCircle" />
+          <ion-label>Tab 4</ion-label>
         </ion-tab-button>
       </ion-tab-bar>
     </ion-tabs>
@@ -32,5 +36,5 @@ import {
   IonPage,
   IonRouterOutlet,
 } from "@ionic/vue";
-import { ellipse, square, trashBin } from "ionicons/icons";
+import { atCircle, ellipse, square, trashBin } from "ionicons/icons";
 </script>

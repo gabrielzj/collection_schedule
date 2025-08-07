@@ -2,7 +2,7 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Informações de descarte</ion-title>
+        <ion-title>Tipos de resíduos</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
@@ -23,18 +23,17 @@
         />
       </div>
       <WasteInfoModal
-        v-for="(modal, index) in wasteModals"
+        v-for="(modal, index) in wasteModal"
         :key="index"
         :is-open="isModalOpen[modal.type]"
         @dismiss="closeModal(modal.type)"
         :title="modal.title"
-        :description="modal.description"
       />
     </ion-content>
   </ion-page>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from "vue";
 
 import {
@@ -47,13 +46,27 @@ import {
 import WasteInfoCard from "@/components/WasteInfoCard.vue";
 import WasteInfoModal from "@/components/WasteInfoModal.vue";
 
-const wasteInfo = [
+type WasteType = "paper" | "metal" | "plastic";
+
+interface WasteInfo {
+  type: WasteType;
+  image: string;
+  title: string;
+  description: string;
+}
+
+interface WasteModal {
+  type: WasteType;
+  title: string;
+}
+
+const wasteInfo: WasteInfo[] = [
   {
     type: "paper",
     image: "/src/assets/paper-waste.jpg",
     title: "Papéis",
     description:
-      "Lorem ipsum dolor sit amet. At beatae porro et amet velit est delectus dolorum sit amet nostrum. Est corporis repellendus ab iste dolorem est magnam quae",
+      "Descarte papéis de forma correta e contribua para a preservação ambiental. Saiba como separar, armazenar e encaminhar o papel para reciclagem",
   },
   {
     type: "metal",
@@ -71,24 +84,18 @@ const wasteInfo = [
   },
 ];
 
-const wasteModals = [
+const wasteModal: WasteModal[] = [
   {
     type: "paper",
     title: "Papéis",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vel nisi nec justo.",
   },
   {
     type: "metal",
     title: "Metais",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vel nisi nec justo.",
   },
   {
     type: "plastic",
     title: "Plásticos",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vel nisi nec justo.",
   },
 ];
 
@@ -98,18 +105,18 @@ const isModalOpen = ref({
   plastic: false,
 });
 
-const openModal = (type) => {
+const openModal = (type: WasteType) => {
   isModalOpen.value[type] = true;
 };
 
-const closeModal = (type) => {
+const closeModal = (type: WasteType) => {
   isModalOpen.value[type] = false;
 };
 </script>
 
 <style scoped>
 .waste-info-container {
-  padding: 50px;
+  padding: 16px;
   justify-content: center;
   align-items: center;
   display: flex;
