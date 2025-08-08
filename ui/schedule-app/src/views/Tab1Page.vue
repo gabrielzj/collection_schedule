@@ -28,6 +28,7 @@
         :is-open="isModalOpen[modal.type]"
         @dismiss="closeModal(modal.type)"
         :title="modal.title"
+        :id="modal.id"
       />
     </ion-content>
   </ion-page>
@@ -58,6 +59,7 @@ interface WasteInfo {
 interface WasteModal {
   type: WasteType;
   title: string;
+  id: number;
 }
 
 const wasteInfo: WasteInfo[] = [
@@ -88,14 +90,17 @@ const wasteModal: WasteModal[] = [
   {
     type: "paper",
     title: "Papéis",
+    id: 1,
   },
   {
     type: "metal",
     title: "Metais",
+    id: 2,
   },
   {
     type: "plastic",
     title: "Plásticos",
+    id: 3,
   },
 ];
 
