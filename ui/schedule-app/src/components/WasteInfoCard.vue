@@ -1,6 +1,6 @@
 <template>
   <ion-card>
-    <img alt="Recicláveis" :src="image" />
+    <img :alt="title" :src="image" />
     <ion-card-header>
       <ion-card-title>{{ title }}</ion-card-title>
       <!-- <ion-card-subtitle>Card Subtitle</ion-card-subtitle> -->
@@ -24,7 +24,7 @@ import {
 defineProps({
   image: {
     type: String,
-    required: true,
+    required: false,
   },
   title: {
     type: String,
@@ -42,11 +42,7 @@ ion-card {
   border-radius: 20px;
   cursor: pointer;
   transition: transform 0.2s ease-in-out;
-  max-width: 400px;
-}
-
-ion-card:hover {
-  transform: translateY(-2px);
+  max-width: 300px;
 }
 
 img {
@@ -57,22 +53,9 @@ img {
   border-radius: 20px 20px 0 0;
 }
 
-@media (min-width: 500px) {
-  ion-card {
-    max-width: 400px;
-  }
-
-  ion-card-title {
-    font-size: 1.5rem;
-  }
-
-  ion-card-content {
-    font-size: 1rem;
-  }
-}
-
 ion-card-content {
   text-align: justify;
   text-justify: inter-word;
+  hyphens: auto;
 }
 </style>

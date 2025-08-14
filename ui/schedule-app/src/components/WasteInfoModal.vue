@@ -12,10 +12,11 @@
     </ion-header>
 
     <ion-content class="ion-padding">
+      <!-- PAPEL -->
       <div :class="{ 'is-hidden': props.id !== 1 }">
         <div class="container">
           <ion-icon :icon="helpOutline"></ion-icon>
-          <h5>O que pode ser reciclado?</h5>
+          <h5>Sobre</h5>
         </div>
         <p>
           Papéis são materiais <b>recicláveis</b>, ou seja, podem ser
@@ -55,13 +56,13 @@
 
         <div class="container">
           <ion-icon :icon="locationOutline"></ion-icon>
-          <h5>Destinação</h5>
+          <h5>Destino</h5>
         </div>
         <p>
           Papéis devem ser colocados na lixeira correta da coleta seletiva,
           representada pela cor <b>azul</b>. Caso não exista uma lixeira perto
           de sua residência, disponha o material a ser descartado nos pontos de
-          coleta do seu bairro.
+          coleta da sua rua ou <b>Pontos de entrega voluntária (PEVs)</b>.
         </p>
         <!-- <div class="container-button">
           <ion-button @click="closeModal" class="close-button" expand="full">
@@ -70,10 +71,11 @@
         </div> -->
       </div>
 
+      <!-- METAL -->
       <div :class="{ 'is-hidden': props.id !== 2 }">
         <div class="container">
           <ion-icon :icon="helpOutline"></ion-icon>
-          <h5>O que pode ser reciclado?</h5>
+          <h5>Sobre</h5>
         </div>
         <p>
           Existem muitos resíduos metálicos recicláveis, os principáis são
@@ -100,7 +102,7 @@
 
         <div class="container">
           <ion-icon :icon="alertCircleOutline"></ion-icon>
-          <h5>Cuidados especiais</h5>
+          <h5>Cuidados</h5>
         </div>
         <p>
           Sprays, aerossóis, latas de tinta ou solventes podem conter
@@ -132,16 +134,18 @@
 
         <div class="container">
           <ion-icon :icon="locationOutline"></ion-icon>
-          <h5>Destinação</h5>
+          <h5>Destino</h5>
         </div>
         <p>
           Metais devem ser colocados na lixeira correta da coleta seletiva,
           representada pela cor <b>amarela</b>. Caso não encontre uma lixeira
           perto de sua residência, disponha o material a ser descartado nos
-          pontos de coleta da sua rua.
+          pontos de coleta da sua rua ou
+          <b>Pontos de entrega voluntária (PEVs)</b>.
         </p>
       </div>
 
+      <!-- PLÁSTICO -->
       <div :class="{ 'is-hidden': props.id !== 3 }">
         <div class="container">
           <ion-icon :icon="buildOutline"></ion-icon>
@@ -150,7 +154,7 @@
         <p>
           Plásticos são materiais recicláveis identificados pelos símbolos
           numerados (1 a 7) geralmente encontrados no fundo das embalagens. PET,
-          PEAD, PVC e PP são os mais comuns e recicláveis.
+          PEAD, PVC e PP são os mais comuns.
         </p>
         <p>
           Lave embalagens plásticas com água para remover restos de alimentos,
@@ -164,19 +168,224 @@
         </p>
 
         <div class="container">
-          <ion-icon :icon="colorWandOutline"></ion-icon>
+          <ion-icon :icon="earthOutline"></ion-icon>
           <h5>Sustentabilidade</h5>
         </div>
-        <p></p>
+        <p>
+          A reciclagem de plásticos reduz a quantidade de resíduos enviados para
+          aterros e ajuda a economizar recursos naturais, como petróleo e
+          energia, utilizados na produção de novos plásticos. O reaproveitamento
+          desses materiais também diminui a poluição de rios e oceanos,
+          prevenindo impactos na fauna e flora.
+        </p>
+        <p>
+          Sempre que possível, prefira produtos feitos com
+          <b>plástico reciclado</b> ou <b>embalagens retornáveis</b>,
+          contribuindo para um ciclo de consumo mais sustentável.
+        </p>
+        <ul>
+          <li>Substitua sacolas plásticas por reutilizáveis.</li>
+          <li>Use embalagens retornáveis ou biodegradáveis.</li>
+          <li>Reutilize potes e garrafas sempre que possível.</li>
+          <li>Sempre que possível opte por produtos com selos ambientais.</li>
+        </ul>
+
+        <div class="container">
+          <ion-icon :icon="alertCircleOutline"></ion-icon>
+          <h5>Cuidados</h5>
+        </div>
+        <ul>
+          <li>Não exponha os resíduos ao fogo ou calor extremo.</li>
+          <li>
+            Evite reutilização excessiva, garrafas por exemplo, podem acumular
+            bactérias.
+          </li>
+          <li>Junte várias sacolas em uma só antes de descartar</li>
+          <li>
+            Depois de preparar corretamente, separe o <b>isopor</b> em local
+            separado dos demais resíduos.
+          </li>
+        </ul>
+
+        <div class="container">
+          <ion-icon :icon="locationOutline"></ion-icon>
+          <h5>Destino</h5>
+        </div>
+        <p>
+          Plásticos devem ser colocados na lixeira correta da coleta seletiva,
+          representada pela cor <b>vermelha</b>. Caso não encontre uma lixeira
+          perto de sua residência, disponha o material a ser descartado nos
+          pontos de coleta da sua rua ou
+          <b>Pontos de entrega voluntária (PEVs)</b>.
+        </p>
+      </div>
+
+      <div :class="{ 'is-hidden': props.id !== 4 }">
+        <div class="container">
+          <ion-icon :icon="buildOutline"></ion-icon>
+          <h5>Preparação</h5>
+        </div>
+        <p>
+          Os dispositivos eletrônicos apresentam um processo diferente de
+          descarte e reaproveitamento, portanto é importante considerar
+          <b>mantê-los.</b>
+          aqueles que ainda estejam em funcionamento. Se possível, considere
+          doar o equipamento ao descartá-lo.
+        </p>
+        <p>
+          É importante verificar quaisquer informações pessoais ainda presentes
+          em computadores e celulares por exemplo. Antes do descarte, anote
+          marcas, modelos e números de série.
+        </p>
+        <p>
+          Com informações em mãos, verifique com fabricante a respeito de
+          possíveis <b>garantias</b> ainda vigentes do produto.
+        </p>
+
+        <div class="container">
+          <ion-icon :icon="cubeOutline"></ion-icon>
+          <h5>Programas de Logística Reversa</h5>
+        </div>
+        <p>
+          Processo que envolvem coleta, transporte, tratamento, Destino dos
+          equipamento eletrônicos prevista na Lei 12.305/2010. que obriga
+          fabricantes, importadores, distribuidores e comerciantes a estruturar
+          e implementar sistemas para a devolução e destinação adequada de
+          produtos e embalagens após o uso pelo consumidor. Exemplos são:
+        </p>
+
+        <ul>
+          <li>
+            <b>Reciclanip:</b> logística reversa de pneus, parceria com
+            Bridgestone, Pirelli entre outras empresas.
+          </li>
+          <li><b>Samsung Re+:</b> logística reversa de produtos da Samsung.</li>
+          <li><b>Vivo Recicle:</b> logística reversa de produtos da Vivo</li>
+          <li>
+            <b>Green Eletron:</b> entidade de logística reversa sem fins
+            lucrativos presentes em diversas cidades
+          </li>
+        </ul>
+
+        <div class="container">
+          <ion-icon :icon="alertCircleOutline"></ion-icon>
+          <h5>Cuidados</h5>
+        </div>
+        <p>
+          Separe equipamentos com <b>vazamentos de baterias</b>,
+          <b>odores químicos</b>, <b>partes trincados</b>,
+          <b>superaquecimento</b>
+        </p>
+        <p>
+          Procure separar cabos, pilhas, baterias, adaptadores, entre outros
+          acessórios, facilitando o processo de reciclagem
+        </p>
+
+        <div class="container">
+          <ion-icon :icon="locationOutline"></ion-icon>
+          <h5>Destino</h5>
+        </div>
+        <p>
+          Os resíduos podem ser descartados em pontos de coleta de aparelhos
+          eletrônicos disponibilizados por grandes lojas do varejo e centros
+          comerciais. Também procure por pontos de coleta especializada
+          municipais
+        </p>
+      </div>
+
+      <!-- ORGÂNICOS -->
+      <div :class="{ 'is-hidden': props.id !== 5 }">
+        <div class="container">
+          <ion-icon :icon="helpOutline"></ion-icon>
+          <h5>Sobre</h5>
+        </div>
+        <p>
+          Resíduos orgânicos são restos de alimentos e materiais de origem
+          biológica que se decompõem naturalmente. A separação correta reduz
+          odores, evita atração de pragas e permite a compostagem, gerando adubo
+          para o solo.
+        </p>
+
+        <div class="container">
+          <ion-icon :icon="buildOutline"></ion-icon>
+          <h5>Preparação</h5>
+        </div>
+        <ul>
+          <li>
+            Prefira lixeiras com tampa e, se possível, use sacos biodegradáveis.
+          </li>
+          <li>
+            Mantenha em local ventilado e esvazie com frequência (diariamente ou
+            conforme a coleta).
+          </li>
+          <li>
+            Evite líquidos em excesso: escorra caldos e sucos para reduzir
+            <b>chorume</b>.
+          </li>
+          <li>
+            Remova embalagens, elásticos, plásticos e metais antes de descartar.
+          </li>
+          <li>
+            Se possível, pique cascas e restos: acelera a decomposição na
+            compostagem.
+          </li>
+          <li>
+            Feche bem o saco/recipiente para evitar vazamentos e atração de
+            insetos.
+          </li>
+          <li>
+            Envolva os resíduos em saco adicional se necessário, evitando
+            vazamento.
+          </li>
+        </ul>
+
+        <div class="container">
+          <ion-icon :icon="alertCircleOutline"></ion-icon>
+          <h5>Cuidados</h5>
+        </div>
+        <ul>
+          <li>
+            Manusei com cuidado grandes quantidades de resíduos, pois podem
+            conter moscas, vermes e outras pragas.
+          </li>
+          <li>
+            Fezes de animais carnívoros, carvão/cinzas tratadas, devem ser
+            dispostos de forma separada.
+          </li>
+        </ul>
+
+        <div class="container">
+          <ion-icon :icon="locationOutline"></ion-icon>
+          <h5>Destino</h5>
+        </div>
+        <ul>
+          <li><b>Compostagem doméstica</b> para gerar adubo.</li>
+          <li>
+            Lixeiras da coleta seletiva, representadas pela cor <b>marrrom</b>.
+          </li>
+          <li>
+            <b>Pátios de compostagem/Pontos de entrega voluntária (PEVs)</b> ou
+            ecopontos que recebam resíduos orgânicos.
+          </li>
+        </ul>
+        <div class="container">
+          <ion-icon :icon="bulbOutline"></ion-icon>
+          <h5>Dicas</h5>
+        </div>
+        <ul>
+          <li>
+            Higienize a lixeira com água e sabão e desinfete periodicamente.
+          </li>
+          <li>
+            Evite superlotar o saco: pesos altos causam rasgos e vazamentos.
+          </li>
+        </ul>
       </div>
     </ion-content>
   </ion-modal>
 </template>
 
 <script setup lang="ts">
-// TODO: Mudar o texto de acordo com o card
-
-// TODO: talvez mudar o layout para tipo grid quando for resolução tablet
 import {
   IonModal,
   IonHeader,
@@ -187,14 +396,18 @@ import {
   IonButtons,
   IonIcon,
 } from "@ionic/vue";
-import { closeOutline } from "ionicons/icons";
-import { helpOutline } from "ionicons/icons";
-import { trashBinOutline } from "ionicons/icons";
-import { leafOutline } from "ionicons/icons";
-import { locationOutline } from "ionicons/icons";
-import { alertCircleOutline } from "ionicons/icons";
-import { buildOutline } from "ionicons/icons";
-import { colorWandOutline } from "ionicons/icons";
+import {
+  closeOutline,
+  helpOutline,
+  trashBinOutline,
+  leafOutline,
+  locationOutline,
+  alertCircleOutline,
+  buildOutline,
+  earthOutline,
+  bulbOutline,
+  cubeOutline,
+} from "ionicons/icons";
 
 const props = defineProps({
   isOpen: {
@@ -219,33 +432,28 @@ const closeModal = () => {
 </script>
 
 <style scoped>
-/* .close-button {
-  font-family: "Inter", sans-serif;
-} */
-
 p {
-  color: #5a5a5a;
+  color: var(--color-light-gray);
   font-size: 1rem;
   text-align: justify;
+  hyphens: auto;
 }
 
-/* .container-button {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-} */
+ul {
+  color: var(--color-light-gray);
+  font-size: 1rem;
+  padding-left: 15px;
+}
 
 .container {
   display: flex;
   align-items: center;
   gap: 1rem;
-  /* color: #2d6b2b; */
 }
 
 .container ion-icon {
   font-size: 2rem;
   margin-top: 0.3rem;
-  /* color: #42993f; */
 }
 
 .is-hidden {
