@@ -30,6 +30,7 @@ def register_user(request):
 @api_view(['GET'])
 def list_users(request):
     try:
+        # usar prefetch_related para otimizar consultas ?
         users = User.objects.all()
         if not User.objects.exists():
             raise ValidationError("Não existem usuários para listagem.")
