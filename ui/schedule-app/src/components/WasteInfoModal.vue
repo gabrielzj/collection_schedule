@@ -58,17 +58,15 @@
           <ion-icon :icon="locationOutline"></ion-icon>
           <h5>Destino</h5>
         </div>
-        <p>
-          Papéis devem ser colocados na lixeira correta da coleta seletiva,
-          representada pela cor <b>azul</b>. Caso não exista uma lixeira perto
-          de sua residência, disponha o material a ser descartado nos pontos de
-          coleta da sua rua ou <b>Pontos de entrega voluntária (PEVs)</b>.
-        </p>
-        <!-- <div class="container-button">
-          <ion-button @click="closeModal" class="close-button" expand="full">
-            Fechar
-          </ion-button>
-        </div> -->
+        <ul>
+          <li>
+            Lixeiras da coleta seletiva, representadas pela cor <b>azul</b>.
+          </li>
+          <li>
+            Locais de coleta do bairro/rua, ou PEVs (Pontos de entrega
+            voluntária).
+          </li>
+        </ul>
       </div>
 
       <!-- METAL -->
@@ -128,8 +126,7 @@
           vazamentos e mau cheiro. Procure envolver objetos cortantes e
           pontiagudos em mais de um saco ou sacola, garantindo maior segurança
           para catadores. Evite descartar resíduos metálicos com outros tipos de
-          resíduos, portanto, disponha-os na lixeira correta representada pela
-          cor <b>amarela</b>.
+          resíduos.
         </p>
 
         <div class="container">
@@ -148,18 +145,22 @@
       <!-- PLÁSTICO -->
       <div :class="{ 'is-hidden': props.id !== 3 }">
         <div class="container">
-          <ion-icon :icon="buildOutline"></ion-icon>
-          <h5>Preparação</h5>
+          <ion-icon :icon="helpOutline"></ion-icon>
+          <h5>Sobre</h5>
         </div>
         <p>
           Plásticos são materiais recicláveis identificados pelos símbolos
           numerados (1 a 7) geralmente encontrados no fundo das embalagens. PET,
           PEAD, PVC e PP são os mais comuns.
         </p>
+
+        <div class="container">
+          <ion-icon :icon="buildOutline"></ion-icon>
+          <h5>Preparação</h5>
+        </div>
         <p>
           Lave embalagens plásticas com água para remover restos de alimentos,
-          gordura ou produtos. Não é necessário usar detergente - apenas água é
-          suficiente.
+          gordura ou produtos.
         </p>
         <p>
           Retire rótulos de papel, etiquetas adesivas e tampas de outros
@@ -201,25 +202,24 @@
             bactérias.
           </li>
           <li>Junte várias sacolas em uma só antes de descartar</li>
-          <li>
-            Depois de preparar corretamente, separe o <b>isopor</b> em local
-            separado dos demais resíduos.
-          </li>
         </ul>
 
         <div class="container">
           <ion-icon :icon="locationOutline"></ion-icon>
           <h5>Destino</h5>
         </div>
-        <p>
-          Plásticos devem ser colocados na lixeira correta da coleta seletiva,
-          representada pela cor <b>vermelha</b>. Caso não encontre uma lixeira
-          perto de sua residência, disponha o material a ser descartado nos
-          pontos de coleta da sua rua ou
-          <b>Pontos de entrega voluntária (PEVs)</b>.
-        </p>
+        <ul>
+          <li>
+            Lixeiras da coleta seletiva, representadas pela cor <b>vermelha</b>.
+          </li>
+          <li>
+            Locais de coleta do bairro/rua, ou
+            <b>PEVs (Pontos de entrega voluntária).</b>
+          </li>
+        </ul>
       </div>
 
+      <!-- ELETRÔNICOS -->
       <div :class="{ 'is-hidden': props.id !== 4 }">
         <div class="container">
           <ion-icon :icon="buildOutline"></ion-icon>
@@ -255,10 +255,10 @@
         </p>
 
         <ul>
-          <li>
+          <!-- <li>
             <b>Reciclanip:</b> logística reversa de pneus, parceria com
             Bridgestone, Pirelli entre outras empresas.
-          </li>
+          </li> -->
           <li><b>Samsung Re+:</b> logística reversa de produtos da Samsung.</li>
           <li><b>Vivo Recicle:</b> logística reversa de produtos da Vivo</li>
           <li>
@@ -274,11 +274,11 @@
         <p>
           Separe equipamentos com <b>vazamentos de baterias</b>,
           <b>odores químicos</b>, <b>partes trincados</b>,
-          <b>superaquecimento</b>
+          <b>superaquecimento.</b>
         </p>
         <p>
           Procure separar cabos, pilhas, baterias, adaptadores, entre outros
-          acessórios, facilitando o processo de reciclagem
+          acessórios, facilitando o processo de descarte.
         </p>
 
         <div class="container">
@@ -324,10 +324,6 @@
           </li>
           <li>
             Remova embalagens, elásticos, plásticos e metais antes de descartar.
-          </li>
-          <li>
-            Se possível, pique cascas e restos: acelera a decomposição na
-            compostagem.
           </li>
           <li>
             Feche bem o saco/recipiente para evitar vazamentos e atração de
@@ -380,6 +376,198 @@
             Evite superlotar o saco: pesos altos causam rasgos e vazamentos.
           </li>
         </ul>
+      </div>
+
+      <!-- VIDRO -->
+      <div :class="{ 'is-hidden': props.id !== 6 }">
+        <div class="container">
+          <ion-icon :icon="helpOutline"></ion-icon>
+          <h5>Sobre</h5>
+        </div>
+        <p>
+          Vidro é material inorgânico, sustentável e 100% reciclável sem perda
+          significativa de qualidade. A reciclagem reduz extração de
+          matéria-prima e consumo de energia. Vidros limpos e separados têm
+          maior chance de serem reaproveitados pela cadeia de reciclagem.
+        </p>
+
+        <div class="container">
+          <ion-icon :icon="buildOutline"></ion-icon>
+          <h5>Preparação</h5>
+        </div>
+        <ul>
+          <li>
+            Mantenha garrafas, potes, refratários, pratos entre outos objetos a
+            serem descartados separados de outros tipos de resíduos
+          </li>
+          <li>
+            Separe vidros quebrados em embalagem protegida (papelão ou jornal),
+            e armazene em caixas rígidas ou envolva em mais de um saco de lixo.
+            Se possível identifique naa caixa ou saco a presença de vidro
+            quebrado.
+          </li>
+          <li>Enxágue garrafas e frascos para remover resíduos orgânicos.</li>
+          <li>
+            Remova tampas e rolhas quando possível — metais e plásticos vão para
+            outras correntes.
+          </li>
+        </ul>
+
+        <div class="container">
+          <ion-icon :icon="alertCircleOutline"></ion-icon>
+          <h5>Cuidados</h5>
+        </div>
+        <ul>
+          <li>
+            Lâmpadas (fluorescentes, LED com componentes), espelhos, cerâmica,
+            porcelana e vidro temperado exigem destinação específica.
+          </li>
+          <li>
+            Vidros com contaminação perigosa (resíduos químicos, solventes,
+            tintas) devem ser levados a PEV/centro de descarte.
+          </li>
+          <li>
+            Objectos de cristal (alto teor de chumbo) — verificar locais
+            especializados.
+          </li>
+          <li>
+            Atente-se para vidros especiais, pois nem todos são recicláveis como
+            o vidro comum. Vidros
+            <b>temperados, laminados, blindados e espelhados</b>
+            devem permanecer separados do vidro comum e é recomendado contatar
+            empresas especializadas para que possam fazer o descarte e manuseio
+            do vidro de forma segura.
+          </li>
+        </ul>
+
+        <div class="container">
+          <ion-icon :icon="locationOutline"></ion-icon>
+          <h5>Destino</h5>
+        </div>
+        <ul>
+          <li>
+            Lixeiras da coleta seletiva, identificadas pela cor <b>verde</b>.
+          </li>
+          <li>
+            Ecopontos e Pontos de Entrega Voluntária (PEV) para grandes volumes
+            ou itens especiais.
+          </li>
+          <li>
+            Lojas e programas de logística reversa que aceitam embalagens
+            retornáveis.
+          </li>
+        </ul>
+      </div>
+
+      <!-- REJEITOS -->
+      <div :class="{ 'is-hidden': props.id !== 7 }">
+        <div class="container">
+          <ion-icon :icon="helpOutline"></ion-icon>
+          <h5>Sobre</h5>
+        </div>
+        <p>
+          De acordo com a Política Nacional de Resíduos Sólidos (PNRS), rejeitos
+          são aqueles que, após esgotadas as possibilidades de reutilização,
+          reciclagem ou compostagem, não possuem viabilidade para
+          aproveitamento. Geralmente são encaminhados para aterros sanitários,
+          onde recebem tratamento adequado para minimizar impactos ambientais.
+        </p>
+
+        <p>São exemplos de rejeitos:</p>
+        <ul>
+          <li>Fraldas descartáveis;</li>
+          <li>Absorventes;</li>
+          <li>Cotonetes;</li>
+          <li>Bitucas de cigarro;</li>
+          <li>Isopor sujo com alimentos;</li>
+          <li>Poeira, cabelos e sujeiras em geral;</li>
+          <li>Detritos de construção e demolição.</li>
+        </ul>
+
+        <div class="container">
+          <ion-icon :icon="buildOutline"></ion-icon>
+          <h5>Preparação</h5>
+        </div>
+        <p>
+          No descarte, utilize sacos de lixo, preferencialmente, de cor
+          diferenciada e, caso necessário, envolva em mais de um saco. Evite
+          misturar sacos de rejeitos com outros tipos de resíduos. Manusear com
+          luvas para evitar contaminação. Evite misturar com outros tipos de
+          resíduos.
+        </p>
+        <div class="container">
+          <ion-icon :icon="locationOutline"></ion-icon>
+          <h5>Destino</h5>
+        </div>
+        <p>
+          Grande parte dos rejeitos são destinados à
+          <b>aterros sanitários</b>. Outros tipos de rejeitos podem ser
+          incinerados, servindo como combustível para geração de energia.
+        </p>
+        <p>
+          Verifique os pontos de coleta de sua rua/bairro ou procure
+          <b>por pontos de entrega voluntária (PEVS)</b>. Confira se seu
+          município possui programas especiais de recolhimento desse tipo de
+          resíduos.
+        </p>
+      </div>
+
+      <!-- OUTROS -->
+      <div :class="{ 'is-hidden': props.id !== 8 }">
+        <div class="container">
+          <ion-icon :icon="helpOutline"></ion-icon>
+          <h5>Sobre</h5>
+        </div>
+        <p>
+          São resíduos que requerem descarte diferenciado dos demais. Exemplos:
+        </p>
+        <ul>
+          <li>Resíduos perigosos, como mercúrio;</li>
+          <li>Embalagens de agrotõxicos e venenos;</li>
+          <li>Alguns resíudos eletrônicos, como lâmpadas fluorescentes;</li>
+          <li>Resíduos de construção civil;</li>
+          <li>Óleo de cozinha;</li>
+          <li>Medicamentos vencidos;</li>
+          <li>Móveis.</li>
+        </ul>
+        <div class="container">
+          <ion-icon :icon="buildOutline"></ion-icon>
+          <h5>Preparação</h5>
+        </div>
+        <ul>
+          <li>Separe e embale os resíduos especiais dos demais;</li>
+          <li>
+            Use luvas e outros equipamentos de EPIs para manusear químicos e
+            outros itens potencialmente danosos;
+          </li>
+        </ul>
+        <div class="container">
+          <ion-icon :icon="locationOutline"></ion-icon>
+          <h5>Destino</h5>
+        </div>
+        <p>
+          Procure por pontos de coleta especiais em mercados e farmácias. Busque
+          por iniciativas como:
+        </p>
+        <ul>
+          <li>
+            <a
+              href="https://reciclus.org.br/onde-descartar/?utm_source=google&utm_medium=cpc&utm_campaign=campanha-reciclus-2025&utm_content=746303008043&utm_term=reciclagem%20lampadas&gad_source=1&gad_campaignid=22442806277&gclid=Cj0KCQjw-4XFBhCBARIsAAdNOks-aNRqTWpjjA0CxYDgLS28RI1dW2_eD5dQTcJr-OpWsVyIGZ8kSeQaAhmdEALw_wcB"
+              ><b>Reciclus:</b>
+            </a>
+            que atua na logistica reversa de lâmpadas fluorescentes.
+          </li>
+          <li>
+            <a href="https://cidadelimpa.tvtem.com/"><b>Cidade Limpa:</b></a>
+            iniciativa da TV TEM, afiliada da rede Globo, que promove multirões
+            de limpeza por diversas cidades do Brasil.
+          </li>
+        </ul>
+        <p>
+          Para mais informações sobre pontos de coleta ou descarte, entre em
+          contato com a Secretária do Meio Ambiente ou com a Vigilância
+          Sanitária de sua cidade.
+        </p>
       </div>
     </ion-content>
   </ion-modal>
@@ -458,5 +646,10 @@ ul {
 
 .is-hidden {
   display: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
 }
 </style>

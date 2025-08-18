@@ -5,12 +5,8 @@
         <ion-title>Tipos de resíduos</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content :fullscreen="true">
-      <ion-header collapse="condense">
-        <ion-toolbar>
-          <ion-title size="large">Teste</ion-title>
-        </ion-toolbar>
-      </ion-header>
+    <ion-content :fullscreen="true" :key="reloadContent">
+      <ion-header collapse="condense"> </ion-header>
 
       <div class="waste-info-container">
         <WasteInfoCard
@@ -36,8 +32,18 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
+import { onIonViewWillEnter } from "@ionic/vue";
+const reloadContent = ref(0);
 
-// adicionar novos tipos de resíduos, ex orgânico, vidro, perigosos, residuos volumosos ou especiais
+onIonViewWillEnter(() => {
+  reloadContent.value++;
+});
+
+console.log(reloadContent.value);
+
+//TODO: adicionar novos tipos de resíduos, perigosos, talvez borracha
+
+//TODO: ver o pq de ao ser redirecionado para a tela, alguns estilos quebram.
 
 import {
   IonPage,
@@ -56,7 +62,7 @@ type WasteType =
   | "electronic"
   | "organic"
   | "glass"
-  | "tailing"
+  | "residual_waste"
   | "special"
   | "other";
 
@@ -111,28 +117,28 @@ const wasteInfo: WasteInfo[] = [
   },
   {
     type: "glass",
-    image: "",
+    image: "/src/assets/glass-waste.jpg",
     title: "Vidro",
     description:
       "Lorem ipsum dolor sit amet. At beatae porro et amet velit est delectus dolorum sit amet nostrum. Est corporis repellendus ab iste dolorem est magnam quae",
   },
   {
-    type: "tailing",
-    image: "",
+    type: "residual_waste",
+    image: "/src/assets/residual-waste.jpg",
     title: "Rejeitos",
     description:
       "Lorem ipsum dolor sit amet. At beatae porro et amet velit est delectus dolorum sit amet nostrum. Est corporis repellendus ab iste dolorem est magnam quae",
   },
   {
     type: "other",
-    image: "",
+    image: "/src/assets/other-waste.jpg",
     title: "Outros",
     description:
       "Lorem ipsum dolor sit amet. At beatae porro et amet velit est delectus dolorum sit amet nostrum. Est corporis repellendus ab iste dolorem est magnam quae",
   },
   {
     type: "special",
-    image: "",
+    image: "/src/assets/special-waste.jpg",
     title: "Especial",
     description:
       "Lorem ipsum dolor sit amet. At beatae porro et amet velit est delectus dolorum sit amet nostrum. Est corporis repellendus ab iste dolorem est magnam quae",
@@ -171,7 +177,7 @@ const wasteModal: WasteModal[] = [
     id: 6,
   },
   {
-    type: "tailing",
+    type: "residual_waste",
     title: "Rejeitos",
     id: 7,
   },
@@ -194,7 +200,7 @@ const isModalOpen = ref({
   electronic: false,
   organic: false,
   glass: false,
-  tailing: false,
+  residual_waste: false,
   other: false,
   special: false,
 });
