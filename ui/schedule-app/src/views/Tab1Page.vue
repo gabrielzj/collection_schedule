@@ -42,7 +42,6 @@ onIonViewWillEnter(() => {
 
 //TODO: adicionar novos tipos de resíduos, perigosos, talvez borracha
 
-//TODO: ver o pq de ao ser redirecionado para a tela, alguns estilos quebram.
 
 import {
   IonPage,
