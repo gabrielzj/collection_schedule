@@ -357,7 +357,7 @@
         <ul>
           <li><b>Compostagem doméstica</b> para gerar adubo.</li>
           <li>
-            Lixeiras da coleta seletiva, representadas pela cor <b>marrrom</b>.
+            Lixeiras da coleta seletiva, representadas pela cor <b>marrom</b>.
           </li>
           <li>
             <b>Pátios de compostagem/Pontos de entrega voluntária (PEVs)</b> ou
