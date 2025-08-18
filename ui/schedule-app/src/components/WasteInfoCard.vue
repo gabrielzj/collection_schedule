@@ -19,6 +19,7 @@ import {
   IonCardHeader,
   // IonCardSubtitle,
   IonCardTitle,
+  IonPage,
 } from "@ionic/vue";
 
 defineProps({
