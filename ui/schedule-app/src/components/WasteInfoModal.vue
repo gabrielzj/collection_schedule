@@ -87,7 +87,7 @@
         </div>
         <p>
           Enxágue latas de bebidas e de alimentos com água limpas para remover
-          restos de produtos. Isso evita a proliferação de bixos e permite que o
+          restos de produtos. Isso evita a proliferação de bichos e permite que o
           resíduo seja considerado reciclável. Após feita limpeza mantenha os
           resíduos em locais secos, para evitar corrosão.
         </p>
