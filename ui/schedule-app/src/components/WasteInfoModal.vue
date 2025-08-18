@@ -524,7 +524,7 @@
         <ul>
           <li>Resíduos perigosos, como mercúrio;</li>
           <li>Embalagens de agrotõxicos e venenos;</li>
-          <li>Alguns resíudos eletrônicos, como lâmpadas fluorescentes;</li>
+          <li>Alguns resíduos eletrônicos, como lâmpadas fluorescentes;</li>
           <li>Resíduos de construção civil;</li>
           <li>Óleo de cozinha;</li>
           <li>Medicamentos vencidos;</li>
