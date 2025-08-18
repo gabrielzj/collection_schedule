@@ -39,7 +39,6 @@ onIonViewWillEnter(() => {
   reloadContent.value++;
 });
 
-console.log(reloadContent.value);
 
 //TODO: adicionar novos tipos de resíduos, perigosos, talvez borracha
 
