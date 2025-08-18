@@ -76,7 +76,7 @@
           <h5>Sobre</h5>
         </div>
         <p>
-          Existem muitos resíduos metálicos recicláveis, os principáis são
+          Existem muitos resíduos metálicos recicláveis, os principais são
           <b>alumínio, ferro, aço e cobre</b>. Objetos como latas, embalagens,
           arames, fios de cobre, panelas sem cabo, entrem muitos outros são
           exemplos que podem ser encaminhados para coleta seletiva.
