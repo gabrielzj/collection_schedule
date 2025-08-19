@@ -14,7 +14,7 @@
 
       <ion-content class="ion-padding">
         <!-- PAPEL -->
-        <div :class="{ 'is-hidden': props.id !== 1 }">
+        <div v-if="props.id === 1">
           <div class="container">
             <ion-icon :icon="helpOutline"></ion-icon>
             <h5>Sobre</h5>
@@ -71,7 +71,7 @@
         </div>
 
         <!-- METAL -->
-        <div :class="{ 'is-hidden': props.id !== 2 }">
+        <div v-if="props.id === 2">
           <div class="container">
             <ion-icon :icon="helpOutline"></ion-icon>
             <h5>Sobre</h5>
@@ -145,7 +145,7 @@
         </div>
 
         <!-- PLÁSTICO -->
-        <div :class="{ 'is-hidden': props.id !== 3 }">
+        <div v-if="props.id === 3">
           <div class="container">
             <ion-icon :icon="helpOutline"></ion-icon>
             <h5>Sobre</h5>
@@ -223,7 +223,7 @@
         </div>
 
         <!-- ELETRÔNICOS -->
-        <div :class="{ 'is-hidden': props.id !== 4 }">
+        <div v-if="props.id === 4">
           <div class="container">
             <ion-icon :icon="buildOutline"></ion-icon>
             <h5>Preparação</h5>
@@ -300,7 +300,7 @@
         </div>
 
         <!-- ORGÂNICOS -->
-        <div :class="{ 'is-hidden': props.id !== 5 }">
+        <div v-if="props.id === 5">
           <div class="container">
             <ion-icon :icon="helpOutline"></ion-icon>
             <h5>Sobre</h5>
@@ -387,7 +387,7 @@
         </div>
 
         <!-- VIDRO -->
-        <div :class="{ 'is-hidden': props.id !== 6 }">
+        <div v-if="props.id === 6">
           <div class="container">
             <ion-icon :icon="helpOutline"></ion-icon>
             <h5>Sobre</h5>
@@ -468,7 +468,7 @@
         </div>
 
         <!-- REJEITOS -->
-        <div :class="{ 'is-hidden': props.id !== 7 }">
+        <div v-if="props.id === 7">
           <div class="container">
             <ion-icon :icon="helpOutline"></ion-icon>
             <h5>Sobre</h5>
@@ -522,7 +522,7 @@
         </div>
 
         <!-- OUTROS -->
-        <div :class="{ 'is-hidden': props.id !== 8 }">
+        <div v-if="props.id === 8">
           <div class="container">
             <ion-icon :icon="helpOutline"></ion-icon>
             <h5>Sobre</h5>

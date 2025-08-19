@@ -39,9 +39,7 @@ onIonViewWillEnter(() => {
   reloadContent.value++;
 });
 
-
 //TODO: adicionar novos tipos de resíduos, perigosos, talvez borracha
-
 
 import {
   IonPage,
