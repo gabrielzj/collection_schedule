@@ -52,16 +52,18 @@ class UserSerializer(serializers.ModelSerializer):
         return User.objects.create_user(**validated_data)
     
 class CollectionCallSerializer(serializers.ModelSerializer):
+    # relação entre models
+    user = serializers.PrimaryKeyRelatedField(read_only=True)
+    
     class Meta:
         model = CollectionCall
         fields = '__all__'
-        
-    def validate_user(self, value):
-        if not User.objects.filter(id=value.id).exists():
-            raise serializers.ValidationError(
-                {"user": "Usuário vinculado ao chamado não encontrado."}
-            )
-        return value
+    
+    def create(self, validated_data):
+        request = self.context.get('request')
+        if request and request.user and request.user.is_authenticated:
+            validated_data['user'] = request.user
+        return super().create(validated_data)
     
     def validate_amount_to_collected(self, value):
         if value is None:
@@ -70,7 +72,7 @@ class CollectionCallSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 {"amount_to_collected": "O valor a ser coletado deve ser maior que zero."}
             )
-        elif value.isstring():
+        elif isinstance(value, (int, float)):
             raise serializers.ValidationError(
                 {"amount_to_collected": "O valor a ser coletado deve ser um número."}
             )
