@@ -14,7 +14,7 @@ class User(AbstractUser):
     email = models.EmailField(unique=True, null=False, blank=True, default='', verbose_name='Email')
     address = models.CharField(max_length=255, null=True, blank=False, verbose_name='Endereço')
     phone_number = models.CharField(max_length=15, null=True, blank=False, verbose_name='Número de Telefone')
-    profile_type = models.CharField(max_length=20, choices=USER_TYPE_CHOICES, verbose_name='Tipo de usuário',)
+    profile_type = models.CharField(max_length=20, null=False, blank=False, default="app", choices=USER_TYPE_CHOICES, verbose_name='Tipo de usuário',)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']

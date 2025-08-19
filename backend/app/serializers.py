@@ -46,6 +46,7 @@ class UserSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 'Tipo de perfil inválido'
             )
+        return value
 
     def create(self, validated_data):
         return User.objects.create_user(**validated_data)
@@ -55,14 +56,16 @@ class CollectionCallSerializer(serializers.ModelSerializer):
         model = CollectionCall
         fields = '__all__'
         
-    def validade_user(self, value):
+    def validate_user(self, value):
         if not User.objects.filter(id=value.id).exists():
             raise serializers.ValidationError(
                 {"user": "Usuário vinculado ao chamado não encontrado."}
             )
         return value
     
-    def validade_amount_to_collected(self, value):
+    def validate_amount_to_collected(self, value):
+        if value is None:
+            raise serializers.ValidationError({"amount_to_collected": "Campo obrigatório."})
         if value <= 0:
             raise serializers.ValidationError(
                 {"amount_to_collected": "O valor a ser coletado deve ser maior que zero."}
@@ -75,5 +78,5 @@ class CollectionCallSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 {"amount_to_collected": "Não é posssível criar um chamado de coleta com essa quantia."}
             )
-        return value
+        return value        
 
