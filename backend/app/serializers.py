@@ -72,7 +72,7 @@ class CollectionCallSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 {"amount_to_collected": "O valor a ser coletado deve ser maior que zero."}
             )
-        elif isinstance(value, (int, float)):
+        elif not isinstance(value, (int, float)):
             raise serializers.ValidationError(
                 {"amount_to_collected": "O valor a ser coletado deve ser um número."}
             )
