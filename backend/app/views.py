@@ -95,22 +95,8 @@ def retrieve_update_delete_users(request, pk):
 @api_view(['POST', 'GET'])
 def create_list_collection_call(request):
     if request.method == 'POST':
-        user_id = request.data.get('user')
-        
-        if not user_id:
-            return Response(
-                {'error': 'É obrigatório informar um usuário para criar um chamado de coleta.'}, 
-                status=status.HTTP_400_BAD_REQUEST
-            )
-        
-        if not User.objects.filter(id=user_id).exists():
-            return Response(
-                {'error': 'Usuário com o ID informado não foi encontrado.'}, 
-                status=status.HTTP_404_NOT_FOUND
-            )
-        
         try:
-            serializer = CollectionCallSerializer(data=request.data)
+            serializer = CollectionCallSerializer(data=request.data, context={'request': request})
             serializer.is_valid(raise_exception=True)
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -120,7 +106,7 @@ def create_list_collection_call(request):
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     elif request.method == 'GET':
         try:
-            collection_calls = CollectionCall.objects.all().order_by('-created_at')
+            collection_calls = CollectionCall.objects.filter(user=request.user).order_by('-created_at')
             serializer = CollectionCallSerializer(collection_calls, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
         
@@ -134,9 +120,8 @@ def retrieve_update_delete_collection_call(request, pk):
     if request.method == 'GET':
         try:
             collection_call = get_object_or_404(CollectionCall, pk=pk)
-            user = CollectionCall.objects.filter(user_id=collection_call.user_id).exists()
-            if not user:
-                raise ValidationError({'collection_calls': 'Chamado sem usuário vinculado'})
+            if collection_call.user_id != request.user.id:
+                return Response({"detail": "Não autorizado."}, status=status.HTTP_403_FORBIDDEN)
             serializer = CollectionCallSerializer(collection_call)
             return Response(serializer.data, status=status.HTTP_200_OK)
         except Http404:
@@ -149,11 +134,11 @@ def retrieve_update_delete_collection_call(request, pk):
     elif request.method in ['PUT', 'PATCH']:
         try:
             collection_call = get_object_or_404(CollectionCall, pk=pk)
-            serializer = CollectionCallSerializer(collection_call, data=request.data, partial=True)
-            user = request.data.get('user')
-            if user:
-                if not User.objects.filter(id=user).exists():
-                    return Response({'collection_calls': 'Usuário vinculado ao chamado inexistente'}, status=status.HTTP_404_NOT_FOUND)
+            
+            if collection_call.user_id != request.user.id:
+                return Response({"detail": "Não autorizado."}, status=status.HTTP_403_FORBIDDEN)
+            
+            serializer = CollectionCallSerializer(collection_call, data=request.data, partial=True, context={'request': request})
             serializer.is_valid(raise_exception=True)
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
@@ -167,6 +152,8 @@ def retrieve_update_delete_collection_call(request, pk):
     elif request.method == 'DELETE':
         try:
             collection_call = get_object_or_404(CollectionCall, pk=pk)
+            if collection_call.user_id != request.user.id:
+                return Response({"detail": "Não autorizado."}, status=status.HTTP_403_FORBIDDEN)
             collection_call.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
         except Http404:
