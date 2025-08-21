@@ -96,9 +96,9 @@ def retrieve_update_delete_users(request, pk):
 def create_list_collection_call(request):
     if request.method == 'POST':
         try:
-            serializer = CollectionCallSerializer(data=request.data, context={'request': request})
+            serializer = CollectionCallSerializer(data=request.data)
             serializer.is_valid(raise_exception=True)
-            serializer.save()
+            serializer.save(user=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         except ValidationError as e:
             return Response(e.detail, status=status.HTTP_400_BAD_REQUEST)
@@ -138,7 +138,7 @@ def retrieve_update_delete_collection_call(request, pk):
             if collection_call.user_id != request.user.id:
                 return Response({"detail": "Não autorizado."}, status=status.HTTP_403_FORBIDDEN)
             
-            serializer = CollectionCallSerializer(collection_call, data=request.data, partial=True, context={'request': request})
+            serializer = CollectionCallSerializer(collection_call, data=request.data, partial=True)
             serializer.is_valid(raise_exception=True)
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)

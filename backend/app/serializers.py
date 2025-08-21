@@ -2,6 +2,7 @@ from core.models import User, CollectionCall
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework.exceptions import AuthenticationFailed
+import numbers
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     class Meta:
@@ -59,11 +60,11 @@ class CollectionCallSerializer(serializers.ModelSerializer):
         model = CollectionCall
         fields = '__all__'
     
-    def create(self, validated_data):
-        request = self.context.get('request')
-        if request and request.user and request.user.is_authenticated:
-            validated_data['user'] = request.user
-        return super().create(validated_data)
+    # def create(self, validated_data):
+    #     request = self.context.get('request')
+    #     if request and request.user and request.user.is_authenticated:
+    #         validated_data['user'] = request.user
+    #     return super().create(validated_data)
     
     def validate_amount_to_collected(self, value):
         if value is None:
@@ -72,7 +73,7 @@ class CollectionCallSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 {"amount_to_collected": "O valor a ser coletado deve ser maior que zero."}
             )
-        elif not isinstance(value, (int, float)):
+        elif not isinstance(value, numbers.Number):
             raise serializers.ValidationError(
                 {"amount_to_collected": "O valor a ser coletado deve ser um número."}
             )
