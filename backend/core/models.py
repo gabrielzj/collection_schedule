@@ -56,7 +56,8 @@ class CollectionCall(models.Model):
     description = models.TextField(blank=True, null=True, verbose_name='Descrição do Chamado')
     urgency = models.CharField(max_length=50, choices=URGENCY, default=URGENCY_LOW, verbose_name='Urgência do Chamado')
     status = models.CharField(max_length=50, choices=STATUS, default=STATUS_PENDING, verbose_name='Status do Chamado')
-    best_time_for_collection = models.DateTimeField(null=True, blank=True, verbose_name='Melhor Horário para Coleta')
+    best_time_for_collection_date = models.DateField(null=True, blank=True, verbose_name='Melhor Data para Coleta')
+    best_time_for_collection_time = models.TimeField(null=True, blank=True, verbose_name='Melhor Hora para Coleta')
 
     class Meta:
         verbose_name = 'Chamado de Coleta'
