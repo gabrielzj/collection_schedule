@@ -35,7 +35,17 @@ class CollectionCall(models.Model):
     STATUS_PENDING = 'pending'
     STATUS_COMPLETED = 'completed'
     STATUS_FAILED = 'failed'
-
+    
+    TYPE_PAPER = 'paper'
+    TYPE_METAL = 'metal'
+    TYPE_PLASTIC = 'plastic'
+    TYPE_ELECTRONIC = 'electronic'
+    TYPE_ORGANIC = 'organic'
+    TYPE_GLASS = 'glass'
+    TYPE_RESIDUAL_WASTE = 'residual_waste'
+    TYPE_OTHER = 'other'
+    
+    
     URGENCY = [
         (URGENCY_LOW, 'Baixa'),
         (URGENCY_MEDIUM, 'Moderada'),
@@ -45,11 +55,23 @@ class CollectionCall(models.Model):
     STATUS = [
         (STATUS_PENDING, 'Pendente'),
         (STATUS_COMPLETED, 'Finalizada'),
-        (STATUS_FAILED, 'Falha'),
+        (STATUS_FAILED, 'Cancelada'),
+    ]
+    
+    TYPES = [
+        (TYPE_PAPER, 'Papel'),
+        (TYPE_METAL, 'Metal'),
+        (TYPE_PLASTIC, 'Plástico'),
+        (TYPE_ELECTRONIC, 'Eletrônico'),
+        (TYPE_ORGANIC, 'Orgânico'),
+        (TYPE_GLASS, 'Vidro'),
+        (TYPE_RESIDUAL_WASTE, 'Resíduo Sólido'),
+        (TYPE_OTHER, 'Outro'),
     ]
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='collection_calls',
                              verbose_name='Usuário Responsável')
+    type = models.CharField(blank=True, null=True, choices=TYPES, verbose_name='Tipo de Resíduo')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Data de Criação')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Data de Atualização')
     amount_to_collected = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Valor a ser Coletado')
@@ -57,7 +79,7 @@ class CollectionCall(models.Model):
     urgency = models.CharField(max_length=50, choices=URGENCY, default=URGENCY_LOW, verbose_name='Urgência do Chamado')
     status = models.CharField(max_length=50, choices=STATUS, default=STATUS_PENDING, verbose_name='Status do Chamado')
     best_time_for_collection_date = models.DateField(null=True, blank=True, verbose_name='Melhor Data para Coleta')
-    best_time_for_collection_time = models.TimeField(null=True, blank=True, verbose_name='Melhor Hora para Coleta')
+    best_time_for_collection_time = models.TimeField(null=True, blank=True, verbose_name='Melhor Horário para Coleta')
 
     class Meta:
         verbose_name = 'Chamado de Coleta'

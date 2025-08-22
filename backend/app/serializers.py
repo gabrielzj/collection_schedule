@@ -55,6 +55,14 @@ class UserSerializer(serializers.ModelSerializer):
 class CollectionCallSerializer(serializers.ModelSerializer):
     # relação entre models
     user = serializers.PrimaryKeyRelatedField(read_only=True)
+    type = serializers.ChoiceField(
+        choices=CollectionCall.TYPES,
+        allow_blank=True,
+        allow_null=True,
+        error_messages={
+            'invalid_choice': 'Informe um tipo de resíduo válido.',
+        }
+    )
     
     class Meta:
         model = CollectionCall
