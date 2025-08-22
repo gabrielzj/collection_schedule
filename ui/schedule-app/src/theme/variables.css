@@ -1,6 +1,9 @@
 /* For information on how to create your own theme, please see:
 http://ionicframework.com/docs/theming/ */
 
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
 :root {
   --color-light-gray: #5a5a5a;
+  --ion-font-family: "Poppins", "Segoe UI", Arial, sans-serif;
 }

@@ -48,7 +48,7 @@ ion-card {
 
 img {
   width: 100%;
-  max-width: fit-content;
+  max-width: 100%;
   max-height: 150px;
   object-fit: cover;
   border-radius: 20px 20px 0 0;
