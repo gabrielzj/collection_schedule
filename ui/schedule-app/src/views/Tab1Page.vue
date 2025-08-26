@@ -32,7 +32,6 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { onIonViewWillEnter } from "@ionic/vue";
 // const reloadContent = ref(0);
 
 // onIonViewWillEnter(() => {
