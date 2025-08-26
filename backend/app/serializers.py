@@ -57,10 +57,13 @@ class CollectionCallSerializer(serializers.ModelSerializer):
     user = serializers.PrimaryKeyRelatedField(read_only=True)
     type = serializers.ChoiceField(
         choices=CollectionCall.TYPES,
-        allow_blank=True,
-        allow_null=True,
         error_messages={
             'invalid_choice': 'Informe um tipo de resíduo válido.',
+        }
+    )
+    address = serializers.CharField(
+        error_messages={
+            'blank': 'O campo endereço não pode estar vazio.',
         }
     )
     
@@ -74,6 +77,11 @@ class CollectionCallSerializer(serializers.ModelSerializer):
     #         validated_data['user'] = request.user
     #     return super().create(validated_data)
     
+    def validate_address(self, value):
+        if not value:
+            raise serializers.ValidationError({"address": "Campo obrigatório."})
+        return value
+
     def validate_amount_to_collected(self, value):
         if value is None:
             raise serializers.ValidationError({"amount_to_collected": "Campo obrigatório."})

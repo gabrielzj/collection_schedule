@@ -4,14 +4,14 @@
       <ion-tabs>
         <ion-router-outlet></ion-router-outlet>
         <ion-tab-bar slot="bottom">
-          <ion-tab-button tab="tab1" href="/home/tab1">
+          <ion-tab-button tab="waste-info" href="/home/waste-info">
             <ion-icon aria-hidden="true" :icon="trashBin" />
             <ion-label>Resíduos</ion-label>
           </ion-tab-button>
 
-          <ion-tab-button tab="tab2" href="/home/tab2">
-            <ion-icon aria-hidden="true" :icon="ellipse" />
-            <ion-label>Tab 2</ion-label>
+          <ion-tab-button tab="call" href="/home/call">
+            <ion-icon aria-hidden="true" :icon="archiveSharp" />
+            <ion-label>Chamado de coleta</ion-label>
           </ion-tab-button>
 
           <ion-tab-button tab="tab3" href="/home/tab3">
@@ -39,5 +39,10 @@ import {
   IonRouterOutlet,
   IonContent,
 } from "@ionic/vue";
-import { atCircle, ellipse, square, trashBin } from "ionicons/icons";
+import {
+  archiveSharp,
+  atCircle,
+  square,
+  trashBin,
+} from "ionicons/icons";
 </script>

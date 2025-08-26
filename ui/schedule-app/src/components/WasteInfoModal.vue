@@ -603,7 +603,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
 
 import {
   IonModal,
@@ -683,5 +682,9 @@ ul {
 a {
   text-decoration: none;
   color: inherit;
+}
+
+ion-modal {
+  --border-radius: 15px;
 }
 </style>

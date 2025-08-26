@@ -5,7 +5,7 @@
         <ion-title>Tipos de resíduos</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content :fullscreen="true" :key="reloadContent">
+    <ion-content :fullscreen="true">
       <ion-header collapse="condense"> </ion-header>
 
       <div class="waste-info-container">
@@ -32,12 +32,11 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { onIonViewWillEnter } from "@ionic/vue";
-const reloadContent = ref(0);
+// const reloadContent = ref(0);
 
-onIonViewWillEnter(() => {
-  reloadContent.value++;
-});
+// onIonViewWillEnter(() => {
+//   reloadContent.value++;
+// });
 
 //TODO: adicionar novos tipos de resíduos, perigosos, talvez borracha
 
