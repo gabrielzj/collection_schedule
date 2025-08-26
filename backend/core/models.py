@@ -12,8 +12,8 @@ class User(AbstractUser):
     ]
 
     email = models.EmailField(unique=True, null=False, blank=True, default='', verbose_name='Email')
-    address = models.CharField(max_length=255, null=True, blank=False, verbose_name='Endereço')
-    phone_number = models.CharField(max_length=15, null=True, blank=False, verbose_name='Número de Telefone')
+    address = models.CharField(max_length=255, null=False, blank=False, default='', verbose_name='Endereço')
+    phone_number = models.CharField(max_length=15, null=False, blank=False, default='', verbose_name='Número de Telefone')
     profile_type = models.CharField(max_length=20, null=False, blank=False, default="app", choices=USER_TYPE_CHOICES, verbose_name='Tipo de usuário',)
 
     USERNAME_FIELD = 'email'
@@ -71,15 +71,16 @@ class CollectionCall(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='collection_calls',
                              verbose_name='Usuário Responsável')
-    type = models.CharField(blank=True, null=True, choices=TYPES, verbose_name='Tipo de Resíduo')
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Data de Criação')
-    updated_at = models.DateTimeField(auto_now=True, verbose_name='Data de Atualização')
+    type = models.CharField(blank=False, null=False, choices=TYPES, default=TYPE_OTHER, verbose_name='Tipo de Resíduo')
+    address = models.CharField(max_length=255, null=False, blank=False, default='', verbose_name='Endereço')
     amount_to_collected = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Valor a ser Coletado')
     description = models.TextField(blank=True, null=True, verbose_name='Descrição do Chamado')
-    urgency = models.CharField(max_length=50, choices=URGENCY, default=URGENCY_LOW, verbose_name='Urgência do Chamado')
-    status = models.CharField(max_length=50, choices=STATUS, default=STATUS_PENDING, verbose_name='Status do Chamado')
+    urgency = models.CharField(choices=URGENCY, default=URGENCY_LOW, verbose_name='Urgência do Chamado')
+    status = models.CharField(choices=STATUS, default=STATUS_PENDING, verbose_name='Status do Chamado')
     best_time_for_collection_date = models.DateField(null=True, blank=True, verbose_name='Melhor Data para Coleta')
     best_time_for_collection_time = models.TimeField(null=True, blank=True, verbose_name='Melhor Horário para Coleta')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Data de Criação')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='Data de Atualização')
 
     class Meta:
         verbose_name = 'Chamado de Coleta'
