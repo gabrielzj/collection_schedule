@@ -5,9 +5,8 @@
         <ion-title>Tipos de resíduos</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content :fullscreen="true">
-      <ion-header collapse="condense"> </ion-header>
 
+    <ion-content :fullscreen="false" mode="md">
       <div class="waste-info-container">
         <WasteInfoCard
           v-for="(item, index) in wasteInfo"
