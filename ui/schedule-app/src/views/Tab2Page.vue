@@ -2,27 +2,32 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Criar um chamado</ion-title>
+        <ion-title color="primary">Criar um chamado</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true" mode="md">
-      <ion-item class="title" lines="none" color="secondary">
-        <ion-icon :icon="helpOutline"></ion-icon>
+      <div class="title">
         <h5>Como funciona</h5>
-      </ion-item>
-      <ion-label class="intro-text"
-        >Preencha os campos abaixo para criar um <b>chamado de coleta</b>.
-        Informe o tipo de resíduo, descrição, quantidade e urgência.</ion-label
-      >
+        <ion-icon
+          :icon="helpOutline"
+          size="large"
+          aria-hidden="true"
+        ></ion-icon>
+      </div>
+      <ion-label class="intro-text">
+        Deseja descartar algo específico? Crie um <b>chamado de coleta</b> e
+        informe os órgãos de coleta sobre sua necessidade.
+      </ion-label>
       <ion-item-divider></ion-item-divider>
-      <ion-list :inset="true">
-        <ion-item lines="none">
+      <form @submit.prevent="submitCall">
+        <div class="form-container">
           <ion-select
+            label="Tipo de Resíduo"
+            label-placement="stacked"
             aria-label="waste-type"
             interface="alert"
-            label="Tipo de Resíduo"
-            label-placement="floating"
-            fill="solid"
+            fill="outline"
+            v-model="type"
           >
             <ion-select-option value="plastic">Plástico</ion-select-option>
             <ion-select-option value="paper">Papel</ion-select-option>
@@ -32,72 +37,82 @@
             <ion-select-option value="electronic">Eletrônico</ion-select-option>
             <ion-select-option value="other">Outro</ion-select-option>
           </ion-select>
-        </ion-item>
-        <br />
-        <ion-item lines="none">
+          <br />
           <ion-input
+            label="Endereço"
+            label-placement="stacked"
             :clear-input="true"
-            label="Endereço para coleta"
-            label-placement="floating"
             placeholder="Informe o endereço completo"
             helper-text="Rua, número, bairro, cidade e CEP"
-            fill="solid"
+            fill="outline"
+            v-model="address"
           ></ion-input>
-        </ion-item>
-        <br />
-        <ion-item lines="none">
+          <br />
           <ion-textarea
-            :clear-input="true"
             label="Descrição"
-            label-placement="floating"
+            label-placement="stacked"
+            :clear-on-edit="true"
             placeholder="Detalhe o resíduo a ser coletado"
             helper-text="Informe detalhes dos resíduos para facilitar a coleta"
             :auto-grow="true"
             :rows="5"
             :counter="true"
             :maxlength="100"
-            fill="solid"
+            fill="outline"
+            v-model="description"
           ></ion-textarea>
-        </ion-item>
-        <br />
-        <ion-item lines="none">
+          <br />
           <ion-input
+            label="Quantidade"
+            label-placement="stacked"
             :clear-input="true"
-            label="Quantidade a ser coletada"
-            label-placement="floating"
             placeholder="Quantidade aproximada"
             helper-text="Informe uma estimativa em kg"
-            fill="solid"
+            fill="outline"
+            v-model="amount_to_collect"
           ></ion-input>
-        </ion-item>
-        <br />
-        <ion-item lines="none">
+          <br />
           <ion-select
-            aria-label="waste-urgency"
-            :clear-input="true"
             label="Urgência"
-            label-placement="floating"
-            fill="solid"
+            label-placement="stacked"
+            aria-label="waste-urgency"
+            fill="outline"
             interface="alert"
+            v-model="urgency"
           >
             <ion-select-option value="low">Baixa</ion-select-option>
-            <ion-select-option value="medium">Média</ion-select-option>
+            <ion-select-option value="medium">Moderada</ion-select-option>
             <ion-select-option value="high">Alta</ion-select-option>
           </ion-select>
-        </ion-item>
-        <ion-item-divider></ion-item-divider>
-        <ion-item lines="none">
-          <ion-label>Escolha a data e horário da coleta</ion-label>
-        </ion-item>
-        <ion-item>
-          <ion-datetime-button datetime="datetime">
+          <br />
+          <ion-label position="stacked" color="dark"
+            >Escolha a data e horário da coleta</ion-label
           >
-          </ion-datetime-button>
-          <ion-modal :keep-contents-mounted="true" >
-            <ion-datetime id="datetime" presentation="date-time" :format-options="formatOptions"></ion-datetime>
+          <div class="date-button">
+            <ion-datetime-button datetime="schedule-datetime">
+              >
+            </ion-datetime-button>
+          </div>
+          <ion-modal :keep-contents-mounted="true">
+            <ion-datetime
+              id="schedule-datetime"
+              presentation="date-time"
+              :format-options="formatOptions"
+              v-model="best_time_for_collect"
+            ></ion-datetime>
           </ion-modal>
-        </ion-item>
-      </ion-list>
+          <div class="button-container">
+            <ion-button
+              type="submit"
+              expand="block"
+              color="primary"
+              class="submit-button"
+            >
+              Enviar
+            </ion-button>
+          </div>
+        </div>
+      </form>
     </ion-content>
   </ion-page>
 </template>
@@ -116,25 +131,102 @@ import {
   IonDatetime,
   IonModal,
   IonItemDivider,
+  IonSelect,
+  IonSelectOption,
+  IonItem,
+  IonLabel,
+  IonButton,
 } from "@ionic/vue";
-import { helpOutline } from "ionicons/icons";
+import { helpOutline, caretDownSharp, add } from "ionicons/icons";
+import apiClient from "@/services/apiClient";
+import { ref, watch, computed } from "vue";
+
+type WasteType =
+  | "plastic"
+  | "paper"
+  | "metal"
+  | "glass"
+  | "organic"
+  | "electronic"
+  | "other";
+type Urgency = "low" | "medium" | "high";
+
+const type = ref<WasteType | null>(null);
+const address = ref<string | null>(null);
+const description = ref<string | null>(null);
+const urgency = ref<Urgency | null>(null);
+const amount_to_collect = ref<string | null>(null);
+const best_time_for_collect = ref<string | null>(null);
+
+const inputValues = [
+  type,
+  address,
+  description,
+  urgency,
+  amount_to_collect,
+  best_time_for_collect,
+] as const;
+
+watch(inputValues, (val) => {
+  console.log({
+    type: val[0],
+    address: val[1],
+    description: val[2],
+    urgency: val[3],
+    amount_to_collect: val[4],
+    best_time_for_collect: val[5],
+  });
+});
+
+const requestValues = computed<
+  (WasteType | Urgency | string | number | null)[]
+>(() => [
+  type.value,
+  address.value,
+  description.value,
+  urgency.value,
+  amount_to_collect.value != null && amount_to_collect.value !== ""
+    ? Number(amount_to_collect.value)
+    : null,
+  best_time_for_collect.value,
+]);
+
+const submitCall = async () => {
+  if (!type.value || !address.value || !urgency.value) {
+    // alterar para disparar toast de erro
+    console.warn("Preencha tipo, endereço e data/hora.");
+    return;
+  }
+
+  try {
+    await apiClient.createCall({
+      type: type.value,
+      address: address.value,
+      description: description.value,
+      urgency: urgency.value,
+      amount_to_collect: requestValues.value[4],
+      best_time_for_collect: best_time_for_collect.value,
+    });
+  } catch (error: any) {
+    console.error("Erro ao enviar chamado:", error);
+  }
+};
 
 const formatOptions = {
   date: {
-    weekday: 'short',
-    month: 'short',
-    day: '2-digit',
+    weekday: "short",
+    month: "short",
+    day: "2-digit",
   },
   time: {
-    hour: '2-digit',
-    minute: '2-digit',
+    hour: "2-digit",
+    minute: "2-digit",
     hour12: false,
   },
-}
+};
 </script>
 
 <style scoped>
-
 ion-list {
   width: auto;
 }
@@ -142,11 +234,31 @@ ion-list {
 .title {
   font-size: 18px;
   margin: 20px 0 0 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: var(--ion-color-primary);
+  color: white;
+  border-radius: 20px 0 0 20px;
+  padding-left: 20px;
 }
+
+.title h5 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.form-container {
+  padding: 20px;
+}
+
+/* .form-container ion-select::part(icon) {
+  display: none;
+} */
 
 .intro-text {
   display: block;
-  padding: 12px 50px;
+  padding: 12px 20px;
   text-align: justify;
   hyphens: auto;
   margin-top: 20px;
@@ -159,5 +271,22 @@ ion-modal {
 
 ion-label {
   color: var(--color-light-gray);
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.submit-button {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.date-button {
+  margin-top: 10px;
+  display: flex;
+  align-items: start;
 }
 </style>
