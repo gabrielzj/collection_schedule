@@ -82,20 +82,20 @@ class CollectionCallSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError({"address": "Campo obrigatório."})
         return value
 
-    def validate_amount_to_collected(self, value):
+    def validate_amount_to_collect(self, value):
         if value is None:
-            raise serializers.ValidationError({"amount_to_collected": "Campo obrigatório."})
+            raise serializers.ValidationError({"amount_to_collect": "Campo obrigatório."})
         if value <= 0:
             raise serializers.ValidationError(
-                {"amount_to_collected": "O valor a ser coletado deve ser maior que zero."}
+                {"amount_to_collect": "O valor a ser coletado deve ser maior que zero."}
             )
         elif not isinstance(value, numbers.Number):
             raise serializers.ValidationError(
-                {"amount_to_collected": "O valor a ser coletado deve ser um número."}
+                {"amount_to_collect": "O valor a ser coletado deve ser um número."}
             )
         elif value > 10000:
             raise serializers.ValidationError(
-                {"amount_to_collected": "Não é posssível criar um chamado de coleta com essa quantia."}
+                {"amount_to_collect": "Não é posssível criar um chamado de coleta com essa quantia."}
             )
         return value        
 

@@ -93,6 +93,7 @@ def retrieve_update_delete_users(request, pk):
     
 # CHAMADOS
 @api_view(['POST', 'GET'])
+@permission_classes([AllowAny])
 def create_list_collection_call(request):
     if request.method == 'POST':
         try:
