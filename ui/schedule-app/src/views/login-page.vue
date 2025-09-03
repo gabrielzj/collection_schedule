@@ -1,6 +1,6 @@
 <template>
   <ion-page>
-    <ion-content :fullscreen="true">
+    <ion-content :fullscreen="true" mode="md">
       <div class="login-container">
         <div class="welcome-section">
           <h1>Bem-vindo!</h1>
@@ -8,47 +8,46 @@
         </div>
 
         <div class="form-container">
-          <ion-item lines="none" class="input-item">
-            <ion-input
-              v-model="email"
-              type="email"
-              placeholder="Ex: joao@gmail.com"
-              label="Email"
-              label-placement="floating"
-              helper-text="Informe seu e-mail"
-              :clear-input="true"
-            >
-            </ion-input>
-          </ion-item>
-
-          <ion-item lines="none" class="input-item">
-            <ion-input
-              v-model="password"
-              type="password"
-              placeholder="********"
-              label="Senha"
-              label-placement="floating"
-              helper-text="Informe sua senha"
-              :clear-input="true"
-            >
-            </ion-input>
-          </ion-item>
+          <ion-input
+            v-model="email"
+            type="email"
+            label="Email"
+            placeholder="Ex: joao@gmail.com"
+            label-placement="stacked"
+            fill="outline"
+            :clear-on-edit="true"
+            class="input-container"
+          >
+          </ion-input>
+          <ion-input
+            v-model="password"
+            type="password"
+            placeholder="********"
+            label="Senha"
+            fill="outline"
+            label-placement="stacked"
+            :clear-on-edit="true"
+            class="input-container"
+          >
+            <ion-input-password-toggle slot="end"></ion-input-password-toggle>
+          </ion-input>
 
           <ion-item lines="none" class="checkbox-item">
             <ion-checkbox v-model="keepConnected" slot="start"></ion-checkbox>
             <ion-label>Manter-me conectado</ion-label>
           </ion-item>
 
-          <ion-button
-              expand="block"
-              @click="handleLogin"
-              class="login-button"
-          >
+          <ion-button expand="block" @click="handleLogin" class="login-button">
             Entrar
           </ion-button>
 
           <div class="signup">
-            Não tem uma conta?<a href="#" @click="handleSignUp">Registre-se</a>
+            Não tem uma conta?<router-link
+              to="/register"
+              router-direction="forward"
+            >
+              Registre-se
+            </router-link>
           </div>
           <div class="forgot-password">
             <a href="#" @click="handleForgotPassword">Esqueci minha senha</a>
@@ -67,38 +66,53 @@ import {
   IonCheckbox,
   IonLabel,
   IonItem,
+  IonInputPasswordToggle,
 } from "@ionic/vue";
-import { ref } from 'vue';
-import apiClient from '../services/apiClient'
+import { ref } from "vue";
+import apiClient from "@/services/apiClient";
+import { useRouter } from "vue-router";
 
-const email = ref('');
-const password = ref('');
+const email = ref("");
+const password = ref("");
 const keepConnected = ref(false);
 
-const handleLogin = async () => {
+const router = useRouter();
+
+async function handleLogin(): Promise<void> {
   if (!email.value) {
     // implementar exibir mensagens de erro
-    console.log('Campo de email não pode estar vazio.');
+    console.log("Campo de email não pode estar vazio.");
+    return;
   }
   if (!password.value) {
     // implementar exibir mensagens de erro
-    console.log('Campo de senha não pode estar vazio.');
+    console.log("Campo de senha não pode estar vazio.");
+    return;
   }
-  await apiClient.getAuth(email.value, password.value)
-  console.log('Login:', { email: email.value, password: password.value, keepConnected: keepConnected.value });
-};
+  try {
+    await apiClient.getAuth(email.value, password.value);
+    console.log("Login:", {
+      email: email.value,
+      password: password.value,
+      keepConnected: keepConnected.value,
+    });
+  } catch (error: any) {
+    console.error("Erro ao logar", error);
+  }
+}
 
 const handleForgotPassword = () => {
-  console.log('Forgot password clicked');
+  console.log("Forgot password clicked");
 };
 
-const handleSignUp = () => {
-  console.log('Sign up clicked');
-};
+// const handleSignUp = () => {
+//   console.log("Sign up clicked");
+//   // Redirecionar para a página de registro
+//   router.push("/register");
+// };
 </script>
 
 <style scoped>
-
 .login-container {
   display: flex;
   flex-direction: column;
@@ -132,7 +146,7 @@ const handleSignUp = () => {
   width: 100%;
 }
 
-.input-item {
+.input-container {
   margin-bottom: 20px;
   --background: transparent;
 }
@@ -169,7 +183,6 @@ const handleSignUp = () => {
   color: var(--ion-color-primary);
   text-decoration: none;
   font-size: 0.9rem;
-  margin-left: 5px;
 }
 
 .signup a:hover {
