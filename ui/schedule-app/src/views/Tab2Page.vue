@@ -137,9 +137,10 @@ import {
   IonLabel,
   IonButton,
 } from "@ionic/vue";
-import { helpOutline, caretDownSharp, add } from "ionicons/icons";
+import { helpOutline } from "ionicons/icons";
 import apiClient from "@/services/apiClient";
-import { ref, watch, computed } from "vue";
+import { ref, computed } from "vue";
+import router from "@/router";
 
 type WasteType =
   | "plastic"
@@ -158,26 +159,6 @@ const urgency = ref<Urgency | null>(null);
 const amount_to_collect = ref<string | null>(null);
 const best_time_for_collect = ref<string | null>(null);
 
-const inputValues = [
-  type,
-  address,
-  description,
-  urgency,
-  amount_to_collect,
-  best_time_for_collect,
-] as const;
-
-watch(inputValues, (val) => {
-  console.log({
-    type: val[0],
-    address: val[1],
-    description: val[2],
-    urgency: val[3],
-    amount_to_collect: val[4],
-    best_time_for_collect: val[5],
-  });
-});
-
 const requestValues = computed<
   (WasteType | Urgency | string | number | null)[]
 >(() => [
@@ -193,20 +174,30 @@ const requestValues = computed<
 
 const submitCall = async () => {
   if (!type.value || !address.value || !urgency.value) {
-    // alterar para disparar toast de erro
     console.warn("Preencha tipo, endereço e data/hora.");
     return;
   }
 
+  const date = new Date(best_time_for_collect.value || "");
+  if (isNaN(date.getTime())) {
+    console.warn("Data e hora inválidas.");
+    return;
+  }
+
+  const payload = {
+    type: type.value,
+    address: address.value,
+    description: description.value,
+    urgency: urgency.value,
+    amount_to_collect:
+      amount_to_collect.value != null && amount_to_collect.value !== ""
+        ? Number(amount_to_collect.value)
+        : null,
+    best_time_for_collect: date.toISOString(),
+  };
+  // tem q manualmente selecionar a data se não é enviado null
   try {
-    await apiClient.createCall({
-      type: type.value,
-      address: address.value,
-      description: description.value,
-      urgency: urgency.value,
-      amount_to_collect: requestValues.value[4],
-      best_time_for_collect: best_time_for_collect.value,
-    });
+    await apiClient.createCall(payload);
   } catch (error: any) {
     console.error("Erro ao enviar chamado:", error);
   }
@@ -223,7 +214,7 @@ const formatOptions = {
     minute: "2-digit",
     hour12: false,
   },
-};
+} as const;
 </script>
 
 <style scoped>
