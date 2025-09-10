@@ -2,20 +2,22 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-back-button default-href="/login"></ion-back-button>
+        </ion-buttons>
         <ion-title>Crie sua conta</ion-title>
       </ion-toolbar>
     </ion-header>
 
     <ion-content :fullscreen="false" mode="md">
       <div class="form-container">
-        <!-- <h2>Crie sua conta</h2> -->
-
         <form @submit.prevent="onSubmit">
           <div class="input-container">
             <ion-input
               label="Nome Completo"
               label-placement="stacked"
               v-model="form.username"
+              @keydown="blockNumbers($event)"
               type="text"
               autocomplete="name"
               placeholder="Seu nome completo"
@@ -26,21 +28,25 @@
           </div>
           <div class="input-container">
             <ion-input
+              ref="emailInput"
               label="Email"
+              helper-text="Ex: samuel@gmail.com"
+              error-text="Email Inválido"
               v-model="form.email"
               type="email"
-              autocomplete="email"
-              inputmode="email"
               placeholder="Seu email"
               label-placement="stacked"
               fill="outline"
               :clear-input="true"
+              @ionInput="onEmailInput"
+              @ionBlur="markEmailTouched"
               required
             />
           </div>
           <div class="input-container">
             <ion-input
               label="Senha"
+              helper-text="No mínimo 8 caracteres"
               v-model="form.password"
               type="password"
               autocomplete="new-password"
@@ -66,15 +72,17 @@
           </div>
           <div class="input-container">
             <ion-input
+              ref="phoneInput"
               label="Telefone"
+              error-text="Número Inválido"
               v-model="form.phone_number"
               type="tel"
-              inputmode="tel"
-              autocomplete="tel"
               placeholder="(00) 00000-0000"
               label-placement="stacked"
               fill="outline"
               :clear-input="true"
+              @ionInput="onPhoneInput"
+              @ionBlur="markPhoneTouched"
               required
             />
           </div>
@@ -82,6 +90,9 @@
           <ion-button type="submit" expand="block" class="submit-btn">
             Cadastrar
           </ion-button>
+          <ion-note color="danger" v-if="errorExists">{{
+            errorMessage
+          }}</ion-note>
         </form>
       </div>
     </ion-content>
@@ -89,7 +100,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 import {
   IonPage,
   IonHeader,
@@ -98,6 +109,9 @@ import {
   IonContent,
   IonInput,
   IonButton,
+  IonBackButton,
+  IonButtons,
+  IonNote,
 } from "@ionic/vue";
 import router from "@/router";
 import apiClient from "@/services/apiClient";
@@ -110,47 +124,103 @@ const form = reactive({
   phone_number: "",
 });
 
-async function onSubmit() {
-  // Validação simples
-  if (
-    !form.username ||
-    !form.email ||
-    !form.password ||
-    !form.address ||
-    !form.phone_number
-  ) {
-    window.alert("Preencha todos os campos!");
-    return;
-  }
+const errorExists = ref<boolean>(false);
+const errorMessage = ref<string>("");
+const emailInput = ref<InstanceType<typeof IonInput> | null>(null);
+const phoneInput = ref<InstanceType<typeof IonInput> | null>(null);
 
-  if (form.password.length < 8) {
-    window.alert("A senha deve ter mais de 8 caracteres!");
-    return;
-  }
+function isValidEmail(email: any): boolean {
+  return /^(?=.{1,254}$)(?=.{1,64}@)[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(
+    email
+  );
+}
 
-  //TODO: adicionar validação phone number, email
-  form.username = form.username.replace(/\s/g, "");
+function onEmailInput(ev: CustomEvent): void {
+  const value = String((ev as any).detail?.value ?? "");
+  const el = emailInput.value?.$el as HTMLElement | undefined;
+  if (!el) return;
+
+  el.classList.remove("ion-valid", "ion-invalid");
+
+  if (value === "") return;
+
+  if (isValidEmail(value)) {
+    el.classList.add("ion-valid");
+  } else {
+    el.classList.add("ion-invalid");
+  }
+}
+
+function markEmailTouched() {
+  const el = emailInput.value?.$el as HTMLElement | undefined;
+  el?.classList.add("ion-touched");
+}
+
+function isPhoneValid(phone: any): boolean {
+  const regex =
+    /^(\+?55\s?)?((\([1-9]{2}\))|\d{2}\s?)([9]\d{4}|\d{4})[\s.-]?(\d{4})$/;
+  const digits = phone.replace(/\D/g, "");
+  return regex.test(digits);
+}
+
+function onPhoneInput(ev: CustomEvent): void {
+  const value = String((ev as any).detail?.value ?? "");
+  const hostEl = ev.target as HTMLElement | undefined;
+  if (!hostEl) return;
+
+  hostEl.classList.remove("ion-valid", "ion-invalid");
+
+  if (value === "") return;
+
+  if (isPhoneValid(value)) {
+    hostEl.classList.add("ion-valid");
+  } else {
+    hostEl.classList.add("ion-invalid");
+  }
+}
+
+function markPhoneTouched(ev: Event): void {
+  (ev.target as HTMLElement | null)?.classList.add("ion-touched");
+}
+
+function blockNumbers(ev: any) {
+  const char = ev.key;
+  if (!/^[a-zA-Z\s]$/.test(char) && ev.key !== "Backspace") {
+    ev.preventDefault();
+  }
+}
+
+async function handleSubmit(): Promise<any> {
+  errorExists.value = false;
+  await router.push("/login");
+}
+
+function hideError(): void {
+  errorExists.value = false;
+}
+
+async function onSubmit(): Promise<void> {
+  form.username = form.username.replace(/\s+/g, " ");
 
   try {
-    await apiClient.registerUser({ ...form });
+    const data = await apiClient.registerUser({ ...form });
+    console.log("3:", data);
     console.log("Registrando usuário:", { ...form });
+    await handleSubmit();
+    form.username = "";
+    form.email = "";
+    form.password = "";
+    form.address = "";
+    form.phone_number = "";
   } catch (error: any) {
-    console.error("Erro ao logar", error);
+    errorExists.value = true;
+    setTimeout(hideError, 3000);
+    errorMessage.value =
+      error?.response?.data || "Falha ao cadastrar. Tente novamente.";
     if (error.response) {
-      console.error("Resposta do servidor:", error.response.data);
-      console.error("Status:", error.response.status);
-      console.error("Headers:", error.response.headers);
+      console.error("Resposta do servidor:", error.response?.data?.detail);
     }
   }
-
-  // Limpa o formulário após enviar
-  form.username = "";
-  form.email = "";
-  form.password = "";
-  form.address = "";
-  form.phone_number = "";
-
-  router.push("/login");
 }
 </script>
 
@@ -175,5 +245,9 @@ h2 {
 
 .submit-btn {
   margin-top: 16px;
+}
+
+ion-note {
+  font-size: 12px;
 }
 </style>
