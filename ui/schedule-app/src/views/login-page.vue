@@ -70,13 +70,17 @@ import {
 } from "@ionic/vue";
 import { ref } from "vue";
 import apiClient from "@/services/apiClient";
-import { useRouter } from "vue-router";
+import { Router, useRouter } from "vue-router";
 
 const email = ref("");
 const password = ref("");
 const keepConnected = ref(false);
 
-const router = useRouter();
+const router: Router = useRouter();
+
+function handleRedirect(): Promise<any> {
+  return router.replace({ name: "Call" });
+}
 
 async function handleLogin(): Promise<void> {
   if (!email.value) {
@@ -90,14 +94,25 @@ async function handleLogin(): Promise<void> {
     return;
   }
   try {
-    await apiClient.getAuth(email.value, password.value);
-    console.log("Login:", {
-      email: email.value,
-      password: password.value,
-      keepConnected: keepConnected.value,
-    });
+    const authData = await apiClient.getAuth(email.value, password.value);
+
+    if (!authData || !authData.access) {
+      console.error("Dados de autenticação inválidos:", authData);
+      return;
+    }
+
+    if (keepConnected.value) {
+      localStorage.setItem("access_token", authData.access || "");
+      localStorage.setItem("refresh_token", authData.refresh || "");
+    } else {
+      sessionStorage.setItem("access_token", authData.access || "");
+      sessionStorage.setItem("refresh_token", authData.refresh || "");
+    }
+
+    await handleRedirect();
   } catch (error: any) {
     console.error("Erro ao logar", error);
+    console.error("Mensagem de Erro:", error?.response?.data);
   }
 }
 
