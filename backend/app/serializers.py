@@ -1,6 +1,6 @@
 from core.models import User, CollectionCall
 from rest_framework import serializers
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer, TokenRefreshSerializer
 from rest_framework.exceptions import AuthenticationFailed
 import numbers
 
@@ -18,29 +18,33 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
             raise AuthenticationFailed('Tipo de usuário inválido.')
         
         return data
+    
+class CustomRefreshTokenSerializer(TokenRefreshSerializer):
+    class Meta:
+        ref_name = 'AppCustomRefreshTokenSerializer'
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = '__all__'
         
-    def validate_password(self, value):
-        if len(value) < 8:
-            raise serializers.ValidationError(
-                {"password":"A senha deve conter pelo menos 8 caracteres."}
-            )
-        return value
+    # def validate_password(self, value):
+    #     if len(value) < 8:
+    #         raise serializers.ValidationError(
+    #             "A senha deve conter pelo menos 8 caracteres."
+    #         )
+    #     return value
 
-    def validate_phone_number(self, value):
-        if not value.isdigit():
-            raise serializers.ValidationError(
-                "O número de telefone deve conter apenas números"
-            )
-        elif len(value) < 10:
-            raise serializers.ValidationError(
-                "O número de telefone deve ter pelo menos 10 dígitos."
-            )
-        return value
+    # def validate_phone_number(self, value):
+        # if not value.isdigit():
+        #     raise serializers.ValidationError(
+        #         "O número de telefone deve conter apenas números"
+        #     )
+        # elif len(value) < 10:
+        #     raise serializers.ValidationError(
+        #         "O número de telefone deve ter pelo menos 10 dígitos."
+        #     )
+        # return value
     
     def validate_profile_type(self, value):
         if value != User.USER_TYPE_APP:

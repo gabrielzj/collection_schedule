@@ -1,7 +1,7 @@
-from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from core.models import User, CollectionCall
-from .serializers import UserSerializer, CollectionCallSerializer, CustomTokenObtainPairSerializer
+from .serializers import UserSerializer, CollectionCallSerializer, CustomTokenObtainPairSerializer, CustomRefreshTokenSerializer
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.exceptions import ValidationError
@@ -15,6 +15,9 @@ from rest_framework.permissions import AllowAny
 
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
+    
+class CustomTokenRefreshView(TokenRefreshView):
+    serializer_class = CustomRefreshTokenSerializer
 
 # USER
 @api_view(['POST', 'GET'])
@@ -24,10 +27,20 @@ def register_list_users(request):
         try:
             serializer = UserSerializer(data=request.data)
             serializer.is_valid(raise_exception=True)
+            if len(request.data['password']) < 8:
+                return Response("A senha deve conter pelo menos 8 caracteres.", status=status.HTTP_400_BAD_REQUEST)
+            elif not request.data['phone_number'].isdigit():
+                return Response("O número de telefone deve conter apenas números", status=status.HTTP_400_BAD_REQUEST)
+            elif len(request.data['phone_number']) < 10:
+                return Response("O número de telefone deve ter pelo menos 10 dígitos.", status=status.HTTP_400_BAD_REQUEST)            
+            # TODO: ver Response formatada de email já existente
+            elif User.objects.filter(email=request.data['email']):
+                return Response("Esse email já está cadastrado", status=status.HTTP_400_BAD_REQUEST)
+                
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         except Exception as e:
-            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(str(e), status=status.HTTP_400_BAD_REQUEST)
     elif request.method == 'GET':
         try:
             # usar prefetch_related para otimizar consultas ?
@@ -51,7 +64,7 @@ def retrieve_update_delete_users(request, pk):
             serializer = UserSerializer(user)
             return Response(serializer.data, status=status.HTTP_200_OK)
         except Http404:
-            return Response({"detail": "Usuário com o ID informado não foi encontrado."})
+            return Response("Usuário com o ID informado não foi encontrado.")
         except ValidationError as e:
             return Response(e.detail, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
@@ -77,7 +90,7 @@ def retrieve_update_delete_users(request, pk):
             return Response(response_serializer.data, status=status.HTTP_200_OK)
         except Http404:
             return Response(
-                {"detail": "Usuário com o ID informado não foi encontrado."},
+                {"Usuário com o ID informado não foi encontrado."},
                 status=status.HTTP_404_NOT_FOUND
             )
         except Exception as e:
@@ -87,7 +100,7 @@ def retrieve_update_delete_users(request, pk):
         try:
             user = get_object_or_404(User, pk=pk)
             user.delete()
-            return Response({'Usuário deletado com sucesso:'}, status=status.HTTP_204_NO_CONTENT)
+            return Response('Usuário deletado com sucesso:', status=status.HTTP_204_NO_CONTENT)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
     
