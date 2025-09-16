@@ -2,7 +2,10 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title color="primary">Criar um chamado</ion-title>
+        <ion-buttons slot="start">
+          <ion-back-button default-href="/home"></ion-back-button>
+        </ion-buttons>
+        <ion-title>Criar um chamado</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true" mode="md">
@@ -27,6 +30,7 @@
             aria-label="waste-type"
             interface="alert"
             fill="outline"
+            placeholder="Selecione"
             v-model="type"
           >
             <ion-select-option value="plastic">Plástico</ion-select-option>
@@ -78,6 +82,7 @@
             aria-label="waste-urgency"
             fill="outline"
             interface="alert"
+            placeholder="Selecione"
             v-model="urgency"
           >
             <ion-select-option value="low">Baixa</ion-select-option>
@@ -133,14 +138,14 @@ import {
   IonItemDivider,
   IonSelect,
   IonSelectOption,
-  IonItem,
   IonLabel,
   IonButton,
+  IonButtons,
+  IonBackButton,
 } from "@ionic/vue";
 import { helpOutline } from "ionicons/icons";
 import apiClient from "@/services/apiClient";
-import { ref, computed } from "vue";
-import router from "@/router";
+import { ref } from "vue";
 
 type WasteType =
   | "plastic"
@@ -159,18 +164,18 @@ const urgency = ref<Urgency | null>(null);
 const amount_to_collect = ref<string | null>(null);
 const best_time_for_collect = ref<string | null>(null);
 
-const requestValues = computed<
-  (WasteType | Urgency | string | number | null)[]
->(() => [
-  type.value,
-  address.value,
-  description.value,
-  urgency.value,
-  amount_to_collect.value != null && amount_to_collect.value !== ""
-    ? Number(amount_to_collect.value)
-    : null,
-  best_time_for_collect.value,
-]);
+// const requestValues = computed<
+//   (WasteType | Urgency | string | number | null)[]
+// >(() => [
+//   type.value,
+//   address.value,
+//   description.value,
+//   urgency.value,
+//   amount_to_collect.value != null && amount_to_collect.value !== ""
+//     ? Number(amount_to_collect.value)
+//     : null,
+//   best_time_for_collect.value,
+// ]);
 
 const submitCall = async () => {
   if (!type.value || !address.value || !urgency.value) {
