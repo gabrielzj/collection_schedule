@@ -2,11 +2,14 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-back-button default-href="/home"></ion-back-button>
+        </ion-buttons>
         <ion-title>Tipos de resíduos</ion-title>
       </ion-toolbar>
     </ion-header>
 
-    <ion-content :fullscreen="false" mode="md">
+    <ion-content :fullscreen="true" mode="md">
       <div class="waste-info-container">
         <WasteInfoCard
           v-for="(item, index) in wasteInfo"
@@ -45,9 +48,21 @@ import {
   IonToolbar,
   IonTitle,
   IonContent,
+  IonButtons,
+  IonBackButton,
 } from "@ionic/vue";
 import WasteInfoCard from "@/components/WasteInfoCard.vue";
 import WasteInfoModal from "@/components/WasteInfoModal.vue";
+import eWaste from "@/assets/e-waste.jpg";
+import glassWaste from "@/assets/glass-waste.jpg";
+import metalWaste from "@/assets/metal-waste.jpg";
+import organicWaste from "@/assets/organic-waste.jpg";
+import otherWaste from "@/assets/other-waste.jpg";
+import paperWaste from "@/assets/paper-waste.jpg";
+import recyclableWaste from "@/assets/recyclable-waste.jpg";
+import plasticWaste from "@/assets/plastic-waste.jpg";
+import residualWaste from "@/assets/residual-waste.jpg";
+import specialWaste from "@/assets/special-waste.jpg";
 
 type WasteType =
   | "paper"
@@ -73,66 +88,67 @@ interface WasteModal {
   id: number;
 }
 
+// alterar import das imagens para evitar problemas no build
 const wasteInfo: WasteInfo[] = [
   {
     type: "paper",
-    image: "/src/assets/paper-waste.jpg",
+    image: paperWaste,
     title: "Papel",
     description:
       "Descarte papéis de forma correta e contribua para a preservação ambiental. Saiba como separar, armazenar e encaminhar o papel para reciclagem",
   },
   {
     type: "metal",
-    image: "/src/assets/metal-waste.jpg",
+    image: metalWaste,
     title: "Metal",
     description:
       "Lorem ipsum dolor sit amet. At beatae porro et amet velit est delectus dolorum sit amet nostrum. Est corporis repellendus ab iste dolorem est magnam quae",
   },
   {
     type: "plastic",
-    image: "/src/assets/plastic-waste.jpg",
+    image: plasticWaste,
     title: "Plástico",
     description:
       "Lorem ipsum dolor sit amet. At beatae porro et amet velit est delectus dolorum sit amet nostrum. Est corporis repellendus ab iste dolorem est magnam quae",
   },
   {
     type: "electronic",
-    image: "/src/assets/e-waste.jpg",
+    image: eWaste,
     title: "Eletrônico",
     description:
       "Lorem ipsum dolor sit amet. At beatae porro et amet velit est delectus dolorum sit amet nostrum. Est corporis repellendus ab iste dolorem est magnam quae",
   },
   {
     type: "organic",
-    image: "/src/assets/organic-waste.jpg",
+    image: organicWaste,
     title: "Orgânico",
     description:
       "Lorem ipsum dolor sit amet. At beatae porro et amet velit est delectus dolorum sit amet nostrum. Est corporis repellendus ab iste dolorem est magnam quae",
   },
   {
     type: "glass",
-    image: "/src/assets/glass-waste.jpg",
+    image: glassWaste,
     title: "Vidro",
     description:
       "Lorem ipsum dolor sit amet. At beatae porro et amet velit est delectus dolorum sit amet nostrum. Est corporis repellendus ab iste dolorem est magnam quae",
   },
   {
     type: "residual_waste",
-    image: "/src/assets/residual-waste.jpg",
+    image: residualWaste,
     title: "Rejeitos",
     description:
       "Lorem ipsum dolor sit amet. At beatae porro et amet velit est delectus dolorum sit amet nostrum. Est corporis repellendus ab iste dolorem est magnam quae",
   },
   {
     type: "other",
-    image: "/src/assets/other-waste.jpg",
+    image: otherWaste,
     title: "Outros",
     description:
       "Lorem ipsum dolor sit amet. At beatae porro et amet velit est delectus dolorum sit amet nostrum. Est corporis repellendus ab iste dolorem est magnam quae",
   },
   {
     type: "special",
-    image: "/src/assets/special-waste.jpg",
+    image: specialWaste,
     title: "Especial",
     description:
       "Lorem ipsum dolor sit amet. At beatae porro et amet velit est delectus dolorum sit amet nostrum. Est corporis repellendus ab iste dolorem est magnam quae",
