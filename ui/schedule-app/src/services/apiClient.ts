@@ -25,6 +25,7 @@ async function getAuth(email: string, password: string): Promise<AuthResponse> {
         password,
       },
     });
+    localStorage.setItem("user_id", res.data.id);
     return res.data;
   } catch (error: any) {
     if (axios.isAxiosError(error)) {
@@ -220,8 +221,56 @@ async function registerUser(payload: any): Promise<any> {
   }
 }
 
+async function getUser(userID: any): Promise<any> {
+  await handleAuthToken();
+  try {
+    const res = await axios({
+      method: "GET",
+      url: urlJoin(baseUrl, "users/", userID.toString()),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${
+          localStorage.getItem("access_token") ||
+          sessionStorage.getItem("access_token")
+        }`,
+      },
+    });
+    return res.data;
+  } catch (error: any) {
+    if (axios.isAxiosError(error)) {
+      console.error("Axios error:", error.message);
+      console.error("Response data:", error.response?.data);
+    }
+  }
+}
+
+async function getCalls(): Promise<any> {
+  await handleAuthToken();
+  try {
+    const res = await axios({
+      method: "GET",
+      url: urlJoin(baseUrl, "calls/"),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${
+          localStorage.getItem("access_token") ||
+          sessionStorage.getItem("access_token")
+        }`,
+      },
+    });
+    return res.data;
+  } catch (error: any) {
+    if (axios.isAxiosError(error)) {
+      console.error("Axios error:", error.message);
+      console.error("Response data:", error.response?.data);
+    }
+  }
+}
+
 export default {
   getAuth,
   createCall,
   registerUser,
+  getUser,
+  getCalls,
 };
