@@ -10,7 +10,10 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
 
     def validate(self, attrs):
         data = super().validate(attrs)
+        # usuário atual já autenticado
         user = self.user
+        id = user.id
+        data['id'] = id
 
         if not user.is_active:
             raise AuthenticationFailed('Usuário Inativo')
@@ -24,6 +27,8 @@ class CustomRefreshTokenSerializer(TokenRefreshSerializer):
         ref_name = 'AppCustomRefreshTokenSerializer'
 
 class UserSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True, min_length=8, required=True)
+    
     class Meta:
         model = User
         fields = '__all__'
@@ -54,7 +59,9 @@ class UserSerializer(serializers.ModelSerializer):
         return value
 
     def create(self, validated_data):
-        return User.objects.create_user(**validated_data)
+        password = validated_data.pop('password')
+        user =  User.objects.create_user(password=password, **validated_data)
+        return user
     
 class CollectionCallSerializer(serializers.ModelSerializer):
     # relação entre models
