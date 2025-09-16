@@ -1,0 +1,120 @@
+<template>
+  <ion-card mode="md">
+    <ion-card-header>
+      <ion-card-title>{{ typeLabel }}</ion-card-title>
+      <ion-card-subtitle>
+        Urgência: <b :class="['urgency', urgency]">{{ urgencyLabel }}</b>
+      </ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <div class="row">
+        <ion-icon class="icon" :icon="locationOutline" aria-hidden="true" />
+        <span class="text">{{ address }}</span>
+      </div>
+      <div class="row" v-if="bestTime">
+        <ion-icon class="icon" :icon="timeOutline" aria-hidden="true" />
+        <span class="text">{{ formattedBestTime }}</span>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</template>
+
+<script setup lang="ts">
+import {
+  IonCard,
+  IonCardHeader,
+  IonCardTitle,
+  IonCardSubtitle,
+  IonCardContent,
+  IonIcon,
+} from "@ionic/vue";
+import { locationOutline, timeOutline } from "ionicons/icons";
+import { computed } from "vue";
+
+type WasteType =
+  | "paper"
+  | "metal"
+  | "plastic"
+  | "electronic"
+  | "organic"
+  | "glass"
+  | "residual_waste"
+  | "other";
+
+type Urgency = "low" | "medium" | "high";
+
+const props = defineProps<{
+  type: WasteType;
+  address: string;
+  urgency: Urgency;
+  bestTime?: string | null;
+}>();
+
+const TYPE_LABEL: Record<WasteType, string> = {
+  paper: "Papel",
+  metal: "Metal",
+  plastic: "Plástico",
+  electronic: "Eletrônico",
+  organic: "Orgânico",
+  glass: "Vidro",
+  residual_waste: "Resíduo Sólido",
+  other: "Outro",
+};
+
+const URGENCY_LABEL: Record<Urgency, string> = {
+  low: "Baixa",
+  medium: "Moderada",
+  high: "Alta",
+};
+
+const typeLabel = computed(() => TYPE_LABEL[props.type] ?? props.type);
+const urgencyLabel = computed(
+  () => URGENCY_LABEL[props.urgency] ?? props.urgency
+);
+
+const formattedBestTime = computed(() => {
+  if (!props.bestTime) return "";
+  const date = new Date(props.bestTime);
+  if (Number.isNaN(date.getTime())) return props.bestTime as string;
+  return date.toLocaleString("pt-BR", {
+    weekday: "short",
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+});
+</script>
+
+<style scoped>
+.row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 8px 0;
+}
+.icon {
+  flex: 0 0 18px;
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  color: var(--ion-color-medium);
+}
+.text {
+  color: var(--ion-color-step-600, #3a3a3a);
+  flex: 1 1 auto;
+  min-width: 0;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+.urgency.low {
+  color: var(--ion-color-success);
+}
+.urgency.medium {
+  color: var(--ion-color-warning);
+}
+.urgency.high {
+  color: var(--ion-color-danger);
+}
+</style>
