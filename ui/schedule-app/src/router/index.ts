@@ -1,10 +1,17 @@
 import { createRouter, createWebHistory } from "@ionic/vue-router";
 import { RouteRecordRaw } from "vue-router";
 import TabsPage from "../views/TabsPage.vue";
+import Tab1Page from "@/views/Tab1Page.vue";
+import Tab2Page from "@/views/Tab2Page.vue";
+import loginPage from "@/views/login.vue";
+import registerPage from "@/views/register.vue";
+import MyCallsPage from "@/views/MyCallsPage.vue";
+import logout from "@/views/logout.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
+    name: "Root",
     redirect: "/login",
   },
   {
@@ -13,31 +20,36 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/login",
-    component: () => import("@/views/login-page.vue"),
+    name: "Login",
+    component: loginPage,
   },
   {
     path: "/register",
-    component: () => import("@/views/register.vue"),
+    name: "Register",
+    component: registerPage,
   },
   {
     path: "/home",
     component: TabsPage,
     children: [
       {
+        path: "",
+        component: MyCallsPage,
+      },
+      {
         path: "waste-info",
-        component: () => import("@/views/Tab1Page.vue"),
+        name: "WasteInfo",
+        component: Tab1Page,
       },
       {
         path: "call",
-        component: () => import("@/views/Tab2Page.vue"),
+        name: "Call",
+        component: Tab2Page,
       },
       {
-        path: "login",
-        component: () => import("@/views/login-page.vue"),
-      },
-      {
-        path: "tab4",
-        component: () => import("@/views/Tab3Page.vue"),
+        path: "logout",
+        name: "Logout",
+        component: logout,
       },
     ],
   },
