@@ -83,7 +83,11 @@ function handleRedirect() {
 }
 
 function isAuthenticated(): boolean {
-  return !!localStorage.getItem("access_token");
+  // Checa tanto localStorage quanto sessionStorage
+  return !!(
+    localStorage.getItem("access_token") ||
+    sessionStorage.getItem("access_token")
+  );
 }
 
 onMounted(() => {
