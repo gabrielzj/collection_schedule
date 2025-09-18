@@ -23,7 +23,6 @@
               placeholder="Seu nome completo"
               fill="outline"
               :clear-input="true"
-              required
             />
           </div>
           <div class="input-container">
@@ -38,9 +37,6 @@
               label-placement="stacked"
               fill="outline"
               :clear-input="true"
-              @ionInput="onEmailInput"
-              @ionBlur="markEmailTouched"
-              required
             />
           </div>
           <div class="input-container">
@@ -54,7 +50,6 @@
               label-placement="stacked"
               fill="outline"
               :clear-input="true"
-              required
             />
           </div>
           <div class="input-container">
@@ -67,7 +62,6 @@
               label-placement="stacked"
               fill="outline"
               :clear-input="true"
-              required
             />
           </div>
           <div class="input-container">
@@ -81,9 +75,6 @@
               label-placement="stacked"
               fill="outline"
               :clear-input="true"
-              @ionInput="onPhoneInput"
-              @ionBlur="markPhoneTouched"
-              required
             />
           </div>
 
@@ -116,6 +107,8 @@ import {
 import router from "@/router";
 import apiClient from "@/services/apiClient";
 
+//TODO: fix validações dos inputs, tá querbrado do phone
+
 const form = reactive({
   username: "",
   email: "",
@@ -129,59 +122,59 @@ const errorMessage = ref<string>("");
 const emailInput = ref<InstanceType<typeof IonInput> | null>(null);
 const phoneInput = ref<InstanceType<typeof IonInput> | null>(null);
 
-function isValidEmail(email: any): boolean {
-  return /^(?=.{1,254}$)(?=.{1,64}@)[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(
-    email
-  );
-}
+// function isValidEmail(email: any): boolean {
+//   return /^(?=.{1,254}$)(?=.{1,64}@)[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(
+//     email
+//   );
+// }
 
-function onEmailInput(ev: CustomEvent): void {
-  const value = String((ev as any).detail?.value ?? "");
-  const el = emailInput.value?.$el as HTMLElement | undefined;
-  if (!el) return;
+// function onEmailInput(ev: CustomEvent): void {
+//   const value = String((ev as any).detail?.value ?? "");
+//   const el = emailInput.value?.$el as HTMLElement | undefined;
+//   if (!el) return;
 
-  el.classList.remove("ion-valid", "ion-invalid");
+//   el.classList.remove("ion-valid", "ion-invalid");
 
-  if (value === "") return;
+//   if (value === "") return;
 
-  if (isValidEmail(value)) {
-    el.classList.add("ion-valid");
-  } else {
-    el.classList.add("ion-invalid");
-  }
-}
+//   if (isValidEmail(value)) {
+//     el.classList.add("ion-valid");
+//   } else {
+//     el.classList.add("ion-invalid");
+//   }
+// }
 
-function markEmailTouched() {
-  const el = emailInput.value?.$el as HTMLElement | undefined;
-  el?.classList.add("ion-touched");
-}
+// function markEmailTouched() {
+//   const el = emailInput.value?.$el as HTMLElement | undefined;
+//   el?.classList.add("ion-touched");
+// }
 
-function isPhoneValid(phone: any): boolean {
-  const regex =
-    /^(\+?55\s?)?((\([1-9]{2}\))|\d{2}\s?)([9]\d{4}|\d{4})[\s.-]?(\d{4})$/;
-  const digits = phone.replace(/\D/g, "");
-  return regex.test(digits);
-}
+// function isPhoneValid(phone: any): boolean {
+//   const regex =
+//     /^(\+?55\s?)?((\([1-9]{2}\))|\d{2}\s?)([9]\d{4}|\d{4})[\s.-]?(\d{4})$/;
+//   const digits = phone.replace(/\D/g, "");
+//   return regex.test(digits);
+// }
 
-function onPhoneInput(ev: CustomEvent): void {
-  const value = String((ev as any).detail?.value ?? "");
-  const hostEl = ev.target as HTMLElement | undefined;
-  if (!hostEl) return;
+// function onPhoneInput(ev: CustomEvent): void {
+//   const value = String((ev as any).detail?.value ?? "");
+//   const hostEl = ev.target as HTMLElement | undefined;
+//   if (!hostEl) return;
 
-  hostEl.classList.remove("ion-valid", "ion-invalid");
+//   hostEl.classList.remove("ion-valid", "ion-invalid");
 
-  if (value === "") return;
+//   if (value === "") return;
 
-  if (isPhoneValid(value)) {
-    hostEl.classList.add("ion-valid");
-  } else {
-    hostEl.classList.add("ion-invalid");
-  }
-}
+//   if (isPhoneValid(value)) {
+//     hostEl.classList.add("ion-valid");
+//   } else {
+//     hostEl.classList.add("ion-invalid");
+//   }
+// }
 
-function markPhoneTouched(ev: Event): void {
-  (ev.target as HTMLElement | null)?.classList.add("ion-touched");
-}
+// function markPhoneTouched(ev: Event): void {
+//   (ev.target as HTMLElement | null)?.classList.add("ion-touched");
+// }
 
 function blockNumbers(ev: any) {
   const char = ev.key;
@@ -199,13 +192,66 @@ function hideError(): void {
   errorExists.value = false;
 }
 
+function handleEmailInput(value: string): string {
+  let input = value
+    .replace(/\s/g, "")
+    .replace(/@+/g, "@")
+    .replace(/@(.+)?@/, "@$1")
+    .replace(/(\..+)?\./, ".$1");
+  return input;
+}
+
+// function handlePhoneInput(value: string): string {
+//   let input = value
+//     .replace(/\D/g, "")
+//     .replace(/(\d{2})(\d)/, "($1) $2")
+//     .replace(/(\d{4})(\d)/, "$1-$2")
+//     .replace(/(\d{4})-(\d)(\d{4})/, "$1$2-$3")
+//     .replace(/(-\d{4})\d+?$/, "$1");
+//   return input;
+// }
+
 async function onSubmit(): Promise<void> {
-  form.username = form.username.replace(/\s+/g, " ");
+  if (!form) {
+    errorExists.value = true;
+    errorMessage.value = "Preencha todos os campos.";
+    setTimeout(hideError, 3000);
+    return;
+  }
+  const formattedUsername = form.username.replace(/\s+/g, " ").trim();
+  // const formattedPhoneNumber = handlePhoneInput(form.phone_number);
+  form.email = handleEmailInput(form.email);
+
+  console.log(formattedUsername);
+  console.log(form.phone_number);
+  console.log(form.email);
+
+  if (
+    !form.username ||
+    !form.email ||
+    !form.password ||
+    !form.address ||
+    !form.phone_number
+  ) {
+    errorExists.value = true;
+    errorMessage.value = "Preencha todos os campos.";
+    setTimeout(hideError, 3000);
+    return;
+  }
+
+  // if (form.phone_number.length < 10 || form.phone_number.length > 11) {
+  //   errorExists.value = true;
+  //   errorMessage.value = "Número de telefone inválido.";
+  //   setTimeout(hideError, 3000);
+  //   return;
+  // }
 
   try {
-    const data = await apiClient.registerUser({ ...form });
-    console.log("3:", data);
-    console.log("Registrando usuário:", { ...form });
+    await apiClient.registerUser({
+      ...form,
+      username: formattedUsername,
+      // phone_number: phoneDigits,
+    });
     await handleSubmit();
     form.username = "";
     form.email = "";
