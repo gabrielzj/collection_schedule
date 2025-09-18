@@ -7,9 +7,9 @@
     </ion-header>
     <ion-content :fullscreen="true" class="ion-padding" mode="md">
       <ion-text color="medium">
-        <h2>Meus Chamados: {{ calls.length }}</h2>
+        <h2>Meus Chamados: {{ qtdCalls }}</h2>
       </ion-text>
-      <CollectionCallList />
+      <CollectionCallList @qtd-calls="userCalls" />
     </ion-content>
   </ion-page>
 </template>
@@ -28,7 +28,11 @@ import apiClient from "@/services/apiClient";
 import { onBeforeMount, ref } from "vue";
 
 const userName = ref<string>("");
-const calls = ref<Array<any>>([]);
+const qtdCalls = ref<number>(0);
+
+function userCalls(qtd: number) {
+  qtdCalls.value = qtd;
+}
 
 // ver de receber o name do backend no login
 onBeforeMount(async () => {

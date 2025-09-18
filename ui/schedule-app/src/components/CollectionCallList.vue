@@ -65,7 +65,8 @@ interface CollectionCallDTO {
 const loading = ref(true);
 const error = ref<string | null>(null);
 const calls = ref<CollectionCallDTO[]>([]);
-const qtd = ref<number>(0);
+
+const emit = defineEmits(["qtdCalls"]);
 
 onMounted(async () => {
   try {
@@ -87,8 +88,8 @@ onMounted(async () => {
             best_time_for_collect: d.best_time_for_collect,
           }))
       : [];
-    qtd.value = calls.value.length;
-    console.log("Quantidade de chamados:", qtd.value);
+    emit("qtdCalls", calls.value.length);
+    console.log("Quantidade de chamados:", calls.value.length);
   } catch (e: any) {
     error.value = e?.message ?? "Falha ao carregar";
   } finally {
