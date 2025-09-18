@@ -29,8 +29,8 @@ def register_list_users(request):
             serializer.is_valid(raise_exception=True)
             if len(request.data['password']) < 8:
                 return Response("A senha deve conter pelo menos 8 caracteres.", status=status.HTTP_400_BAD_REQUEST)
-            elif not request.data['phone_number'].isdigit():
-                return Response("O número de telefone deve conter apenas números", status=status.HTTP_400_BAD_REQUEST)
+            # elif not request.data['phone_number'].isdigit():
+            #     return Response("O número de telefone deve conter apenas números", status=status.HTTP_400_BAD_REQUEST)
             elif len(request.data['phone_number']) < 10:
                 return Response("O número de telefone deve ter pelo menos 10 dígitos.", status=status.HTTP_400_BAD_REQUEST)            
             # TODO: ver Response formatada de email já existente
@@ -71,9 +71,14 @@ def retrieve_update_delete_users(request, pk):
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
             
     elif request.method in ['PUT', 'PATCH']:
+        if request.method == 'PUT':    
+            update_partial = False
+        elif request.method == 'PATCH':
+            update_partial = True
         try:
             user = get_object_or_404(User, pk=pk)
-            serializer = UserSerializer(user, data=request.data, partial=True)
+            # instance indica que é um update, n create
+            serializer = UserSerializer(instance=user, data=request.data, partial=update_partial)
             serializer.is_valid(raise_exception=True)
             serializer.save()
 
@@ -94,8 +99,7 @@ def retrieve_update_delete_users(request, pk):
                 status=status.HTTP_404_NOT_FOUND
             )
         except Exception as e:
-            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
-                
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)   
     elif request.method == 'DELETE':
         try:
             user = get_object_or_404(User, pk=pk)
