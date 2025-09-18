@@ -8,6 +8,7 @@ interface AuthResponse {
 }
 
 const baseUrl: string = "http://localhost:8000/app-api";
+const userBaseUrl: string = urlJoin(baseUrl, "users/");
 
 /**
  *
@@ -54,6 +55,13 @@ async function verifyAuth(token: string): Promise<boolean> {
     });
     return true;
   } catch (error: any) {
+    // Se for erro de rede (ex.: backend offline), não considerar o token inválido.
+    if (axios.isAxiosError(error) && !error.response) {
+      console.warn(
+        "Não foi possível verificar o token (servidor indisponível). Mantendo sessão até reconexão."
+      );
+      return true; // Preserva sessão para evitar logout indevido quando o backend estiver offline
+    }
     console.error(
       "Token inválido:",
       axios.isAxiosError(error) ? error.response?.data || error.message : error
@@ -150,8 +158,15 @@ async function handleAuthToken(): Promise<void> {
         newTokens.refresh || ""
       );
     } catch (error) {
+      // Se for erro de rede, manter sessão e permitir que a chamada original falhe por rede.
+      if (axios.isAxiosError(error) && !error.response) {
+        console.warn(
+          "Servidor indisponível ao tentar renovar token. Mantendo sessão e aguardando reconexão."
+        );
+        return; // Não limpa tokens nem redireciona em caso de offline
+      }
       console.log("Erro ao renovar token, redirecionando para login...");
-      // Erro ao renovar token
+      // Erro ao renovar token (não relacionado à rede)
       localStorage.removeItem("access_token");
       localStorage.removeItem("refresh_token");
       sessionStorage.removeItem("access_token");
@@ -203,7 +218,8 @@ async function registerUser(payload: any): Promise<any> {
   try {
     const res = await axios({
       method: "POST",
-      url: urlJoin(baseUrl, "users/"),
+      // url: urlJoin(baseUrl, "users/"),
+      url: userBaseUrl,
       data: payload,
       headers: {
         "Content-Type": "application/json",
@@ -226,7 +242,35 @@ async function getUser(userID: any): Promise<any> {
   try {
     const res = await axios({
       method: "GET",
-      url: urlJoin(baseUrl, "users/", userID.toString()),
+      url: urlJoin(userBaseUrl, userID.toString()),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${
+          localStorage.getItem("access_token") ||
+          sessionStorage.getItem("access_token")
+        }`,
+      },
+    });
+    return res.data;
+  } catch (error: any) {
+    if (axios.isAxiosError(error)) {
+      console.error("Axios error:", error.message);
+      console.error("Response data:", error.response?.data);
+    }
+  }
+}
+
+async function updateUser(
+  userID: any,
+  method: "PATCH" | "PUT",
+  payload: any
+): Promise<any> {
+  await handleAuthToken();
+  try {
+    const res = await axios({
+      method,
+      url: urlJoin(userBaseUrl, userID.toString(), "/"),
+      data: payload,
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${
@@ -272,5 +316,6 @@ export default {
   createCall,
   registerUser,
   getUser,
+  updateUser,
   getCalls,
 };
