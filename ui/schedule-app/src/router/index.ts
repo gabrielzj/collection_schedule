@@ -3,10 +3,11 @@ import { RouteRecordRaw } from "vue-router";
 import TabsPage from "../views/TabsPage.vue";
 import Tab1Page from "@/views/Tab1Page.vue";
 import Tab2Page from "@/views/Tab2Page.vue";
-import loginPage from "@/views/login.vue";
-import registerPage from "@/views/register.vue";
+import loginPage from "@/views/Login.vue";
+import registerPage from "@/views/Register.vue";
 import MyCallsPage from "@/views/MyCallsPage.vue";
-import logout from "@/views/logout.vue";
+import logout from "@/views/Logout.vue";
+import userInfo from "@/views/UserInfo.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -45,6 +46,11 @@ const routes: Array<RouteRecordRaw> = [
         path: "call",
         name: "Call",
         component: Tab2Page,
+      },
+      {
+        path: "user",
+        name: "user",
+        component: userInfo,
       },
       {
         path: "logout",
