@@ -13,7 +13,7 @@
           <ion-label>Coleta</ion-label>
         </ion-tab-button>
 
-        <ion-tab-button tab="tab3" href="/home/tab3">
+        <ion-tab-button tab="tab3" href="/home/user">
           <ion-icon aria-hidden="true" :icon="personCircle" />
           <ion-label>Usuário</ion-label>
         </ion-tab-button>
