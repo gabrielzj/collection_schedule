@@ -27,29 +27,27 @@ class CustomRefreshTokenSerializer(TokenRefreshSerializer):
         ref_name = 'AppCustomRefreshTokenSerializer'
 
 class UserSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True, min_length=8, required=True)
+    password = serializers.CharField(write_only=True, min_length=8, required=False)
     
     class Meta:
         model = User
         fields = '__all__'
         
-    # def validate_password(self, value):
-    #     if len(value) < 8:
-    #         raise serializers.ValidationError(
-    #             "A senha deve conter pelo menos 8 caracteres."
-    #         )
-    #     return value
-
-    # def validate_phone_number(self, value):
-        # if not value.isdigit():
-        #     raise serializers.ValidationError(
-        #         "O número de telefone deve conter apenas números"
-        #     )
-        # elif len(value) < 10:
-        #     raise serializers.ValidationError(
-        #         "O número de telefone deve ter pelo menos 10 dígitos."
-        #     )
-        # return value
+    
+    def update(self, instance, validated_data):
+        # remove password para n passar em texto plano
+        password = validated_data.pop('password', None)
+        
+        for field in ['email', 'address', 'phone_number', 'first_name', 'last_name']:
+            if field in validated_data:
+                setattr(instance, field, validated_data[field])
+                
+        if password:
+            instance.set_password(password)
+            print(instance.set_password(password))
+        
+        instance.save()
+        return instance
     
     def validate_profile_type(self, value):
         if value != User.USER_TYPE_APP:
@@ -58,6 +56,7 @@ class UserSerializer(serializers.ModelSerializer):
             )
         return value
 
+    # remove a senha do validated_data para que seja tratada separadamente
     def create(self, validated_data):
         password = validated_data.pop('password')
         user =  User.objects.create_user(password=password, **validated_data)
