@@ -5,14 +5,14 @@
         <ion-buttons slot="start">
           <ion-back-button default-href="/home"></ion-back-button>
         </ion-buttons>
-        <ion-title>Crie sua conta</ion-title>
+        <ion-title>Informações do Usuário</ion-title>
       </ion-toolbar>
     </ion-header>
 
     <ion-content :fullscreen="false" mode="md">
       <div class="form-container">
         <form @submit.prevent="onSubmit">
-          <div class="input-container">
+          <!-- <div class="input-container">
             <ion-input
               label="Nome Completo"
               label-placement="stacked"
@@ -21,6 +21,28 @@
               type="text"
               autocomplete="name"
               placeholder="Seu nome completo"
+              fill="outline"
+              :clear-input="true"
+            />
+          </div> -->
+          <div class="input-container">
+            <ion-input
+              label="Primeiro Nome"
+              label-placement="stacked"
+              v-model="form.first_name"
+              @keydown="blockNumbers($event)"
+              type="text"
+              fill="outline"
+              :clear-input="true"
+            />
+          </div>
+          <div class="input-container">
+            <ion-input
+              label="Nome Completo"
+              label-placement="stacked"
+              v-model="form.last_name"
+              @keydown="blockNumbers($event)"
+              type="text"
               fill="outline"
               :clear-input="true"
             />
@@ -95,7 +117,8 @@ import router from "@/router";
 import apiClient from "@/services/apiClient";
 
 const form = reactive({
-  username: "",
+  first_name: "",
+  last_name: "",
   email: "",
   address: "",
   phone_number: "",
@@ -106,7 +129,8 @@ onMounted(async () => {
     const data = await apiClient.getUser(
       localStorage.getItem("user_id") || sessionStorage.getItem("user_id")
     );
-    form.username = data["username"];
+    form.first_name = data["first_name"];
+    form.last_name = data["last_name"];
     form.email = data["email"];
     form.address = data["address"];
     form.phone_number = data["phone_number"];
@@ -156,7 +180,7 @@ const isKeyEmpty = computed(() =>
 
 async function onSubmit(): Promise<void> {
   {
-    const formattedUsername = form.username.replace(/\s+/g, " ").trim();
+    // const formattedUsername = form.username.replace(/\s+/g, " ").trim();
     form.phone_number = handlePhoneInput(form.phone_number);
     // const phoneDigits = form.phone_number.replace(/\D/g, "");
     form.email = handleEmailInput(form.email);
@@ -170,7 +194,8 @@ async function onSubmit(): Promise<void> {
 
     // remover campos vazios do arrary do payload
     if (
-      form.username != "" &&
+      form.first_name != "" &&
+      form.last_name != "" &&
       form.email != "" &&
       form.address != "" &&
       form.phone_number != ""

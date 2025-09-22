@@ -2,7 +2,9 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title color="dark">Bem-vindo, {{ userName }}</ion-title>
+        <ion-title color="dark"
+          >Bem-vindo, {{ first_name }} {{ last_name }}</ion-title
+        >
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true" class="ion-padding" mode="md">
@@ -27,7 +29,9 @@ import CollectionCallList from "@/components/CollectionCallList.vue";
 import apiClient from "@/services/apiClient";
 import { onBeforeMount, ref } from "vue";
 
-const userName = ref<string>("");
+// const userName = ref<string>("");
+const first_name = ref<string>("");
+const last_name = ref<string>("");
 const qtdCalls = ref<number>(0);
 
 function userCalls(qtd: number) {
@@ -38,7 +42,8 @@ function userCalls(qtd: number) {
 onBeforeMount(async () => {
   try {
     const data = await apiClient.getUser(localStorage.getItem("user_id"));
-    userName.value = data["username"];
+    first_name.value = data["first_name"];
+    last_name.value = data["last_name"];
   } catch (error: any) {
     console.error("Falha ao buscar usuário");
   }

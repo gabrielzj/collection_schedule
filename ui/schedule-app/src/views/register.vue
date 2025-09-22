@@ -14,6 +14,28 @@
         <form @submit.prevent="onSubmit">
           <div class="input-container">
             <ion-input
+              label="Primeiro Nome"
+              label-placement="stacked"
+              v-model="form.first_name"
+              @keydown="blockNumbers($event)"
+              type="text"
+              fill="outline"
+              :clear-input="true"
+            />
+          </div>
+          <div class="input-container">
+            <ion-input
+              label="Último Nome"
+              label-placement="stacked"
+              v-model="form.last_name"
+              @keydown="blockNumbers($event)"
+              type="text"
+              fill="outline"
+              :clear-input="true"
+            />
+          </div>
+          <!-- <div class="input-container">
+            <ion-input
               label="Nome Completo"
               label-placement="stacked"
               v-model="form.username"
@@ -24,7 +46,7 @@
               fill="outline"
               :clear-input="true"
             />
-          </div>
+          </div> -->
           <div class="input-container">
             <ion-input
               ref="emailInput"
@@ -110,7 +132,8 @@ import apiClient from "@/services/apiClient";
 //TODO: fix validações dos inputs, tá querbrado do phone
 
 const form = reactive({
-  username: "",
+  first_name: "",
+  last_name: "",
   email: "",
   password: "",
   address: "",
@@ -123,7 +146,7 @@ const emailInput = ref<InstanceType<typeof IonInput> | null>(null);
 const phoneInput = ref<InstanceType<typeof IonInput> | null>(null);
 
 // function isValidEmail(email: any): boolean {
-//   return /^(?=.{1,254}$)(?=.{1,64}@)[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(
+//   return /^(?=.{1,254}$)(?=.{1,64}@)[a-zA-Z0-9!#$= %&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(
 //     email
 //   );
 // }
@@ -218,16 +241,19 @@ async function onSubmit(): Promise<void> {
     setTimeout(hideError, 3000);
     return;
   }
-  const formattedUsername = form.username.replace(/\s+/g, " ").trim();
+  const formattedFirstName = form.first_name.replace(/\s+/g, " ").trim();
+  const formattedLastName = form.last_name.replace(/\s+/g, " ").trim();
   // const formattedPhoneNumber = handlePhoneInput(form.phone_number);
   form.email = handleEmailInput(form.email);
 
-  console.log(formattedUsername);
+  console.log(formattedFirstName);
+  console.log(formattedLastName);
   console.log(form.phone_number);
   console.log(form.email);
 
   if (
-    !form.username ||
+    !form.first_name ||
+    !form.last_name ||
     !form.email ||
     !form.password ||
     !form.address ||
@@ -249,11 +275,13 @@ async function onSubmit(): Promise<void> {
   try {
     await apiClient.registerUser({
       ...form,
-      username: formattedUsername,
+      first_name: formattedFirstName,
+      last_name: formattedLastName,
       // phone_number: phoneDigits,
     });
     await handleSubmit();
-    form.username = "";
+    form.first_name = "";
+    form.last_name = "";
     form.email = "";
     form.password = "";
     form.address = "";
