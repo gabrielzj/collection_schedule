@@ -15,7 +15,6 @@
             placeholder="Ex: joao@gmail.com"
             label-placement="stacked"
             fill="outline"
-            :clear-on-edit="true"
             class="input-container"
           >
           </ion-input>
@@ -26,7 +25,6 @@
             label="Senha"
             fill="outline"
             label-placement="stacked"
-            :clear-on-edit="true"
             class="input-container"
           >
             <ion-input-password-toggle slot="end"></ion-input-password-toggle>
