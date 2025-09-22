@@ -2,6 +2,7 @@ from core.models import User, CollectionCall
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer, TokenRefreshSerializer
 from rest_framework.exceptions import AuthenticationFailed
+from django.contrib.auth.base_user import BaseUserManager
 import numbers
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -31,7 +32,7 @@ class UserSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = User
-        fields = '__all__'
+        fields = ['id', 'email', 'password', 'first_name', 'last_name', 'address', 'phone_number', 'profile_type']
         
     
     def update(self, instance, validated_data):
@@ -40,11 +41,11 @@ class UserSerializer(serializers.ModelSerializer):
         
         for field in ['email', 'address', 'phone_number', 'first_name', 'last_name']:
             if field in validated_data:
+                # set instance.field como validated_data[field]
                 setattr(instance, field, validated_data[field])
                 
         if password:
             instance.set_password(password)
-            print(instance.set_password(password))
         
         instance.save()
         return instance
@@ -56,10 +57,22 @@ class UserSerializer(serializers.ModelSerializer):
             )
         return value
 
-    # remove a senha do validated_data para que seja tratada separadamente
     def create(self, validated_data):
-        password = validated_data.pop('password')
-        user =  User.objects.create_user(password=password, **validated_data)
+        # remove a senha para tratans formar em hash com set_password
+        raw_password = validated_data.pop('password', None)
+        
+        # padroniza emails
+        email = BaseUserManager.normalize_email(validated_data.get('email', ''))
+        validated_data['email'] = email
+        
+        user = User(**validated_data)
+        
+        if raw_password:
+            user.set_password(raw_password)
+        else:
+            user.set_unusable_password()
+        
+        user.save()
         return user
     
 class CollectionCallSerializer(serializers.ModelSerializer):
