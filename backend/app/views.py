@@ -10,9 +10,6 @@ from django.shortcuts import get_object_or_404
 from django.http import Http404
 from rest_framework.permissions import AllowAny
 
-#TODO: criar view para verify token, ou refresh de token, talvez não 
-# precise criar um serializer para isso, mas sim usar o serializer do SimpleJWT
-
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
     
