@@ -38,7 +38,7 @@
           </div>
           <div class="input-container">
             <ion-input
-              label="Nome Completo"
+              label="Último Nome"
               label-placement="stacked"
               v-model="form.last_name"
               @keydown="blockNumbers($event)"

@@ -1,17 +1,13 @@
 <template>
   <section>
     <ion-list lines="none">
-      <template v-if="loading">
-        <ion-item>
-          <ion-label>Carregando seus chamados...</ion-label>
-        </ion-item>
-      </template>
+      <ion-item v-if="loading">
+        <ion-label>Carregando seus chamados...</ion-label>
+      </ion-item>
 
-      <template v-else-if="error">
-        <ion-item color="danger">
-          <ion-label>Erro: {{ error }}</ion-label>
-        </ion-item>
-      </template>
+      <ion-item v-else-if="error" color="danger">
+        <ion-label>Erro: {{ error }}</ion-label>
+      </ion-item>
 
       <template v-else-if="calls.length === 0">
         <div class="empty">
@@ -31,6 +27,7 @@
           :address="call.address"
           :urgency="call.urgency"
           :best-time="call.best_time_for_collect"
+          :callID="call.id"
         />
       </template>
     </ion-list>
@@ -54,7 +51,7 @@ type WasteType =
   | "other";
 type Urgency = "low" | "medium" | "high";
 
-interface CollectionCallDTO {
+interface CollectionCall {
   id: number;
   type: WasteType;
   address: string;
@@ -64,7 +61,7 @@ interface CollectionCallDTO {
 
 const loading = ref(true);
 const error = ref<string | null>(null);
-const calls = ref<CollectionCallDTO[]>([]);
+const calls = ref<CollectionCall[]>([]);
 
 const emit = defineEmits(["qtdCalls"]);
 
@@ -83,7 +80,7 @@ onMounted(async () => {
           .map((d) => ({
             id: d.id,
             type: d.type,
-            address: d.address || "Endereço não informado",
+            address: d.address ?? "Endereço não informado",
             urgency: d.urgency,
             best_time_for_collect: d.best_time_for_collect,
           }))

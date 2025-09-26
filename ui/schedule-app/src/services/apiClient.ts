@@ -214,6 +214,12 @@ async function createCall(payload: any): Promise<any> {
   }
 }
 
+/**
+ *
+ * @param payload
+ * @returns data novo user
+ */
+
 async function registerUser(payload: any): Promise<any> {
   try {
     const res = await axios({
@@ -236,6 +242,12 @@ async function registerUser(payload: any): Promise<any> {
     throw error;
   }
 }
+
+/**
+ *
+ * @param userID
+ * @returns user data
+ */
 
 async function getUser(userID: any): Promise<any> {
   await handleAuthToken();
@@ -260,8 +272,15 @@ async function getUser(userID: any): Promise<any> {
   }
 }
 
+/**
+ *
+ * @param userID
+ * @param method
+ * @param payload
+ * @returns updated user
+ */
 async function updateUser(
-  userID: any,
+  userID: number,
   method: "PATCH" | "PUT",
   payload: any
 ): Promise<any> {
@@ -288,12 +307,39 @@ async function updateUser(
   }
 }
 
+/**
+ *
+ * @returns call info
+ */
 async function getCalls(): Promise<any> {
   await handleAuthToken();
   try {
     const res = await axios({
       method: "GET",
       url: urlJoin(baseUrl, "calls/"),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${
+          localStorage.getItem("access_token") ||
+          sessionStorage.getItem("access_token")
+        }`,
+      },
+    });
+    return res.data;
+  } catch (error: any) {
+    if (axios.isAxiosError(error)) {
+      console.error("Axios error:", error.message);
+      console.error("Response data:", error.response?.data);
+    }
+  }
+}
+
+async function deleteCall(callID: number): Promise<void> {
+  await handleAuthToken();
+  try {
+    const res = await axios({
+      method: "DELETE",
+      url: urlJoin(baseUrl, "calls/", callID.toString(), "/"),
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${
@@ -318,4 +364,5 @@ export default {
   getUser,
   updateUser,
   getCalls,
+  deleteCall,
 };

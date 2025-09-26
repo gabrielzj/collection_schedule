@@ -1,5 +1,5 @@
 <template>
-  <ion-modal :is-open="isOpen" @didDismiss="closeModal">
+  <ion-modal :is-open="isOpen">
     <ion-page>
       <ion-header>
         <ion-toolbar>
@@ -603,7 +603,6 @@
 </template>
 
 <script setup lang="ts">
-
 import {
   IonModal,
   IonHeader,

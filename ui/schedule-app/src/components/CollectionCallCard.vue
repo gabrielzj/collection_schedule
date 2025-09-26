@@ -1,7 +1,16 @@
 <template>
   <ion-card mode="md">
     <ion-card-header>
-      <ion-card-title>{{ typeLabel }}</ion-card-title>
+      <div class="header-container">
+        <ion-toolbar>
+          <ion-card-title>{{ typeLabel }}</ion-card-title>
+          <ion-buttons slot="end">
+            <ion-button @click="deleteCall">
+              <ion-icon :icon="closeOutline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </div>
       <ion-card-subtitle>
         Urgência: <b :class="['urgency', urgency]">{{ urgencyLabel }}</b>
       </ion-card-subtitle>
@@ -27,9 +36,13 @@ import {
   IonCardSubtitle,
   IonCardContent,
   IonIcon,
+  IonButtons,
+  IonButton,
+  IonToolbar,
 } from "@ionic/vue";
-import { locationOutline, timeOutline } from "ionicons/icons";
+import { locationOutline, timeOutline, closeOutline } from "ionicons/icons";
 import { computed } from "vue";
+import apiClient from "@/services/apiClient";
 
 type WasteType =
   | "paper"
@@ -48,6 +61,7 @@ const props = defineProps<{
   address: string;
   urgency: Urgency;
   bestTime?: string | null;
+  callID: number;
 }>();
 
 const TYPE_LABEL: Record<WasteType, string> = {
@@ -85,9 +99,27 @@ const formattedBestTime = computed(() => {
     minute: "2-digit",
   });
 });
+
+const deleteCall = async () => {
+  try {
+    await apiClient.deleteCall(props.callID);
+    console.log(`Chamado de ID ${props.callID} deletado`);
+  } catch (error: any) {
+    console.error("Falha ao deletar o chamado");
+  }
+};
 </script>
 
 <style scoped>
+.header-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.header-container ion-card-title {
+  width: fit-content;
+}
+
 .row {
   display: flex;
   align-items: flex-start;
