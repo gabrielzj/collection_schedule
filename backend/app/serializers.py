@@ -120,5 +120,13 @@ class CollectionCallSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 {"amount_to_collect": "Não é posssível criar um chamado de coleta com essa quantia."}
             )
-        return value        
-
+        return value
+    
+    def validate_best_time_for_collect(self, value):
+        if value:
+            from django.utils import timezone
+            if value < timezone.now():
+                raise serializers.ValidationError(
+                    {"best_time_for_collect": "O melhor horário para coleta não pode ser no passado."}
+                )       
+        return value
