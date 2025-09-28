@@ -5,7 +5,7 @@
         <ion-toolbar>
           <ion-card-title>{{ typeLabel }}</ion-card-title>
           <ion-buttons slot="end">
-            <ion-button @click="deleteCall">
+            <ion-button @click.stop="deleteCall">
               <ion-icon :icon="closeOutline"></ion-icon>
             </ion-button>
           </ion-buttons>
@@ -23,6 +23,11 @@
       <div class="row" v-if="bestTime">
         <ion-icon class="icon" :icon="timeOutline" aria-hidden="true" />
         <span class="text">{{ formattedBestTime }}</span>
+      </div>
+      <!-- Adicionar Status -->
+      <div class="row" v-if="status">
+        <ion-icon class="icon" :icon="timeOutline" aria-hidden="true" />
+        <span class="text">{{ status }}</span>
       </div>
     </ion-card-content>
   </ion-card>
@@ -62,6 +67,7 @@ const props = defineProps<{
   urgency: Urgency;
   bestTime?: string | null;
   callID: number;
+  status: string;
 }>();
 
 const TYPE_LABEL: Record<WasteType, string> = {
@@ -81,10 +87,17 @@ const URGENCY_LABEL: Record<Urgency, string> = {
   high: "Alta",
 };
 
+const STATUS_LABEL: Record<string, string> = {
+  pending: "Pendente",
+  completed: "Concluído",
+  failed: "Cancelado",
+};
+
 const typeLabel = computed(() => TYPE_LABEL[props.type] ?? props.type);
 const urgencyLabel = computed(
   () => URGENCY_LABEL[props.urgency] ?? props.urgency
 );
+const status = computed(() => STATUS_LABEL[props.status] ?? props.status);
 
 const formattedBestTime = computed(() => {
   if (!props.bestTime) return "";
