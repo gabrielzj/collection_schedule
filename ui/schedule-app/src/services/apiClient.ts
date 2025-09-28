@@ -280,15 +280,15 @@ async function getUser(userID: any): Promise<any> {
  * @returns updated user
  */
 async function updateUser(
-  userID: number,
-  method: "PATCH" | "PUT",
+  userID: number | string | null,
+  method: "PUT",
   payload: any
 ): Promise<any> {
   await handleAuthToken();
   try {
     const res = await axios({
       method,
-      url: urlJoin(userBaseUrl, userID.toString(), "/"),
+      url: urlJoin(userBaseUrl, String(userID), "/"),
       data: payload,
       headers: {
         "Content-Type": "application/json",
@@ -334,12 +334,53 @@ async function getCalls(): Promise<any> {
   }
 }
 
-async function deleteCall(callID: number): Promise<void> {
+/**
+ *
+ * @param callID
+ *
+ */
+
+async function deleteCall(callID: number): Promise<any> {
   await handleAuthToken();
   try {
     const res = await axios({
       method: "DELETE",
       url: urlJoin(baseUrl, "calls/", callID.toString(), "/"),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${
+          localStorage.getItem("access_token") ||
+          sessionStorage.getItem("access_token")
+        }`,
+      },
+    });
+    return res.data;
+  } catch (error: any) {
+    if (axios.isAxiosError(error)) {
+      console.error("Axios error:", error.message);
+      console.error("Response data:", error.response?.data);
+    }
+  }
+}
+
+/**
+ *
+ * @param callID
+ * @returns call updated
+ */
+async function updateCall(
+  callID: number | string | null,
+  payload: any
+): Promise<any> {
+  await handleAuthToken();
+  console.log("id no apiclient:", callID);
+  console.log("data no apiclient:", payload);
+  // String(callID)
+  try {
+    const res = await axios({
+      method: "PUT",
+      data: payload,
+      url: urlJoin(baseUrl, "calls/", String(callID), "/"),
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${
@@ -365,4 +406,5 @@ export default {
   updateUser,
   getCalls,
   deleteCall,
+  updateCall,
 };
