@@ -2,9 +2,10 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title color="dark"
+        <ion-title color="dark" v-if="first_name && last_name"
           >Bem-vindo, {{ first_name }} {{ last_name }}</ion-title
         >
+        <ion-title v-else>Bem-vindo, Usuário</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true" class="ion-padding" mode="md">
@@ -29,7 +30,6 @@ import CollectionCallList from "@/components/CollectionCallList.vue";
 import apiClient from "@/services/apiClient";
 import { onBeforeMount, ref } from "vue";
 
-// const userName = ref<string>("");
 const first_name = ref<string>("");
 const last_name = ref<string>("");
 const qtdCalls = ref<number>(0);
