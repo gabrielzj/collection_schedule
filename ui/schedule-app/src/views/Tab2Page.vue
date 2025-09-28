@@ -146,6 +146,7 @@ import {
 import { helpOutline } from "ionicons/icons";
 import apiClient from "@/services/apiClient";
 import { ref } from "vue";
+import dayjs from "dayjs";
 
 type WasteType =
   | "plastic"
@@ -164,19 +165,6 @@ const urgency = ref<Urgency | null>(null);
 const amount_to_collect = ref<string | null>(null);
 const best_time_for_collect = ref<string | null>(null);
 
-// const requestValues = computed<
-//   (WasteType | Urgency | string | number | null)[]
-// >(() => [
-//   type.value,
-//   address.value,
-//   description.value,
-//   urgency.value,
-//   amount_to_collect.value != null && amount_to_collect.value !== ""
-//     ? Number(amount_to_collect.value)
-//     : null,
-//   best_time_for_collect.value,
-// ]);
-
 const submitCall = async () => {
   if (!type.value || !address.value || !urgency.value) {
     console.warn("Preencha tipo, endereço e data/hora.");
@@ -189,6 +177,8 @@ const submitCall = async () => {
     return;
   }
 
+  console.log("DATA HORA:", best_time_for_collect.value);
+  console.log("DATE:", date);
   const payload = {
     type: type.value,
     address: address.value,
@@ -198,10 +188,11 @@ const submitCall = async () => {
       amount_to_collect.value != null && amount_to_collect.value !== ""
         ? Number(amount_to_collect.value)
         : null,
-    best_time_for_collect: date.toISOString(),
+    best_time_for_collect: dayjs(date).format("YYYY-MM-DDTHH:mm:ss"),
   };
   // tem q manualmente selecionar a data se não é enviado null
   try {
+    console.log("Enviando chamado:", payload);
     await apiClient.createCall(payload);
   } catch (error: any) {
     console.error("Erro ao enviar chamado:", error);
