@@ -12,22 +12,10 @@
     <ion-content :fullscreen="false" mode="md">
       <div class="form-container">
         <form @submit.prevent="onSubmit">
-          <!-- <div class="input-container">
-            <ion-input
-              label="Nome Completo"
-              label-placement="stacked"
-              v-model="form.username"
-              @keydown="blockNumbers($event)"
-              type="text"
-              autocomplete="name"
-              placeholder="Seu nome completo"
-              fill="outline"
-              :clear-input="true"
-            />
-          </div> -->
           <div class="input-container">
             <ion-input
               label="Primeiro Nome"
+              placeholder="Seu primeiro nome"
               label-placement="stacked"
               v-model="form.first_name"
               @keydown="blockNumbers($event)"
@@ -39,6 +27,7 @@
           <div class="input-container">
             <ion-input
               label="Último Nome"
+              placeholder="Seu último nome"
               label-placement="stacked"
               v-model="form.last_name"
               @keydown="blockNumbers($event)"
@@ -87,7 +76,12 @@
             />
           </div>
 
-          <ion-button type="submit" expand="block" class="submit-btn">
+          <ion-button
+            shape="round"
+            type="submit"
+            expand="block"
+            class="submit-btn"
+          >
             Editar
           </ion-button>
           <ion-note color="danger" v-if="errorExists">{{
@@ -123,6 +117,11 @@ const form = reactive({
   address: "",
   phone_number: "",
 });
+
+const errorExists = ref<boolean>(false);
+const errorMessage = ref<string>("");
+const emailInput = ref<InstanceType<typeof IonInput> | null>(null);
+const phoneInput = ref<InstanceType<typeof IonInput> | null>(null);
 
 onMounted(async () => {
   try {
@@ -172,84 +171,27 @@ function hideError(): void {
   errorExists.value = false;
 }
 
-// transforma o objeto 'form' em array e aplica função interna (arrow function)
-// para verificar se algum valor é vazio
-const isKeyEmpty = computed(() =>
-  Object.values(form).some((value) => value === "")
-);
-
 async function onSubmit(): Promise<void> {
   {
-    // const formattedUsername = form.username.replace(/\s+/g, " ").trim();
     form.phone_number = handlePhoneInput(form.phone_number);
-    // const phoneDigits = form.phone_number.replace(/\D/g, "");
     form.email = handleEmailInput(form.email);
-
-    // if (form.phone_number.length < 10 || form.phone_number.length > 11) {
-    //   errorExists.value = true;
-    //   errorMessage.value = "Número de telefone inválido.";
-    //   setTimeout(hideError, 3000);
-    //   return;
-    // }
-
-    // remover campos vazios do arrary do payload
-    if (
-      form.first_name != "" &&
-      form.last_name != "" &&
-      form.email != "" &&
-      form.address != "" &&
-      form.phone_number != ""
-    ) {
-      try {
-        console.log(form);
-        console.log({ ...form });
-        await apiClient.updateUser(
-          localStorage.getItem("user_id") || sessionStorage.getItem("user_id"),
-          "PUT",
-          form
-        );
-      } catch (error: any) {
-        errorExists.value = true;
-        setTimeout(hideError, 3000);
-        errorMessage.value =
-          error?.response?.data || "Falha ao cadastrar. Tente novamente.";
-        if (error.response) {
-          console.error("Resposta do servidor:", error.response?.data?.detail);
-        }
-      }
-    } else if (isKeyEmpty.value) {
-      console.log(form);
-      console.log({ ...form });
-      // cria uma lista chave-valor sem "", null e undefined e transforma em objeto
-      const new_form = Object.fromEntries(
-        Object.entries(form).filter(
-          ([_, value]) => value !== "" && value !== null && value !== undefined
-        )
+    try {
+      await apiClient.updateUser(
+        localStorage.getItem("user_id") || sessionStorage.getItem("user_id"),
+        "PUT",
+        form
       );
-      console.log(new_form);
-      try {
-        await apiClient.updateUser(
-          localStorage.getItem("user_id") || sessionStorage.getItem("user_id"),
-          "PATCH",
-          new_form
-        );
-      } catch (error: any) {
-        errorExists.value = true;
-        setTimeout(hideError, 3000);
-        errorMessage.value =
-          error?.response?.data || "Falha ao cadastrar. Tente novamente.";
-        if (error.response) {
-          console.error("Resposta do servidor:", error.response?.data?.detail);
-        }
+    } catch (error: any) {
+      errorExists.value = true;
+      setTimeout(hideError, 3000);
+      errorMessage.value =
+        error?.response?.data || "Falha ao cadastrar. Tente novamente.";
+      if (error.response) {
+        console.error("Resposta do servidor:", error.response?.data?.detail);
       }
     }
   }
 }
-
-const errorExists = ref<boolean>(false);
-const errorMessage = ref<string>("");
-const emailInput = ref<InstanceType<typeof IonInput> | null>(null);
-const phoneInput = ref<InstanceType<typeof IonInput> | null>(null);
 </script>
 <style scoped>
 .form-container {
