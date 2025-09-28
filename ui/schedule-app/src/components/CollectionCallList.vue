@@ -28,9 +28,19 @@
           :urgency="call.urgency"
           :best-time="call.best_time_for_collect"
           :callID="call.id"
+          :status="call.status"
+          :is-open="isModalOpen"
+          @click="openModal(call)"
         />
       </template>
+      <ion-button shape="round" @click="test"> Teste </ion-button>
     </ion-list>
+    <CollectionCallInfo
+      v-if="selectedCall"
+      :is-open="isModalOpen"
+      :call="selectedCall"
+      @dismiss="closeModal"
+    />
   </section>
 </template>
 
@@ -39,6 +49,7 @@ import { onMounted, ref } from "vue";
 import { IonList, IonItem, IonLabel, IonButton } from "@ionic/vue";
 import apiClient from "@/services/apiClient";
 import CollectionCallCard from "@/components/CollectionCallCard.vue";
+import CollectionCallInfo from "@/components/CollectionCallInfo.vue";
 
 type WasteType =
   | "paper"
@@ -57,42 +68,54 @@ interface CollectionCall {
   address: string;
   urgency: Urgency;
   best_time_for_collect?: string | null;
+  status: string;
 }
 
 const loading = ref(true);
 const error = ref<string | null>(null);
 const calls = ref<CollectionCall[]>([]);
+const isModalOpen = ref<boolean>(false);
+const selectedCall = ref<CollectionCall | null>(null);
 
 const emit = defineEmits(["qtdCalls"]);
+
+const openModal = (call: CollectionCall) => {
+  selectedCall.value = call;
+  isModalOpen.value = true;
+};
+
+const closeModal = () => {
+  isModalOpen.value = false;
+  selectedCall.value = null;
+};
 
 onMounted(async () => {
   try {
     const data = await apiClient.getCalls();
-    console.log(data);
-    // const currentUserId = Number(localStorage.getItem("user_id"));
     calls.value = Array.isArray(data)
-      ? data
-          // .filter((d) =>
-          //   Number.isFinite(currentUserId) && d.user != null
-          //     ? Number(d.user) === currentUserId
-          //     : true
-          // )
-          .map((d) => ({
-            id: d.id,
-            type: d.type,
-            address: d.address ?? "Endereço não informado",
-            urgency: d.urgency,
-            best_time_for_collect: d.best_time_for_collect,
-          }))
+      ? data.map((d) => ({
+          id: d.id,
+          type: d.type,
+          description: d.description,
+          address: d.address ?? "Endereço não informado",
+          urgency: d.urgency,
+          amount_to_collect: d.amount_to_collect,
+          best_time_for_collect: d.best_time_for_collect,
+          status: d.status,
+        }))
       : [];
     emit("qtdCalls", calls.value.length);
-    console.log("Quantidade de chamados:", calls.value.length);
   } catch (e: any) {
     error.value = e?.message ?? "Falha ao carregar";
   } finally {
     loading.value = false;
   }
 });
+
+const test = () => {
+  console.log("testando....");
+  console.log(calls.value.pop());
+};
 </script>
 
 <style scoped>
