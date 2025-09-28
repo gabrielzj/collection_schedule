@@ -34,19 +34,6 @@
               :clear-input="true"
             />
           </div>
-          <!-- <div class="input-container">
-            <ion-input
-              label="Nome Completo"
-              label-placement="stacked"
-              v-model="form.username"
-              @keydown="blockNumbers($event)"
-              type="text"
-              autocomplete="name"
-              placeholder="Seu nome completo"
-              fill="outline"
-              :clear-input="true"
-            />
-          </div> -->
           <div class="input-container">
             <ion-input
               ref="emailInput"
@@ -145,60 +132,6 @@ const errorMessage = ref<string>("");
 const emailInput = ref<InstanceType<typeof IonInput> | null>(null);
 const phoneInput = ref<InstanceType<typeof IonInput> | null>(null);
 
-// function isValidEmail(email: any): boolean {
-//   return /^(?=.{1,254}$)(?=.{1,64}@)[a-zA-Z0-9!#$= %&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(
-//     email
-//   );
-// }
-
-// function onEmailInput(ev: CustomEvent): void {
-//   const value = String((ev as any).detail?.value ?? "");
-//   const el = emailInput.value?.$el as HTMLElement | undefined;
-//   if (!el) return;
-
-//   el.classList.remove("ion-valid", "ion-invalid");
-
-//   if (value === "") return;
-
-//   if (isValidEmail(value)) {
-//     el.classList.add("ion-valid");
-//   } else {
-//     el.classList.add("ion-invalid");
-//   }
-// }
-
-// function markEmailTouched() {
-//   const el = emailInput.value?.$el as HTMLElement | undefined;
-//   el?.classList.add("ion-touched");
-// }
-
-// function isPhoneValid(phone: any): boolean {
-//   const regex =
-//     /^(\+?55\s?)?((\([1-9]{2}\))|\d{2}\s?)([9]\d{4}|\d{4})[\s.-]?(\d{4})$/;
-//   const digits = phone.replace(/\D/g, "");
-//   return regex.test(digits);
-// }
-
-// function onPhoneInput(ev: CustomEvent): void {
-//   const value = String((ev as any).detail?.value ?? "");
-//   const hostEl = ev.target as HTMLElement | undefined;
-//   if (!hostEl) return;
-
-//   hostEl.classList.remove("ion-valid", "ion-invalid");
-
-//   if (value === "") return;
-
-//   if (isPhoneValid(value)) {
-//     hostEl.classList.add("ion-valid");
-//   } else {
-//     hostEl.classList.add("ion-invalid");
-//   }
-// }
-
-// function markPhoneTouched(ev: Event): void {
-//   (ev.target as HTMLElement | null)?.classList.add("ion-touched");
-// }
-
 function blockNumbers(ev: any) {
   const char = ev.key;
   if (!/^[a-zA-Z\s]$/.test(char) && ev.key !== "Backspace") {
@@ -206,9 +139,9 @@ function blockNumbers(ev: any) {
   }
 }
 
-async function handleSubmit(): Promise<any> {
+function handleSubmit() {
   errorExists.value = false;
-  await router.push("/login");
+  return router.replace("/login");
 }
 
 function hideError(): void {
@@ -224,23 +157,7 @@ function handleEmailInput(value: string): string {
   return input;
 }
 
-// function handlePhoneInput(value: string): string {
-//   let input = value
-//     .replace(/\D/g, "")
-//     .replace(/(\d{2})(\d)/, "($1) $2")
-//     .replace(/(\d{4})(\d)/, "$1-$2")
-//     .replace(/(\d{4})-(\d)(\d{4})/, "$1$2-$3")
-//     .replace(/(-\d{4})\d+?$/, "$1");
-//   return input;
-// }
-
 async function onSubmit(): Promise<void> {
-  if (!form) {
-    errorExists.value = true;
-    errorMessage.value = "Preencha todos os campos.";
-    setTimeout(hideError, 3000);
-    return;
-  }
   const formattedFirstName = form.first_name.replace(/\s+/g, " ").trim();
   const formattedLastName = form.last_name.replace(/\s+/g, " ").trim();
   // const formattedPhoneNumber = handlePhoneInput(form.phone_number);
@@ -265,13 +182,6 @@ async function onSubmit(): Promise<void> {
     return;
   }
 
-  // if (form.phone_number.length < 10 || form.phone_number.length > 11) {
-  //   errorExists.value = true;
-  //   errorMessage.value = "Número de telefone inválido.";
-  //   setTimeout(hideError, 3000);
-  //   return;
-  // }
-
   try {
     await apiClient.registerUser({
       ...form,
@@ -279,13 +189,13 @@ async function onSubmit(): Promise<void> {
       last_name: formattedLastName,
       // phone_number: phoneDigits,
     });
-    await handleSubmit();
     form.first_name = "";
     form.last_name = "";
     form.email = "";
     form.password = "";
     form.address = "";
     form.phone_number = "";
+    await handleSubmit();
   } catch (error: any) {
     errorExists.value = true;
     setTimeout(hideError, 3000);
