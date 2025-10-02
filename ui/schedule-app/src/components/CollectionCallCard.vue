@@ -49,6 +49,8 @@ import { locationOutline, timeOutline, closeOutline } from "ionicons/icons";
 import { computed } from "vue";
 import apiClient from "@/services/apiClient";
 
+const emit = defineEmits(["deleted"]);
+
 type WasteType =
   | "paper"
   | "metal"
@@ -116,6 +118,8 @@ const formattedBestTime = computed(() => {
 const deleteCall = async () => {
   try {
     await apiClient.deleteCall(props.callID);
+    console.log("ID da call deletada:", props.callID);
+    emit("deleted", props.callID);
     console.log(`Chamado de ID ${props.callID} deletado`);
   } catch (error: any) {
     console.error("Falha ao deletar o chamado");

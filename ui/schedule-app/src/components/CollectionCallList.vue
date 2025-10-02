@@ -31,9 +31,9 @@
           :status="call.status"
           :is-open="isModalOpen"
           @click="openModal(call)"
+          @deleted="deleteCall"
         />
       </template>
-      <ion-button shape="round" @click="test"> Teste </ion-button>
     </ion-list>
     <CollectionCallInfo
       v-if="selectedCall"
@@ -65,8 +65,10 @@ type Urgency = "low" | "medium" | "high";
 interface CollectionCall {
   id: number;
   type: WasteType;
+  description?: string;
   address: string;
   urgency: Urgency;
+  amount_to_collect?: number;
   best_time_for_collect?: string | null;
   status: string;
 }
@@ -77,7 +79,7 @@ const calls = ref<CollectionCall[]>([]);
 const isModalOpen = ref<boolean>(false);
 const selectedCall = ref<CollectionCall | null>(null);
 
-const emit = defineEmits(["qtdCalls"]);
+const emit = defineEmits(["qtdCalls", "updateCalls"]);
 
 const openModal = (call: CollectionCall) => {
   selectedCall.value = call;
@@ -112,9 +114,12 @@ onMounted(async () => {
   }
 });
 
-const test = () => {
-  console.log("testando....");
-  console.log(calls.value.pop());
+const deleteCall = (callID: number) => {
+  console.log("array antes:", calls.value);
+  calls.value = calls.value.filter((call) => call.id !== callID);
+  console.log(calls.value.length);
+  emit("updateCalls", calls.value.length);
+  console.log("array depois:", calls.value);
 };
 </script>
 

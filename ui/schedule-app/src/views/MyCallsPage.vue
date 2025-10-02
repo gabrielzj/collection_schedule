@@ -12,7 +12,7 @@
       <ion-text color="medium">
         <h2>Meus Chamados: {{ qtdCalls }}</h2>
       </ion-text>
-      <CollectionCallList @qtd-calls="userCalls" />
+      <CollectionCallList @updateCalls="updateCalls" @qtdCalls="userCalls" />
     </ion-content>
   </ion-page>
 </template>
@@ -35,6 +35,10 @@ const last_name = ref<string>("");
 const qtdCalls = ref<number>(0);
 
 function userCalls(qtd: number) {
+  qtdCalls.value = qtd;
+}
+
+function updateCalls(qtd: number) {
   qtdCalls.value = qtd;
 }
 
