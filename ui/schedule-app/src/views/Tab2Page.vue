@@ -177,8 +177,6 @@ const submitCall = async () => {
     return;
   }
 
-  console.log("DATA HORA:", best_time_for_collect.value);
-  console.log("DATE:", date);
   const payload = {
     type: type.value,
     address: address.value,

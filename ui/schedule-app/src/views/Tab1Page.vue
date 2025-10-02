@@ -59,7 +59,6 @@ import metalWaste from "@/assets/metal-waste.jpg";
 import organicWaste from "@/assets/organic-waste.jpg";
 import otherWaste from "@/assets/other-waste.jpg";
 import paperWaste from "@/assets/paper-waste.jpg";
-import recyclableWaste from "@/assets/recyclable-waste.jpg";
 import plasticWaste from "@/assets/plastic-waste.jpg";
 import residualWaste from "@/assets/residual-waste.jpg";
 import specialWaste from "@/assets/special-waste.jpg";

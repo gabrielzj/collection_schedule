@@ -110,7 +110,7 @@ async function handleAuthToken(): Promise<void> {
   const accessToken = storage?.getItem("access_token") || null;
 
   if (!accessToken) {
-    router.push("login/");
+    router.push("/login");
     throw new Error("Token de acesso não encontrado");
   }
 
