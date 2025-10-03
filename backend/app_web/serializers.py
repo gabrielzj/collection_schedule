@@ -22,9 +22,11 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         return data
     
 class UserWebSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True, min_length=8, required=False)
+    
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'password', 'profile_type']
+        fields = ['id', 'first_name', 'last_name', 'email', 'password', 'phone_number', 'address']
 
     def validate_profile_type(self, value):
         if value != User.USER_TYPE_WEB:
@@ -38,3 +40,11 @@ class UserWebSerializer(serializers.ModelSerializer):
     
     def create(self, validated_data):
         return User.objects.create_user(**validated_data)
+    
+class CollectionCallWebSerializer(serializers.ModelSerializer):
+    user = UserWebSerializer()
+    
+    class Meta:
+        model = CollectionCall
+        fields = ['id', 'type', 'address', 'amount_to_collect', 'description', 'urgency', 'status', 
+                  'best_time_for_collect', 'user']

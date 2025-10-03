@@ -58,7 +58,7 @@ class UserSerializer(serializers.ModelSerializer):
         return value
 
     def create(self, validated_data):
-        # remove a senha para tratans formar em hash com set_password
+        # remove a senha para transformar em hash com set_password
         raw_password = validated_data.pop('password', None)
         
         # padroniza emails
