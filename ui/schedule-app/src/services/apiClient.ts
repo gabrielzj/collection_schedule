@@ -258,7 +258,6 @@ async function getUser(userID: any): Promise<any> {
       url: urlJoin(userBaseUrl, userID.toString()),
       headers: {
         "Content-Type": "application/json",
-        "ngrok-skip-browser-warning": "1",
         Authorization: `Bearer ${
           localStorage.getItem("access_token") ||
           sessionStorage.getItem("access_token")
@@ -321,7 +320,6 @@ async function getCalls(): Promise<any> {
       url: urlJoin(baseUrl, "calls/"),
       headers: {
         "Content-Type": "application/json",
-        "ngrok-skip-browser-warning": "1",
         Authorization: `Bearer ${
           localStorage.getItem("access_token") ||
           sessionStorage.getItem("access_token")
