@@ -7,7 +7,8 @@ interface AuthResponse {
   refresh?: string;
 }
 
-const baseUrl: string = "http://localhost:8000/app-api";
+const baseUrl: string =
+  process.env.NGROK_URL || "http://localhost:8000/app-api/";
 const userBaseUrl: string = urlJoin(baseUrl, "users/");
 
 /**
@@ -110,7 +111,7 @@ async function handleAuthToken(): Promise<void> {
   const accessToken = storage?.getItem("access_token") || null;
 
   if (!accessToken) {
-    router.push("/login");
+    router.replace("/login");
     throw new Error("Token de acesso não encontrado");
   }
 
@@ -131,7 +132,7 @@ async function handleAuthToken(): Promise<void> {
       localStorage.removeItem("refresh_token");
       sessionStorage.removeItem("access_token");
       sessionStorage.removeItem("refresh_token");
-      router.push("/login");
+      router.replace("/login");
       throw new Error("Refresh token não encontrado");
     }
 
@@ -144,7 +145,7 @@ async function handleAuthToken(): Promise<void> {
       localStorage.removeItem("refresh_token");
       sessionStorage.removeItem("access_token");
       sessionStorage.removeItem("refresh_token");
-      router.push("/login");
+      router.replace("/login");
       throw new Error("Sessão expirada. Faça login novamente");
     }
 
@@ -171,7 +172,7 @@ async function handleAuthToken(): Promise<void> {
       localStorage.removeItem("refresh_token");
       sessionStorage.removeItem("access_token");
       sessionStorage.removeItem("refresh_token");
-      router.push("/login");
+      router.replace("/login");
       throw new Error("Erro ao renovar token. Faça login novamente");
     }
   }
@@ -257,6 +258,7 @@ async function getUser(userID: any): Promise<any> {
       url: urlJoin(userBaseUrl, userID.toString()),
       headers: {
         "Content-Type": "application/json",
+        "ngrok-skip-browser-warning": "1",
         Authorization: `Bearer ${
           localStorage.getItem("access_token") ||
           sessionStorage.getItem("access_token")
@@ -319,6 +321,7 @@ async function getCalls(): Promise<any> {
       url: urlJoin(baseUrl, "calls/"),
       headers: {
         "Content-Type": "application/json",
+        "ngrok-skip-browser-warning": "1",
         Authorization: `Bearer ${
           localStorage.getItem("access_token") ||
           sessionStorage.getItem("access_token")
