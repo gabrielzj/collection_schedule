@@ -34,6 +34,7 @@ class CollectionCall(models.Model):
     URGENCY_HIGH = 'high'
 
     STATUS_PENDING = 'pending'
+    STATUS_UNDER_ANALYSIS = 'in_process'
     STATUS_COMPLETED = 'completed'
     STATUS_FAILED = 'failed'
     
@@ -57,6 +58,7 @@ class CollectionCall(models.Model):
         (STATUS_PENDING, 'Pendente'),
         (STATUS_COMPLETED, 'Finalizada'),
         (STATUS_FAILED, 'Cancelada'),
+        (STATUS_UNDER_ANALYSIS, 'Em Andamento'),
     ]
     
     TYPES = [
