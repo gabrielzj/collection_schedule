@@ -94,56 +94,56 @@ const wasteInfo: WasteInfo[] = [
     image: paperWaste,
     title: "Papel",
     description:
-      "Descarte papéis de forma correta e contribua para a preservação ambiental. Saiba como separar, armazenar e encaminhar o papel para reciclagem",
+      "Recicle papéis e ajude a reduzir o desperdício. Separe, dobre e encaminhe corretamente!",
   },
   {
     type: "metal",
     image: metalWaste,
     title: "Metal",
     description:
-      "Lorem ipsum dolor sit amet. At beatae porro et amet velit est delectus dolorum sit amet nostrum. Est corporis repellendus ab iste dolorem est magnam quae",
+      "Dê nova vida às latas e sucatas! Reciclar metal economiza energia e preserva recursos.",
   },
   {
     type: "plastic",
     image: plasticWaste,
     title: "Plástico",
     description:
-      "Lorem ipsum dolor sit amet. At beatae porro et amet velit est delectus dolorum sit amet nostrum. Est corporis repellendus ab iste dolorem est magnam quae",
+      "Transforme o plástico em algo útil. Limpe, separe e encaminhe para reciclagem.",
   },
   {
     type: "electronic",
     image: eWaste,
     title: "Eletrônico",
     description:
-      "Lorem ipsum dolor sit amet. At beatae porro et amet velit est delectus dolorum sit amet nostrum. Est corporis repellendus ab iste dolorem est magnam quae",
+      "Descubra como descartar eletrônicos com segurança e evitar danos ao meio ambiente.",
   },
   {
     type: "organic",
     image: organicWaste,
     title: "Orgânico",
     description:
-      "Lorem ipsum dolor sit amet. At beatae porro et amet velit est delectus dolorum sit amet nostrum. Est corporis repellendus ab iste dolorem est magnam quae",
+      "Restos de comida e folhas viram adubo! Separe corretamente e contribua com a compostagem.",
   },
   {
     type: "glass",
     image: glassWaste,
     title: "Vidro",
     description:
-      "Lorem ipsum dolor sit amet. At beatae porro et amet velit est delectus dolorum sit amet nostrum. Est corporis repellendus ab iste dolorem est magnam quae",
+      "Vidros podem ser reciclados infinitas vezes. Lave bem e evite misturar com outros resíduos.",
   },
   {
     type: "residual_waste",
     image: residualWaste,
     title: "Rejeitos",
     description:
-      "Lorem ipsum dolor sit amet. At beatae porro et amet velit est delectus dolorum sit amet nostrum. Est corporis repellendus ab iste dolorem est magnam quae",
+      "São resíduos sem reaproveitamento. Reduza ao máximo e descarte de forma responsável.",
   },
   {
     type: "other",
     image: otherWaste,
     title: "Outros",
     description:
-      "Lorem ipsum dolor sit amet. At beatae porro et amet velit est delectus dolorum sit amet nostrum. Est corporis repellendus ab iste dolorem est magnam quae",
+      "Resíduos que não se encaixam nas outras categorias. Informe-se sobre o destino correto.",
   },
   {
     type: "special",
