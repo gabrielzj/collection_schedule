@@ -19,6 +19,7 @@
       <select v-model="statusFilter">
         <option value="">Status (todos)</option>
         <option value="pending">Pendente</option>
+        <option value="in_process">Em Andamento</option>
         <option value="completed">Finalizada</option>
         <option value="failed">Cancelada</option>
       </select>
@@ -63,7 +64,7 @@
 import { ref, computed, onMounted } from 'vue';
 import CollectionCallCard from '@/components/CollectionCard.vue';
 import CollectionInfoModal from '@/components/CollectionInfoModal.vue';
-import axios from 'axios';
+import apiClient from '@/services/apiClient';
 
 interface User {
   id: number;
@@ -106,22 +107,14 @@ function closeModal() {
   selectedCall.value = undefined;
 }
 
-const API_URL = 'http://localhost:8000/web-api/calls/';
-
 async function fetchCalls() {
   loading.value = true;
   error.value = null;
   try {
-    const resp = await axios(API_URL, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        // 'Authorization': `Bearer ${token}`
-      },
-    });
-    console.log(resp.data);
+    const resp = await apiClient.listAllCalls();
+    console.log(resp);
 
-    calls.value = resp.data.map((d: any) => ({
+    calls.value = resp.map((d: any) => ({
       id: d.id,
       user: d.user,
       type: d.type,
