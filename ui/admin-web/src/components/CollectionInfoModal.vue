@@ -47,13 +47,14 @@
 
       <footer class="modal-footer">
         <button class="btn neutral" @click="closeModal">Fechar</button>
-        <button class="btn secondary">Confirmar</button>
+        <button class="btn secondary" @click="updateStatus">Confirmar</button>
       </footer>
     </div>
   </div>
 </template>
 <script setup lang="ts">
 import { computed } from 'vue';
+import apiClient from '@/services/apiClient';
 
 interface User {
   id: number;
@@ -107,6 +108,7 @@ const STATUS_LABELS: Record<string, string> = {
   pending: 'Pendente',
   completed: 'Finalizada',
   failed: 'Cancelada',
+  in_process: 'Em Andamento',
 };
 
 const URGENCY_LABELS: Record<string, string> = {
@@ -123,6 +125,20 @@ const emit = defineEmits(['closeModal']);
 
 const closeModal = () => {
   emit('closeModal', false);
+};
+
+const status_in_process = 'in_process';
+
+//  ver pq não altera o status
+const updateStatus = async () => {
+  try {
+    console.log(props.call.id);
+    const resp = await apiClient.updateCallStatus(props.call.id, status_in_process);
+    console.log(resp);
+    closeModal();
+  } catch (error: any) {
+    error.value = error.message || 'Falha inesperada';
+  }
 };
 </script>
 <style scoped>
@@ -287,9 +303,13 @@ const closeModal = () => {
   transition: 0.18s;
 }
 
-.neutral {
+.btn.neutral {
   background: #d1d5d8;
   color: #131c25;
+}
+
+.btn.neutral:hover {
+  background-color: #a7a8a8;
 }
 
 .btn.secondary {

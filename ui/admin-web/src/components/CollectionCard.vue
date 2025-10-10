@@ -20,7 +20,7 @@
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope-fill" viewBox="0 0 16 16">
             <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414zM0 4.697v7.104l5.803-3.558zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586zm3.436-.586L16 11.801V4.697z"/>
           </svg>
-          <strong>E-mail:</strong>
+          <strong>E-mail: </strong>
           <span v-if="call.user?.email" class="email"> {{ call.user.email }}</span>
         </div>
     </p>
@@ -35,7 +35,7 @@
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
         <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
       </svg>
-      <strong>Endereço de Residencia:</strong> <br> {{ call.user.address || '-' }}
+      <strong>Endereço de Residência:</strong> <br> {{ call.user.address || '-' }}
     </p>
     <!-- <p class="line">
       <strong>Melhor Data/Horário de Coleta:</strong>
@@ -50,7 +50,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed } from 'vue';
 
 interface User {
   id: number
@@ -91,6 +91,7 @@ const TYPE_LABELS: Record<string, string> = {
 const STATUS_LABELS: Record<string, string> = {
   pending: 'Pendente',
   completed: 'Finalizada',
+  in_process: 'Em Andamento',
   failed: 'Cancelada',
 }
 
@@ -99,6 +100,7 @@ const URGENCY_LABELS: Record<string, string> = {
   medium: 'Moderada',
   high: 'Alta',
 }
+console.log(props.call.status);
 
 const typeLabel = computed(() => TYPE_LABELS[props.call.type]);
 const statusLabel = computed(() => STATUS_LABELS[props.call.status]);
@@ -203,6 +205,10 @@ function formatDate(value?: string | null) {
   text-transform: uppercase;
   white-space: nowrap;
 }
+
+svg {
+  margin-right: 5px;
+}
 .qtd {
     background: #8eaff5;
     color: #010d27;
@@ -224,6 +230,12 @@ function formatDate(value?: string | null) {
   background: #ffe8b2;
   color: #7a4b00;
 }
+
+.status-in_process .badge.status {
+  background: #fab668;
+  color: #5c3901;
+}
+
 .status-completed .badge.status {
   background: #c6f6d5;
   color: #135c26;
