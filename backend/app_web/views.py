@@ -6,6 +6,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
+from django.shortcuts import get_object_or_404
 
 #TODO: criar view para verify token, ou refresh de token, talvez não 
 # precise criar um serializer para isso, mas sim usar o serializer do SimpleJWT
@@ -38,4 +39,15 @@ def list_calls(request):
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+@api_view(['PUT'])
+@permission_classes([AllowAny])
+def call_status(request, pk):
+    try:
+        call = get_object_or_404(CollectionCall, pk=pk)
+        serializer = CollectionCallWebSerializer(instance=call, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
