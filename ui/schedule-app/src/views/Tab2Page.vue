@@ -186,7 +186,7 @@ const submitCall = async () => {
       amount_to_collect.value != null && amount_to_collect.value !== ""
         ? Number(amount_to_collect.value)
         : null,
-    best_time_for_collect: dayjs(date).format("YYYY-MM-DDTHH:mm:ss"),
+    best_time_for_collect: dayjs(date).format("YYYY-MM-DDTHH:mm:ssZ"),
   };
   // tem q manualmente selecionar a data se não é enviado null
   try {
