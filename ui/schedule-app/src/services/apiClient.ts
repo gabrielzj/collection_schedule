@@ -1,16 +1,35 @@
 import router from "@/router";
 import axios from "axios";
 import urlJoin from "url-join";
+import { Capacitor } from "@capacitor/core";
+
+const isAndroid = Capacitor.getPlatform() === "android";
+
+const defaultBaseUrl = isAndroid
+  ? "http://10.0.2.2:8000/app-api/"
+  : "http://localhost:8000/app-api/";
+
+const baseUrl: string = import.meta.env.VITE_API_URL_NGROK || defaultBaseUrl;
+const userBaseUrl: string = urlJoin(baseUrl, "users/");
+
+console.log("[api] baseUrl:", baseUrl, "| platform:", Capacitor.getPlatform());
+
+axios.defaults.headers.common["ngrok-skip-browser-warning"] = "true";
+// axios.defaults.headers.common["ngrok-skip-browser-warning"] = "true";
+// axios.interceptors.request.use((config) => {
+//   config.headers = config.headers || {};
+//   config.headers["ngrok-skip-browser-warning"] = "true";
+//   config.params = {
+//     ...(config.params || {}),
+//     "ngrok-skip-browser-warning": "true",
+//   };
+//   return config;
+// });
 
 interface AuthResponse {
   access?: string;
   refresh?: string;
 }
-
-const baseUrl: string =
-  process.env.NGROK_URL || "http://localhost:8000/app-api/";
-const userBaseUrl: string = urlJoin(baseUrl, "users/");
-
 /**
  *
  * @param email
@@ -25,6 +44,10 @@ async function getAuth(email: string, password: string): Promise<AuthResponse> {
       data: {
         email,
         password,
+      },
+      headers: {
+        "Content-Type": "application/json",
+        "ngrok-skip-browser-warning": "true",
       },
     });
     localStorage.setItem("user_id", res.data.id);
@@ -52,6 +75,10 @@ async function verifyAuth(token: string): Promise<boolean> {
       url: urlJoin(baseUrl, "auth/token/verify/"),
       data: {
         token: token,
+      },
+      headers: {
+        "Content-Type": "application/json",
+        "ngrok-skip-browser-warning": "true",
       },
     });
     return true;
@@ -83,16 +110,16 @@ async function refreshAuth(token: string): Promise<AuthResponse> {
       data: {
         refresh: token,
       },
+      headers: {
+        "Content-Type": "application/json",
+        "ngrok-skip-browser-warning": "true",
+      },
     });
     return res.data;
   } catch (error: any) {
     if (axios.isAxiosError(error)) {
       console.error("Axios error:", error.message);
     }
-    if (error.response && error.response.data) {
-      return error.response.data;
-    }
-    console.error("Error refreshing auth token:", error);
     throw error;
   }
 }
@@ -154,10 +181,10 @@ async function handleAuthToken(): Promise<void> {
       // Renova o access token usando o refresh token
       const newTokens = await refreshAuth(refreshToken);
       (storage || localStorage).setItem("access_token", newTokens.access || "");
-      (storage || localStorage).setItem(
-        "refresh_token",
-        newTokens.refresh || ""
-      );
+
+      if (newTokens.refresh) {
+        (storage || localStorage).setItem("refresh_token", newTokens.refresh);
+      }
     } catch (error) {
       // Se for erro de rede, manter sessão e permitir que a chamada original falhe por rede.
       if (axios.isAxiosError(error) && !error.response) {
@@ -193,6 +220,7 @@ async function createCall(payload: any): Promise<any> {
       data: payload,
       headers: {
         "Content-Type": "application/json",
+        "ngrok-skip-browser-warning": "true",
         Authorization: `Bearer ${
           localStorage.getItem("access_token") ||
           sessionStorage.getItem("access_token")
@@ -230,6 +258,7 @@ async function registerUser(payload: any): Promise<any> {
       data: payload,
       headers: {
         "Content-Type": "application/json",
+        "ngrok-skip-browser-warning": "true",
       },
     });
     console.log("Usuário criado");
@@ -258,6 +287,7 @@ async function getUser(userID: any): Promise<any> {
       url: urlJoin(userBaseUrl, userID.toString()),
       headers: {
         "Content-Type": "application/json",
+        "ngrok-skip-browser-warning": "true",
         Authorization: `Bearer ${
           localStorage.getItem("access_token") ||
           sessionStorage.getItem("access_token")
@@ -293,6 +323,7 @@ async function updateUser(
       data: payload,
       headers: {
         "Content-Type": "application/json",
+        "ngrok-skip-browser-warning": "true",
         Authorization: `Bearer ${
           localStorage.getItem("access_token") ||
           sessionStorage.getItem("access_token")
@@ -320,6 +351,7 @@ async function getCalls(): Promise<any> {
       url: urlJoin(baseUrl, "calls/"),
       headers: {
         "Content-Type": "application/json",
+        "ngrok-skip-browser-warning": "true",
         Authorization: `Bearer ${
           localStorage.getItem("access_token") ||
           sessionStorage.getItem("access_token")
@@ -349,6 +381,7 @@ async function deleteCall(callID: number): Promise<any> {
       url: urlJoin(baseUrl, "calls/", callID.toString(), "/"),
       headers: {
         "Content-Type": "application/json",
+        "ngrok-skip-browser-warning": "true",
         Authorization: `Bearer ${
           localStorage.getItem("access_token") ||
           sessionStorage.getItem("access_token")
@@ -384,6 +417,7 @@ async function updateCall(
       url: urlJoin(baseUrl, "calls/", String(callID), "/"),
       headers: {
         "Content-Type": "application/json",
+        "ngrok-skip-browser-warning": "true",
         Authorization: `Bearer ${
           localStorage.getItem("access_token") ||
           sessionStorage.getItem("access_token")
