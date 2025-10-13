@@ -79,6 +79,7 @@ const calls = ref<CollectionCall[]>([]);
 const isModalOpen = ref<boolean>(false);
 const selectedCall = ref<CollectionCall | null>(null);
 
+console.log("Calls length list:", calls.value.length);
 const emit = defineEmits(["qtdCalls", "updateCalls"]);
 
 const openModal = (call: CollectionCall) => {
@@ -91,7 +92,9 @@ const closeModal = () => {
   selectedCall.value = null;
 };
 
-onMounted(async () => {
+const fetchCalls = async () => {
+  loading.value = true;
+  error.value = null;
   try {
     const data = await apiClient.getCalls();
     calls.value = Array.isArray(data)
@@ -112,6 +115,15 @@ onMounted(async () => {
   } finally {
     loading.value = false;
   }
+};
+
+onMounted(async () => {
+  await fetchCalls();
+});
+
+// filho expoe p/ pai
+defineExpose({
+  refresh: fetchCalls,
 });
 
 const deleteCall = (callID: number) => {

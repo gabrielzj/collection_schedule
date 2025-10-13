@@ -9,10 +9,17 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true" class="ion-padding" mode="md">
+      <ion-refresher slot="fixed" @ionRefresh="handleRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+      </ion-refresher>
       <ion-text color="medium">
         <h2>Meus Chamados: {{ qtdCalls }}</h2>
       </ion-text>
-      <CollectionCallList @updateCalls="updateCalls" @qtdCalls="userCalls" />
+      <CollectionCallList
+        ref="listRef"
+        @updateCalls="updateCalls"
+        @qtdCalls="userCalls"
+      />
     </ion-content>
   </ion-page>
 </template>
@@ -25,25 +32,42 @@ import {
   IonTitle,
   IonContent,
   IonText,
+  IonRefresherContent,
+  IonRefresher,
+  RefresherCustomEvent,
 } from "@ionic/vue";
 import CollectionCallList from "@/components/CollectionCallList.vue";
 import apiClient from "@/services/apiClient";
 import { onBeforeMount, ref } from "vue";
+
+const listRef = ref<InstanceType<typeof CollectionCallList> | null>(null);
+
+const handleRefresh = async (event: RefresherCustomEvent) => {
+  try {
+    await listRef.value?.refresh();
+    await fetchUserData();
+  } catch (error: any) {
+    console.error("Falha ao buscar usuário");
+  } finally {
+    event.target.complete();
+  }
+};
 
 const first_name = ref<string>("");
 const last_name = ref<string>("");
 const qtdCalls = ref<number>(0);
 
 function userCalls(qtd: number) {
+  console.log("User calls qtd:", qtd);
   qtdCalls.value = qtd;
 }
 
 function updateCalls(qtd: number) {
+  console.log("Update calls qtd:", qtd);
   qtdCalls.value = qtd;
 }
 
-// ver de receber o name do backend no login
-onBeforeMount(async () => {
+async function fetchUserData() {
   try {
     const data = await apiClient.getUser(localStorage.getItem("user_id"));
     first_name.value = data["first_name"];
@@ -51,6 +75,10 @@ onBeforeMount(async () => {
   } catch (error: any) {
     console.error("Falha ao buscar usuário");
   }
+}
+// ver de receber o name do backend no login
+onBeforeMount(() => {
+  fetchUserData();
 });
 </script>
 
