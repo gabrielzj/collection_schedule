@@ -48,6 +48,9 @@ import {
 import { locationOutline, timeOutline, closeOutline } from "ionicons/icons";
 import { computed } from "vue";
 import apiClient from "@/services/apiClient";
+import { parseISO } from "date-fns";
+import { formatInTimeZone } from "date-fns-tz";
+import { ptBR } from "date-fns/locale";
 
 const emit = defineEmits(["deleted"]);
 
@@ -103,16 +106,25 @@ const status = computed(() => STATUS_LABEL[props.status] ?? props.status);
 
 const formattedBestTime = computed(() => {
   if (!props.bestTime) return "";
-  const date = new Date(props.bestTime);
-  if (Number.isNaN(date.getTime())) return props.bestTime as string;
-  return date.toLocaleString("pt-BR", {
-    weekday: "short",
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+  console.log("Best time no card:", props.bestTime);
+  // const date = new Date(props.bestTime);
+  // console.log("Date no card:", date);
+  // if (Number.isNaN(date.getTime())) return props.bestTime as string;
+  // return date.toLocaleString("pt-BR", {
+  //   weekday: "short",
+  //   day: "2-digit",
+  //   month: "short",
+  //   year: "numeric",
+  //   hour: "2-digit",
+  //   minute: "2-digit",
+  // });
+  const formattedBestTime = formatInTimeZone(
+    parseISO(props.bestTime),
+    "America/Sao_Paulo",
+    "EEEE, dd 'de' MMMM 'de' yyyy 'às' HH:mm'h'",
+    { locale: ptBR }
+  );
+  return formattedBestTime;
 });
 
 const deleteCall = async () => {
