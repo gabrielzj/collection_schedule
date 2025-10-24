@@ -4,15 +4,14 @@ import urlJoin from 'url-join';
 
 const baseUrl: string = 'http://localhost:8000/web-api/';
 
-async function updateCallStatus(id: number, payload: string): Promise<any> {
+async function updateCallStatus(id: number, status: string): Promise<any> {
   try {
     console.log('ID:', id);
-    console.log('Payload:', payload, typeof payload);
-    console.log('Payload convertido:', JSON.stringify(payload));
+    console.log('Payload convertido:', JSON.stringify(status));
 
     const res = await axios({
       method: 'PUT',
-      data: JSON.stringify({ payload }),
+      data: JSON.stringify({ status }),
       url: urlJoin(baseUrl, 'calls/status/', String(id), '/'),
       headers: {
         'Content-Type': 'application/json',
