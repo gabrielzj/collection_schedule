@@ -18,8 +18,9 @@
         ></ion-icon>
       </div>
       <ion-label class="intro-text">
-        Deseja descartar algo específico? Crie um <b>chamado de coleta</b> e
-        informe os órgãos de coleta sobre sua necessidade.
+        Deseja descartar algo específico, ou possui grandes volumes de resíduos?
+        Crie um <b>chamado de coleta</b> e informe os órgãos de coleta sobre sua
+        necessidade.
       </ion-label>
       <ion-item-divider></ion-item-divider>
       <form @submit.prevent="submitCall">
@@ -146,6 +147,7 @@ import {
 import { helpOutline } from "ionicons/icons";
 import apiClient from "@/services/apiClient";
 import { ref } from "vue";
+import router from "@/router";
 import dayjs from "dayjs";
 
 type WasteType =
@@ -188,10 +190,10 @@ const submitCall = async () => {
         : null,
     best_time_for_collect: dayjs(date).format("YYYY-MM-DDTHH:mm:ssZ"),
   };
-  // tem q manualmente selecionar a data se não é enviado null
   try {
     console.log("Enviando chamado:", payload);
     await apiClient.createCall(payload);
+    router.replace("/home");
   } catch (error: any) {
     console.error("Erro ao enviar chamado:", error);
   }
