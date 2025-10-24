@@ -3,7 +3,7 @@
     <ion-card-header>
       <div class="header-container">
         <ion-toolbar>
-          <ion-card-title>{{ typeLabel }}</ion-card-title>
+          <ion-card-title color="medium">{{ typeLabel }}</ion-card-title>
           <ion-buttons slot="end">
             <ion-button @click.stop="deleteCall">
               <ion-icon :icon="closeOutline"></ion-icon>
@@ -26,7 +26,7 @@
       </div>
       <!-- Adicionar Status -->
       <div class="row" v-if="status">
-        <ion-icon class="icon" :icon="timeOutline" aria-hidden="true" />
+        <ion-icon class="icon" :icon="readerOutline" aria-hidden="true" />
         <span class="text">{{ status }}</span>
       </div>
     </ion-card-content>
@@ -45,7 +45,12 @@ import {
   IonButton,
   IonToolbar,
 } from "@ionic/vue";
-import { locationOutline, timeOutline, closeOutline } from "ionicons/icons";
+import {
+  locationOutline,
+  timeOutline,
+  closeOutline,
+  readerOutline,
+} from "ionicons/icons";
 import { computed } from "vue";
 import apiClient from "@/services/apiClient";
 import { parseISO } from "date-fns";
