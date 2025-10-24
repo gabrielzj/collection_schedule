@@ -181,6 +181,7 @@ async function onSubmit(): Promise<void> {
         "PUT",
         form
       );
+      router.replace("/home");
     } catch (error: any) {
       errorExists.value = true;
       setTimeout(hideError, 3000);
