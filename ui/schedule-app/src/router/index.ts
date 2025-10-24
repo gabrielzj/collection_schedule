@@ -3,7 +3,7 @@ import { RouteRecordRaw } from "vue-router";
 import TabsPage from "../views/TabsPage.vue";
 import Tab1Page from "@/views/Tab1Page.vue";
 import Tab2Page from "@/views/Tab2Page.vue";
-import loginPage from "@/views/Login.vue";
+import loginPage from "@/views/login.vue";
 import registerPage from "@/views/Register.vue";
 import MyCallsPage from "@/views/MyCallsPage.vue";
 import logout from "@/views/Logout.vue";
