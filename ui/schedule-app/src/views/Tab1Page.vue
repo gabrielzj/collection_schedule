@@ -145,13 +145,6 @@ const wasteInfo: WasteInfo[] = [
     description:
       "Resíduos que não se encaixam nas outras categorias. Informe-se sobre o destino correto.",
   },
-  {
-    type: "special",
-    image: specialWaste,
-    title: "Especial",
-    description:
-      "Lorem ipsum dolor sit amet. At beatae porro et amet velit est delectus dolorum sit amet nostrum. Est corporis repellendus ab iste dolorem est magnam quae",
-  },
 ];
 
 const wasteModal: WasteModal[] = [
@@ -195,11 +188,11 @@ const wasteModal: WasteModal[] = [
     title: "Outros",
     id: 8,
   },
-  {
-    type: "special",
-    title: "Especiais",
-    id: 9,
-  },
+  // {
+  //   type: "special",
+  //   title: "Especiais",
+  //   id: 9,
+  // },
 ];
 
 const isModalOpen = ref({
