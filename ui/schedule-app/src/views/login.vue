@@ -47,9 +47,6 @@
               Registre-se
             </router-link>
           </div>
-          <div class="forgot-password">
-            <a href="#" @click="handleForgotPassword">Esqueci minha senha</a>
-          </div>
         </div>
       </div>
     </ion-content>
