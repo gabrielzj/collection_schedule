@@ -6,7 +6,7 @@ import Tab2Page from "@/views/Tab2Page.vue";
 import loginPage from "@/views/login.vue";
 import registerPage from "@/views/Register.vue";
 import MyCallsPage from "@/views/MyCallsPage.vue";
-import logout from "@/views/Logout.vue";
+import Logout from "@/views/Logout.vue";
 import userInfo from "@/views/UserInfo.vue";
 
 const routes: Array<RouteRecordRaw> = [
@@ -55,7 +55,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "logout",
         name: "Logout",
-        component: logout,
+        component: Logout,
       },
     ],
   },
