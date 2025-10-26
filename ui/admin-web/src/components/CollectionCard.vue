@@ -7,7 +7,7 @@
     </header>
 
     <p class="line">
-        <p v-if="call.user.first_name && call.user.last_name"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+        <p v-if="call.user.first_name || call.user.last_name"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
           <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
         </svg><span class="label"><strong>Usuário:</strong></span>
         {{ call.user?.first_name }} {{ call.user?.last_name }}
@@ -37,14 +37,9 @@
       </svg>
       <span class="label"><strong>Endereço de Residência:</strong></span> <br> {{ call.user.address || '-' }}
     </p>
-    <!-- <p class="line">
-      <strong>Melhor Data/Horário de Coleta:</strong>
-      {{ formatDate(call.best_time_for_collect) || '-' }}
-    </p> -->
 
     <footer class="footer">
       <span class="badge light">ID: {{ call.id }}</span>
-      <!-- <span class="badge qtd">Quantidade Estimada: {{ call.amount_to_collect }} Kg</span> -->
     </footer>
   </div>
 </template>
