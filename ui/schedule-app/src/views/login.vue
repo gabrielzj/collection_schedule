@@ -63,42 +63,28 @@ import {
   IonItem,
   IonInputPasswordToggle,
 } from "@ionic/vue";
-import { onMounted, ref } from "vue";
+import { ref } from "vue";
 import apiClient from "@/services/apiClient";
 import { Router, useRouter } from "vue-router";
+import { useIonRouter } from "@ionic/vue";
 
 const email = ref("");
 const password = ref("");
 const keepConnected = ref(false);
 
 const router: Router = useRouter();
+const ionRouter = useIonRouter();
 
-function handleRedirect() {
-  return router.replace("/home");
+async function handleRedirect() {
+  ionRouter.navigate("/home", "forward");
 }
-
-function isAuthenticated(): boolean {
-  // Checa tanto localStorage quanto sessionStorage
-  return !!(
-    localStorage.getItem("access_token") ||
-    sessionStorage.getItem("access_token")
-  );
-}
-
-onMounted(() => {
-  if (isAuthenticated()) {
-    handleRedirect();
-  }
-});
 
 async function handleLogin(): Promise<void> {
   if (!email.value) {
-    // implementar exibir mensagens de erro
     console.log("Campo de email não pode estar vazio.");
     return;
   }
   if (!password.value) {
-    // implementar exibir mensagens de erro
     console.log("Campo de senha não pode estar vazio.");
     return;
   }
@@ -124,16 +110,6 @@ async function handleLogin(): Promise<void> {
     console.error("Mensagem de Erro:", error?.response?.data);
   }
 }
-
-const handleForgotPassword = () => {
-  console.log("Forgot password clicked");
-};
-
-// const handleSignUp = () => {
-//   console.log("Sign up clicked");
-//   // Redirecionar para a página de registro
-//   router.push("/register");
-// };
 </script>
 
 <style scoped>
