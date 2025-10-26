@@ -24,7 +24,6 @@
         <ion-icon class="icon" :icon="timeOutline" aria-hidden="true" />
         <span class="text">{{ formattedBestTime }}</span>
       </div>
-      <!-- Adicionar Status -->
       <div class="row" v-if="status">
         <ion-icon class="icon" :icon="readerOutline" aria-hidden="true" />
         <span class="text">{{ status }}</span>
@@ -99,6 +98,7 @@ const URGENCY_LABEL: Record<Urgency, string> = {
 
 const STATUS_LABEL: Record<string, string> = {
   pending: "Pendente",
+  in_process: "Em Andamento",
   completed: "Concluído",
   failed: "Cancelado",
 };
@@ -112,21 +112,10 @@ const status = computed(() => STATUS_LABEL[props.status] ?? props.status);
 const formattedBestTime = computed(() => {
   if (!props.bestTime) return "";
   console.log("Best time no card:", props.bestTime);
-  // const date = new Date(props.bestTime);
-  // console.log("Date no card:", date);
-  // if (Number.isNaN(date.getTime())) return props.bestTime as string;
-  // return date.toLocaleString("pt-BR", {
-  //   weekday: "short",
-  //   day: "2-digit",
-  //   month: "short",
-  //   year: "numeric",
-  //   hour: "2-digit",
-  //   minute: "2-digit",
-  // });
   const formattedBestTime = formatInTimeZone(
     parseISO(props.bestTime),
     "America/Sao_Paulo",
-    "EEEE, dd 'de' MMMM 'de' yyyy 'às' HH:mm'h'",
+    " dd'/'MM'/'yyyy 'às' HH:mm'h'",
     { locale: ptBR }
   );
   return formattedBestTime;
