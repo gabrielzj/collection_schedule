@@ -2,7 +2,7 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title color="dark" v-if="first_name && last_name"
+        <ion-title color="dark" v-if="first_name || last_name"
           >Bem-vindo, {{ first_name }} {{ last_name }}</ion-title
         >
         <ion-title v-else>Bem-vindo, Usuário</ion-title>
