@@ -26,8 +26,6 @@ def register_list_users(request):
             serializer.is_valid(raise_exception=True)
             if len(request.data['password']) < 8:
                 return Response("A senha deve conter pelo menos 8 caracteres.", status=status.HTTP_400_BAD_REQUEST)
-            # elif not request.data['phone_number'].isdigit():
-            #     return Response("O número de telefone deve conter apenas números", status=status.HTTP_400_BAD_REQUEST)
             elif len(request.data['phone_number']) < 10:
                 return Response("O número de telefone deve ter pelo menos 10 dígitos.", status=status.HTTP_400_BAD_REQUEST)            
             # TODO: ver Response formatada de email já existente

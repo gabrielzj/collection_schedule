@@ -94,12 +94,6 @@ class CollectionCallSerializer(serializers.ModelSerializer):
         model = CollectionCall
         fields = '__all__'
     
-    # def create(self, validated_data):
-    #     request = self.context.get('request')
-    #     if request and request.user and request.user.is_authenticated:
-    #         validated_data['user'] = request.user
-    #     return super().create(validated_data)
-    
     def validate_address(self, value):
         if not value:
             raise serializers.ValidationError({"address": "Campo obrigatório."})
