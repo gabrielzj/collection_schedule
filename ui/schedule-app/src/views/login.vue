@@ -66,17 +66,15 @@ import {
 import { ref } from "vue";
 import apiClient from "@/services/apiClient";
 import { Router, useRouter } from "vue-router";
-import { useIonRouter } from "@ionic/vue";
 
 const email = ref("");
 const password = ref("");
 const keepConnected = ref(false);
 
 const router: Router = useRouter();
-const ionRouter = useIonRouter();
 
 async function handleRedirect() {
-  ionRouter.navigate("/home", "forward");
+  router.replace("/home");
 }
 
 async function handleLogin(): Promise<void> {
@@ -99,9 +97,11 @@ async function handleLogin(): Promise<void> {
     if (keepConnected.value) {
       localStorage.setItem("access_token", authData.access || "");
       localStorage.setItem("refresh_token", authData.refresh || "");
+      localStorage.setItem("user_id", authData.id || "");
     } else {
       sessionStorage.setItem("access_token", authData.access || "");
       sessionStorage.setItem("refresh_token", authData.refresh || "");
+      sessionStorage.setItem("user_id", authData.id || "");
     }
 
     await handleRedirect();

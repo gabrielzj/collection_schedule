@@ -18,16 +18,38 @@
 </template>
 
 <script setup lang="ts">
-import router from "@/router";
+// import router from "@/router";
 import { onMounted } from "vue";
+import { onIonViewWillEnter, useIonRouter } from "@ionic/vue";
+const ionRouter = useIonRouter();
 
 // import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
 // import ExploreContainer from '@/components/ExploreContainer.vue';
 
+function clearAuth() {
+  try {
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
+    localStorage.removeItem("user_id");
+    sessionStorage.removeItem("access_token");
+    sessionStorage.removeItem("refresh_token");
+    sessionStorage.removeItem("user_id");
+  } catch (e) {
+    console.warn("Falha ao limpar credenciais:", e);
+  }
+}
+
+function goToLogin() {
+  ionRouter.navigate("/login", "root");
+}
+
+onIonViewWillEnter(() => {
+  clearAuth();
+  goToLogin();
+});
+
 onMounted(() => {
-  localStorage.removeItem("access_token");
-  localStorage.removeItem("refresh_token");
-  localStorage.removeItem("user_id");
-  router.replace("/login");
+  clearAuth();
+  goToLogin();
 });
 </script>
