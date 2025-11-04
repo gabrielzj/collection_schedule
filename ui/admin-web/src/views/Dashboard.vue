@@ -2,10 +2,15 @@
 <template>
   <div class="dashboard">
     <header class="top-bar">
-      <h1>Chamados de Coleta</h1>
-      <div class="meta">
-        <span v-if="!loading" class="total">Total: {{ filteredCalls.length }}</span>
-        <span v-else class="pulse">Carregando...</span>
+      <div class="left">
+        <h1>Chamados de Coleta</h1>
+        <div class="meta">
+          <span v-if="!loading" class="total">Total: {{ filteredCalls.length }}</span>
+          <span v-else class="pulse">Carregando...</span>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="btn danger" @click="doLogout">Sair</button>
       </div>
     </header>
 
@@ -62,6 +67,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
+import { RouterLink } from 'vue-router';
 import CollectionCallCard from '@/components/CollectionCard.vue';
 import CollectionInfoModal from '@/components/CollectionInfoModal.vue';
 import apiClient from '@/services/apiClient';
@@ -105,6 +111,10 @@ function openModal(id: number) {
 function closeModal() {
   isModalOpen.value = false;
   selectedCall.value = undefined;
+}
+
+async function doLogout() {
+  await apiClient.logout();
 }
 
 async function fetchCalls() {
@@ -162,6 +172,7 @@ onMounted(fetchCalls);
 .top-bar {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 1rem;
   flex-wrap: wrap;
 }
@@ -173,6 +184,12 @@ onMounted(fetchCalls);
   color: #1d2b39;
   letter-spacing: -0.5px;
 }
+.top-bar .left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
 .meta {
   margin-top: 5px;
   text-align: center;
@@ -180,6 +197,24 @@ onMounted(fetchCalls);
   font-size: 0.8rem;
   font-weight: 600;
   color: #5a6570;
+}
+.actions {
+  display: flex;
+  gap: 0.5rem;
+}
+.btn {
+  border: 1px solid #cfd8e3;
+  background: #f7fafc;
+  color: #1d2b39;
+  padding: 0.5rem 0.8rem;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.btn.danger {
+  background: #7a1111;
+  color: #fff;
+  border-color: #7a1111;
 }
 .total {
   background: #eef3f7;
