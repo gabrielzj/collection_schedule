@@ -2,6 +2,7 @@ from core.models import User, CollectionCall
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework import serializers
+from django.contrib.auth.base_user import BaseUserManager
 import logging
 
 logger = logging.getLogger(__name__)
@@ -39,7 +40,22 @@ class UserWebSerializer(serializers.ModelSerializer):
         return value
     
     def create(self, validated_data):
-        return User.objects.create_user(**validated_data)
+        # Força o tipo de perfil como WEB e garante hashing de senha e normalização do email
+        raw_password = validated_data.pop('password', None)
+
+        email = BaseUserManager.normalize_email(validated_data.get('email', ''))
+        validated_data['email'] = email
+
+        # Garante que o usuário criado aqui sempre seja do tipo WEB
+        validated_data['profile_type'] = User.USER_TYPE_WEB
+
+        user = User(**validated_data)
+        if raw_password:
+            user.set_password(raw_password)
+        else:
+            user.set_unusable_password()
+        user.save()
+        return user
     
 class CollectionCallWebSerializer(serializers.ModelSerializer):
     user = UserWebSerializer()
