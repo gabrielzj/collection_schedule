@@ -12,23 +12,12 @@ const defaultBaseUrl = isAndroid
 const baseUrl: string = import.meta.env.VITE_API_URL_NGROK || defaultBaseUrl;
 const userBaseUrl: string = urlJoin(baseUrl, "users/");
 
-console.log("[api] baseUrl:", baseUrl, "| platform:", Capacitor.getPlatform());
-
 axios.defaults.headers.common["ngrok-skip-browser-warning"] = "true";
-// axios.defaults.headers.common["ngrok-skip-browser-warning"] = "true";
-// axios.interceptors.request.use((config) => {
-//   config.headers = config.headers || {};
-//   config.headers["ngrok-skip-browser-warning"] = "true";
-//   config.params = {
-//     ...(config.params || {}),
-//     "ngrok-skip-browser-warning": "true",
-//   };
-//   return config;
-// });
 
 interface AuthResponse {
   access?: string;
   refresh?: string;
+  id?: string;
 }
 /**
  *
@@ -50,7 +39,6 @@ async function getAuth(email: string, password: string): Promise<AuthResponse> {
         "ngrok-skip-browser-warning": "true",
       },
     });
-    localStorage.setItem("user_id", res.data.id);
     return res.data;
   } catch (error: any) {
     if (axios.isAxiosError(error)) {
@@ -202,6 +190,41 @@ async function handleAuthToken(): Promise<void> {
       router.replace("/login");
       throw new Error("Erro ao renovar token. Faça login novamente");
     }
+  }
+}
+
+async function hasValidSession(): Promise<boolean> {
+  const storage: Storage | null = localStorage.getItem("access_token")
+    ? localStorage
+    : sessionStorage.getItem("access_token")
+    ? sessionStorage
+    : null;
+
+  const accessToken = storage?.getItem("access_token") || null;
+  if (accessToken && (await verifyAuth(accessToken))) {
+    return true;
+  }
+
+  const refreshToken =
+    storage?.getItem("refresh_token") ||
+    localStorage.getItem("refresh_token") ||
+    sessionStorage.getItem("refresh_token");
+
+  if (!refreshToken) return false;
+
+  const isRefreshValid = await verifyAuth(refreshToken);
+  if (!isRefreshValid) return false;
+
+  try {
+    const newTokens = await refreshAuth(refreshToken);
+    (storage || localStorage).setItem("access_token", newTokens.access || "");
+    if (newTokens.refresh) {
+      (storage || localStorage).setItem("refresh_token", newTokens.refresh);
+    }
+    return true;
+  } catch (error) {
+    if (axios.isAxiosError(error) && !error.response) return true;
+    return false;
   }
 }
 
@@ -442,4 +465,5 @@ export default {
   getCalls,
   deleteCall,
   updateCall,
+  hasValidSession,
 };

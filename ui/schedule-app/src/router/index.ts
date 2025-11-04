@@ -8,6 +8,7 @@ import registerPage from "@/views/Register.vue";
 import MyCallsPage from "@/views/MyCallsPage.vue";
 import Logout from "@/views/Logout.vue";
 import userInfo from "@/views/UserInfo.vue";
+import apiClient from "@/services/apiClient";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -31,6 +32,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/home",
+    meta: { requiresAuth: true },
     component: TabsPage,
     children: [
       {
@@ -64,6 +66,18 @@ const routes: Array<RouteRecordRaw> = [
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
+});
+
+router.beforeEach(async (to, _from, next) => {
+  const isAuthRoute =
+    to.path === "/login" || to.name === "Login" || to.name === "Register";
+  const needsAuth = to.matched.some((r) => r.meta?.requiresAuth);
+
+  const logged = await apiClient.hasValidSession();
+
+  if (isAuthRoute && logged) return next("/home");
+  if (needsAuth && !logged) return next("/login");
+  return next();
 });
 
 export default router;
