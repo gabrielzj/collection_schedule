@@ -80,8 +80,6 @@ class CollectionCall(models.Model):
     description = models.TextField(blank=True, null=True, verbose_name='Descrição do Chamado')
     urgency = models.CharField(choices=URGENCY, default=URGENCY_LOW, verbose_name='Urgência do Chamado')
     status = models.CharField(choices=STATUS, default=STATUS_PENDING, verbose_name='Status do Chamado')
-    # best_time_for_collection_date = models.DateField(null=True, blank=True, verbose_name='Melhor Data para Coleta')
-    # best_time_for_collection_time = models.TimeField(null=True, blank=True, verbose_name='Melhor Horário para Coleta')
     best_time_for_collect = models.DateTimeField(null=True, blank=True, verbose_name='Melhor Data/Horário para Coleta')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Data de Criação')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Data de Atualização')
