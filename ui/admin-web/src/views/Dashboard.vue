@@ -1,5 +1,6 @@
 <!-- src/views/DashboardView.vue -->
 <template>
+  <Sidebar />
   <div class="dashboard">
     <header class="top-bar">
       <div class="left">
@@ -71,6 +72,7 @@ import { RouterLink } from 'vue-router';
 import CollectionCallCard from '@/components/CollectionCard.vue';
 import CollectionInfoModal from '@/components/CollectionInfoModal.vue';
 import apiClient from '@/services/apiClient';
+import Sidebar from '@/components/Sidebar.vue';
 
 interface User {
   id: number;
