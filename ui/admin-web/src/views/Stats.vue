@@ -87,7 +87,7 @@ onMounted(fetchCalls);
 .content {
   display: flex;
   min-height: 100vh;
-  padding-left: 216px; /* 200 + 16 */
+  padding-left: 216px;
 }
 
 @media (max-width: 900px) {

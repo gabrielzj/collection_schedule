@@ -156,7 +156,6 @@ async function doLogout() {
   color: #2f7dd1;
 }
 
-/* Mobile: empilha no topo e sem offset no conteúdo */
 @media (max-width: 900px) {
   .sidebar-container {
     position: static;
@@ -184,15 +183,15 @@ async function doLogout() {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  border: 1px solid #7a1111; /* contorno forte */
-  background: #fde9e9; /* vermelho claro no preenchimento */
-  color: #7a1111; /* texto em vermelho escuro para contraste */
+  border: 1px solid #7a1111;
+  background: #fde9e9;
+  color: #7a1111;
   padding: 0.6rem 0.8rem;
   border-radius: 10px;
   font-weight: 700;
   cursor: pointer;
 }
 .logout-btn:hover {
-  background: #f7d6d6; /* leve escurecimento no hover, ainda claro */
+  background: #f7d6d6;
 }
 </style>

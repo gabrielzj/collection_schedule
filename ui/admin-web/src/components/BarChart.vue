@@ -54,7 +54,6 @@ const inputTypes = computed(() => {
 
 const typeCounts = computed(() => countOccurrences(inputTypes.value));
 
-// Tradução dos tipos para PT-BR (apenas chaves em inglês)
 const TYPE_PT: Record<string, string> = {
   paper: 'Papel',
   plastic: 'Plástico',
@@ -86,7 +85,6 @@ function toPortugueseType(raw: string) {
   }
 }
 
-// Agrega contagens por rótulo traduzido (evita categorias duplicadas após tradução)
 const typeCountsPt = computed(() => {
   const agg = new Map<string, number>();
   const entries = typeCounts.value;
@@ -121,7 +119,7 @@ const tickAmount = computed(() => Math.max(1, maxCount.value));
 const barSeries = computed(() => [
   {
     name: 'Chamados',
-    data: seriesData.value, // sempre inteiros (contagem)
+    data: seriesData.value,
   },
 ]);
 
@@ -129,13 +127,11 @@ const barOptions = computed(
   () =>
     ({
       chart: { id: 'calls-by-type', toolbar: { show: false } },
-      // Em barras horizontais, categorias são fornecidas em xaxis.categories
-      // e serão renderizadas no eixo Y automaticamente pelo ApexCharts.
       xaxis: {
         categories: barCategories.value,
         min: 0,
-        max: tickAmount.value, // topo alinhado ao número máximo de chamadas
-        tickAmount: tickAmount.value, // ticks inteiros 0..N
+        max: tickAmount.value,
+        tickAmount: tickAmount.value,
         decimalsInFloat: 0,
         labels: {
           formatter: (val: number) => Math.round(val).toString(),
@@ -147,7 +143,7 @@ const barOptions = computed(
       plotOptions: {
         bar: {
           borderRadius: 6,
-          horizontal: true, // tipos no eixo Y, contagem no eixo X
+          horizontal: true,
           barHeight: '70%',
         },
       },

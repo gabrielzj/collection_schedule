@@ -53,7 +53,6 @@ const inputUrgencies = computed(() => {
 
 const urgencyEntries = computed(() => countOccurrences(inputUrgencies.value));
 
-// Tradução das urgências para PT-BR (chaves em inglês)
 const URGENCY_PT: Record<string, string> = {
   low: 'Baixa',
   medium: 'Moderada',

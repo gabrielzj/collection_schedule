@@ -9,8 +9,8 @@
 import { computed } from 'vue';
 
 const props = defineProps<{
-  total: number; // total absoluto (ex.: quantidade total de resíduos)
-  target?: number; // meta opcional para exibir % do anel
+  total: number;
+  target?: number;
   title?: string;
 }>();
 
@@ -25,7 +25,7 @@ const percent = computed(() => {
       return Math.round(raw);
     }
   } else {
-    return 100; // sem meta, mostra 100% do anel
+    return 100;
   }
 });
 

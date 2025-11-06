@@ -64,7 +64,7 @@ onMounted(fetchUsers);
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  margin-left: 216px; /* compensar sidebar fixa */
+  margin-left: 216px;
 }
 @media (max-width: 900px) {
   .users {
