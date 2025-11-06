@@ -31,7 +31,6 @@ def register_user(request):
         # Fallback genérico
         return Response({'error': 'Não foi possível concluir o cadastro.'}, status=status.HTTP_400_BAD_REQUEST)
 @api_view(['GET'])
-@permission_classes([AllowAny])
 def list_calls(request):
     try:
         calls = CollectionCall.objects.all()
@@ -54,4 +53,3 @@ def call_status(request, pk):
         return Response(serializer.data, status=status.HTTP_200_OK)
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
-
