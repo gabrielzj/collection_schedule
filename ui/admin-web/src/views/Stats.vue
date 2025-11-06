@@ -20,6 +20,7 @@
       <section v-else class="charts">
         <BarChart :types="wasteTypes" title="Chamados por Tipo de Resíduo" />
         <DonutsChart :urgencies="wasteUrgency" title="Chamados por Urgência" />
+        <RadialChart :total="total_amount" :target="500" title="Total de Resíduos" />
       </section>
     </div>
   </div>
@@ -30,6 +31,7 @@ import { ref, computed, onMounted } from 'vue';
 import Sidebar from '@/components/Sidebar.vue';
 import BarChart from '@/components/BarChart.vue';
 import DonutsChart from '@/components/DonutsChart.vue';
+import RadialChart from '@/components/RadialChart.vue';
 import apiClient from '@/services/apiClient';
 
 interface User {
@@ -51,6 +53,7 @@ const error = ref<string | null>(null);
 const calls = ref<CollectionCall[]>([]);
 const wasteTypes = ref<string[]>([]);
 const wasteUrgency = ref<string[]>([]);
+const total_amount = ref<number>(0);
 
 const totalCalls = computed(() => calls.value.length);
 
@@ -61,6 +64,9 @@ async function fetchCalls() {
     const resp = await apiClient.listAllCalls();
     wasteTypes.value = resp.map((item: any) => item.type);
     wasteUrgency.value = resp.map((item: any) => item.urgency);
+    const wasteAmounts: string[] = resp.map((item: any) => item.amount_to_collect);
+    total_amount.value = wasteAmounts.reduce((acc, val) => acc + Number(val), 0);
+
     calls.value = resp.map((d: any) => ({
       id: d.id,
       user: d.user,
