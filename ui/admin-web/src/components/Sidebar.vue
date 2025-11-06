@@ -86,7 +86,7 @@ async function doLogout() {
 
 <style scoped>
 .sidebar-container {
-  width: 200px;
+  width: 250px;
   min-width: 200px;
 
   position: fixed;
