@@ -1,4 +1,3 @@
-<!-- src/views/DashboardView.vue -->
 <template>
   <Sidebar />
   <div class="dashboard">
@@ -9,9 +8,6 @@
           <span v-if="!loading" class="total">Total: {{ filteredCalls.length }}</span>
           <span v-else class="pulse">Carregando...</span>
         </div>
-      </div>
-      <div class="actions">
-        <button class="btn danger" @click="doLogout">Sair</button>
       </div>
     </header>
 
@@ -115,10 +111,6 @@ function closeModal() {
   selectedCall.value = undefined;
 }
 
-async function doLogout() {
-  await apiClient.logout();
-}
-
 async function fetchCalls() {
   loading.value = true;
   error.value = null;
@@ -170,6 +162,13 @@ onMounted(fetchCalls);
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
+  margin-left: 216px;
+}
+
+@media (max-width: 900px) {
+  .dashboard {
+    margin-left: 0;
+  }
 }
 .top-bar {
   display: flex;
@@ -285,8 +284,19 @@ onMounted(fetchCalls);
 .grid {
   display: grid;
   gap: 1rem;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   align-items: stretch;
+}
+
+@media (max-width: 1200px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 700px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
 }
 .empty {
   padding: 2rem;
