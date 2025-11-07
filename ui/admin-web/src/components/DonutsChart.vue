@@ -109,7 +109,6 @@ const pieOptions = computed(
       chart: { id: 'calls-by-urgency' },
       labels: pieLabels.value,
       legend: { position: 'top' },
-      // Cores atualizadas: verde, laranja, vermelho (mais 2 fallback para outros rótulos)
       colors: ['rgb(45, 213, 91)', 'rgb(255, 196, 9)', 'rgb(197, 0, 15)', '#2F7DD1', '#15AABF'],
     }) as any,
 );
