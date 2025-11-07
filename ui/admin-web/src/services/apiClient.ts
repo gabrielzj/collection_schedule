@@ -227,10 +227,37 @@ async function listAllCalls() {
   }
 }
 
+/**
+ * Lista todos os usuários
+ * @returns dados dos usuários
+ */
+async function listUsers() {
+  await handleAuthToken();
+  try {
+    const res = await axios({
+      method: 'GET',
+      url: urlJoin(baseUrl, '/users/'),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+      },
+    });
+    return res.data;
+  } catch (error: any) {
+    if (axios.isAxiosError(error)) {
+      console.error('Axios error:', error.message);
+      console.error('Response data:', error.response?.data);
+    }
+    console.error('Error fetching users:', error);
+    throw error;
+  }
+}
+
 export default {
   login,
   logout,
   registerUser,
   updateCallStatus,
   listAllCalls,
+  listUsers,
 };

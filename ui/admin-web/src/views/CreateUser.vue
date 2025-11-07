@@ -142,10 +142,8 @@ function formatApiError(err: any): string {
 }
 .card {
   background: var(--card-bg);
-  /* border: 1px solid var(--card-border); */
   border-radius: 16px;
   padding: 1rem;
-  /* box-shadow: 0 12px 30px rgba(27, 39, 51, 0.07); */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
   border: 1px solid #d5d8db;
 }
