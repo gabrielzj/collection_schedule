@@ -38,7 +38,7 @@
             </div>
             <p>
               Antes de descartar, avalie se o papel pode ser
-              <b>reutilizados.</b>
+              <b>reutilizado.</b>
               Folhas usadas apenas de um lado ainda servem para anotações ou
               rascunhos. Caixas de papelão, como de calçados e outros produtos,
               podem ser reutilizadas para armazenamento ou organização de
@@ -82,7 +82,7 @@
             <p>
               Existem muitos resíduos metálicos recicláveis, os principais são
               <b>alumínio, ferro, aço e cobre</b>. Objetos como latas,
-              embalagens, arames, fios de cobre, panelas sem cabo, entrem muitos
+              embalagens, arames, fios de cobre, panelas sem cabo, entre muitos
               outros são exemplos que podem ser encaminhados para coleta
               seletiva.
             </p>
@@ -91,10 +91,10 @@
               <h5>Preparação</h5>
             </div>
             <p>
-              Enxágue latas de bebidas e de alimentos com água limpas para
+              Enxágue latas de bebidas e de alimentos com água limpa para
               remover restos de produtos. Isso evita a proliferação de bichos e
-              permite que o resíduo seja considerado reciclável. Após feita
-              limpeza mantenha os resíduos em locais secos, para evitar
+              permite que o resíduo seja considerado reciclável. Após feita a
+              limpeza, mantenha os resíduos em locais secos, para evitar
               corrosão.
             </p>
             <p>
@@ -116,10 +116,10 @@
               pois isso pode causar liberação de gases ou até explosões.
             </p>
             <p>
-              Maneje com cuidado, parafusos, pregos, agulhas, lâminas ou outros
+              Maneje com cuidado parafusos, pregos, agulhas, lâminas ou outros
               objetos metálicos perfurantes. Deve-se ter cautela extra caso os
-              mesmo estejam enferrujados ou danificados, sendo recomendado o uso
-              de
+              mesmos estejam enferrujados ou danificados, sendo recomendado o
+              uso de
               <b>EPIs</b> como luvas e botas.
             </p>
 
@@ -157,7 +157,7 @@
             </div>
             <p>
               Plásticos são materiais recicláveis identificados pelos símbolos
-              numerados (1 a 7) geralmente encontrados no fundo das embalagens.
+              numerados (1 a 7), geralmente encontrados no fundo das embalagens.
               PET, PEAD, PVC e PP são os mais comuns.
             </p>
 
@@ -196,7 +196,7 @@
               <li>Use embalagens retornáveis ou biodegradáveis.</li>
               <li>Reutilize potes e garrafas sempre que possível.</li>
               <li>
-                Sempre que possível opte por produtos com selos ambientais.
+                Sempre que possível, opte por produtos com selos ambientais.
               </li>
             </ul>
 
@@ -207,10 +207,10 @@
             <ul>
               <li>Não exponha os resíduos ao fogo ou calor extremo.</li>
               <li>
-                Evite reutilização excessiva, garrafas por exemplo, podem
+                Evite reutilização excessiva; garrafas, por exemplo, podem
                 acumular bactérias.
               </li>
-              <li>Junte várias sacolas em uma só antes de descartar</li>
+              <li>Junte várias sacolas em uma só antes de descartar.</li>
             </ul>
 
             <div class="container">
@@ -237,10 +237,9 @@
             </div>
             <p>
               Os dispositivos eletrônicos apresentam um processo diferente de
-              descarte e reaproveitamento, portanto é importante considerar
-              <b>mantê-los.</b>
-              aqueles que ainda estejam em funcionamento. Se possível, considere
-              doar o equipamento ao descartá-lo.
+              descarte e reaproveitamento; portanto, é importante considerar
+              manter aqueles que ainda estejam em funcionamento. Se possível,
+              considere doar o equipamento ao descartá-lo.
             </p>
             <p>
               É importante verificar quaisquer informações pessoais ainda
@@ -248,7 +247,7 @@
               descarte, anote marcas, modelos e números de série.
             </p>
             <p>
-              Com informações em mãos, verifique com fabricante a respeito de
+              Com informações em mãos, verifique com o fabricante a respeito de
               possíveis <b>garantias</b> ainda vigentes do produto.
             </p>
 
@@ -257,19 +256,15 @@
               <h5>Programas de Logística Reversa</h5>
             </div>
             <p>
-              Processo que envolvem coleta, transporte, tratamento, Destino dos
-              equipamento eletrônicos prevista na Lei 12.305/2010. que obriga
-              fabricantes, importadores, distribuidores e comerciantes a
-              estruturar e implementar sistemas para a devolução e destinação
-              adequada de produtos e embalagens após o uso pelo consumidor.
-              Exemplos são:
+              Processo que envolve a coleta, o transporte, o tratamento e a
+              destinação dos equipamentos eletrônicos, previsto na Lei
+              12.305/2010, que obriga fabricantes, importadores, distribuidores
+              e comerciantes a estruturar e implementar sistemas para a
+              devolução e destinação adequada de produtos e embalagens após o
+              uso pelo consumidor. Exemplos são:
             </p>
 
             <ul>
-              <!-- <li>
-                <b>Reciclanip:</b> logística reversa de pneus, parceria com
-                Bridgestone, Pirelli entre outras empresas.
-              </li> -->
               <li>
                 <b>Samsung Re+:</b> logística reversa de produtos da Samsung.
               </li>
@@ -278,7 +273,7 @@
               </li>
               <li>
                 <b>Green Eletron:</b> entidade de logística reversa sem fins
-                lucrativos presentes em diversas cidades
+                lucrativos presente em diversas cidades
               </li>
             </ul>
 
@@ -288,7 +283,7 @@
             </div>
             <p>
               Separe equipamentos com <b>vazamentos de baterias</b>,
-              <b>odores químicos</b>, <b>partes trincados</b>,
+              <b>odores químicos</b>, <b>partes trincadas</b>,
               <b>superaquecimento.</b>
             </p>
             <p>
@@ -303,8 +298,8 @@
             <p>
               Os resíduos podem ser descartados em pontos de coleta de aparelhos
               eletrônicos disponibilizados por grandes lojas do varejo e centros
-              comerciais. Também procure por pontos de coleta especializada
-              municipais
+              comerciais. Também procure por pontos de coleta municipais
+              especializados.
             </p>
           </div>
 
@@ -348,7 +343,7 @@
               </li>
               <li>
                 Envolva os resíduos em saco adicional se necessário, evitando
-                vazamento.
+                vazamentos.
               </li>
             </ul>
 
@@ -358,12 +353,12 @@
             </div>
             <ul>
               <li>
-                Manusei com cuidado grandes quantidades de resíduos, pois podem
+                Manuseie com cuidado grandes quantidades de resíduos, pois podem
                 conter moscas, vermes e outras pragas.
               </li>
               <li>
-                Fezes de animais carnívoros, carvão/cinzas tratadas, devem ser
-                dispostos de forma separada.
+                Fezes de animais carnívoros, carvão e cinzas tratadas devem ser
+                descartados de forma separada.
               </li>
             </ul>
 
@@ -415,14 +410,14 @@
             </div>
             <ul>
               <li>
-                Mantenha garrafas, potes, refratários, pratos entre outos
+                Mantenha garrafas, potes, refratários, pratos, entre outros,
                 objetos a serem descartados separados de outros tipos de
-                resíduos
+                resíduos.
               </li>
               <li>
                 Separe vidros quebrados em embalagem protegida (papelão ou
                 jornal), e armazene em caixas rígidas ou envolva em mais de um
-                saco de lixo. Se possível identifique naa caixa ou saco a
+                saco de lixo. Se possível, identifique na caixa ou no saco a
                 presença de vidro quebrado.
               </li>
               <li>
@@ -449,7 +444,7 @@
                 tintas) devem ser levados a PEV/centro de descarte.
               </li>
               <li>
-                Objectos de cristal (alto teor de chumbo) — verificar locais
+                Objetos de cristal (alto teor de chumbo) — verificar locais
                 especializados.
               </li>
               <li>
@@ -457,8 +452,8 @@
                 como o vidro comum. Vidros
                 <b>temperados, laminados, blindados e espelhados</b>
                 devem permanecer separados do vidro comum e é recomendado
-                contatar empresas especializadas para que possam fazer o
-                descarte e manuseio do vidro de forma segura.
+                contatar empresas especializadas para realizar o descarte e o
+                manuseio desse tipo de vidro de forma segura.
               </li>
             </ul>
 
@@ -515,9 +510,8 @@
             <p>
               No descarte, utilize sacos de lixo, preferencialmente, de cor
               diferenciada e, caso necessário, envolva em mais de um saco. Evite
-              misturar sacos de rejeitos com outros tipos de resíduos. Manusear
-              com luvas para evitar contaminação. Evite misturar com outros
-              tipos de resíduos.
+              misturar sacos de rejeitos com outros tipos de resíduos. Manuseie
+              com luvas para evitar contaminação.
             </p>
             <div class="container">
               <ion-icon :icon="locationOutline"></ion-icon>
@@ -530,7 +524,7 @@
             </p>
             <p>
               Verifique os pontos de coleta de sua rua/bairro ou procure
-              <b>por pontos de entrega voluntária (PEVS)</b>. Confira se seu
+              <b>por pontos de entrega voluntária (PEVs)</b>. Confira se seu
               município possui programas especiais de recolhimento desse tipo de
               resíduos.
             </p>
@@ -548,7 +542,7 @@
             </p>
             <ul>
               <li>Resíduos perigosos, como mercúrio;</li>
-              <li>Embalagens de agrotõxicos e venenos;</li>
+              <li>Embalagens de agrotóxicos e venenos;</li>
               <li>Alguns resíduos eletrônicos, como lâmpadas fluorescentes;</li>
               <li>Resíduos de construção civil;</li>
               <li>Óleo de cozinha;</li>
@@ -562,8 +556,8 @@
             <ul>
               <li>Separe e embale os resíduos especiais dos demais;</li>
               <li>
-                Use luvas e outros equipamentos de EPIs para manusear químicos e
-                outros itens potencialmente danosos;
+                Use luvas e outros equipamentos de proteção individual (EPIs)
+                para manusear químicos e outros itens potencialmente danosos;
               </li>
             </ul>
             <div class="container">
@@ -580,19 +574,19 @@
                   href="https://reciclus.org.br/onde-descartar/?utm_source=google&utm_medium=cpc&utm_campaign=campanha-reciclus-2025&utm_content=746303008043&utm_term=reciclagem%20lampadas&gad_source=1&gad_campaignid=22442806277&gclid=Cj0KCQjw-4XFBhCBARIsAAdNOks-aNRqTWpjjA0CxYDgLS28RI1dW2_eD5dQTcJr-OpWsVyIGZ8kSeQaAhmdEALw_wcB"
                   ><b>Reciclus:</b>
                 </a>
-                que atua na logistica reversa de lâmpadas fluorescentes.
+                que atua na logística reversa de lâmpadas fluorescentes.
               </li>
               <li>
                 <a href="https://cidadelimpa.tvtem.com/"
                   ><b>Cidade Limpa:</b></a
                 >
                 iniciativa da TV TEM, afiliada da rede Globo, que promove
-                multirões de limpeza por diversas cidades do Brasil.
+                mutirões de limpeza por diversas cidades do Brasil.
               </li>
             </ul>
             <p>
               Para mais informações sobre pontos de coleta ou descarte, entre em
-              contato com a Secretária do Meio Ambiente ou com a Vigilância
+              contato com a Secretaria do Meio Ambiente ou com a Vigilância
               Sanitária de sua cidade.
             </p>
           </div>
