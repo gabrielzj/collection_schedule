@@ -2,7 +2,7 @@
 
 This project was developed as the final project for the Computer Engineering degree at UTFPR. The system consists of a platform that allows users to schedule the collection of items they wish to discard or recycle. This process can be done through a mobile application. The collection requests are then received by an admin web application, where they can be viewed and managed.
 
-## Main Technologies
+## 🧰 Main Technologies
 
 - Python
 - Django and DRF (Django REST Framework)
@@ -13,14 +13,14 @@ This project was developed as the final project for the Computer Engineering deg
 - Vue and Vite
 - Ionic and Capacitor
 
-## Requirements
+## 📦 Requirements
 
 - Python
 - pip
 - npm
 - Node
 
-## Project Structure
+## 🗂️ Project Structure
 
 ```
 collection_schedule/
@@ -34,7 +34,7 @@ collection_schedule/
    └─ schedule-app/# Mobile app (Ionic + Capacitor); includes Android project under "android/"
 ```
 
-## Installing and executing
+## 🚀 Installing and executing
 
 First, clone this repository
 
@@ -42,7 +42,7 @@ First, clone this repository
 git clone https://github.com/gabrielzj/collection_schedule.git
 ```
 
-### 1) Backend
+### 🖥️ 1) Backend
 
 - Verify Python version: `python --version` ot `python3 --version`
 - Verify pip version: `pip --version`
@@ -72,7 +72,7 @@ python manage.py runserver
 
 Acess `http://localhost:8000/swagger/` to see API documentation.
 
-## 2) Admin Web
+## 🛠️ 2) Admin Web
 
 Access admin web directory `ui/admin-web`.
 
@@ -83,7 +83,7 @@ ionic serve or npm run dev
 
 Access the project at `http://localhost:5173`
 
-## 3) App Mobile
+## 📱 3) App Mobile
 
 Access the app directory `ui/schedule-app`.
 
