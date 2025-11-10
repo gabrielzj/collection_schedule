@@ -1,7 +1,7 @@
 <template>
   <div class="auth-wrapper">
     <div class="auth-card">
-      <h1>Admin Web</h1>
+      <h1>Admin</h1>
       <p class="subtitle">Acesse o painel para gerenciar os chamados</p>
 
       <form @submit.prevent="onSubmit" class="form">
