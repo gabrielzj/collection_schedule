@@ -39,6 +39,7 @@ import {
 import CollectionCallList from "@/components/CollectionCallList.vue";
 import apiClient from "@/services/apiClient";
 import { onBeforeMount, ref } from "vue";
+import { se } from "date-fns/locale";
 
 const listRef = ref<InstanceType<typeof CollectionCallList> | null>(null);
 
@@ -69,7 +70,9 @@ function updateCalls(qtd: number) {
 
 async function fetchUserData() {
   try {
-    const data = await apiClient.getUser(localStorage.getItem("user_id"));
+    const data = await apiClient.getUser(
+      localStorage.getItem("user_id") || sessionStorage.getItem("user_id")
+    );
     first_name.value = data["first_name"];
     last_name.value = data["last_name"];
   } catch (error: any) {
