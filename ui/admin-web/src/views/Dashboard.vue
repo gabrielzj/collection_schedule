@@ -22,14 +22,25 @@
         <option value="">Status (todos)</option>
         <option value="pending">Pendente</option>
         <option value="in_process">Em Andamento</option>
-        <option value="completed">Finalizada</option>
-        <option value="failed">Cancelada</option>
+        <!-- <option value="completed">Finalizada</option>
+        <option value="failed">Cancelada</option> -->
       </select>
       <select v-model="urgencyFilter">
         <option value="">Urgência (todas)</option>
         <option value="low">Baixa</option>
         <option value="medium">Moderada</option>
         <option value="high">Alta</option>
+      </select>
+      <select v-model="typeFilter">
+        <option value="">Tipo (todos)</option>
+        <option value="paper">Papel</option>
+        <option value="metal">Metal</option>
+        <option value="plastic">Plástico</option>
+        <option value="electronic">Eletrônico</option>
+        <option value="organic">Orgânico</option>
+        <option value="glass">Vidro</option>
+        <option value="residual_waste">Rejeito</option>
+        <option value="other">Outro</option>
       </select>
       <button class="refresh" @click="fetchCalls" :disabled="loading">Atualizar</button>
     </section>
@@ -69,6 +80,7 @@ import CollectionCallCard from '@/components/CollectionCard.vue';
 import CollectionInfoModal from '@/components/CollectionInfoModal.vue';
 import apiClient from '@/services/apiClient';
 import Sidebar from '@/components/Sidebar.vue';
+import { server } from 'typescript';
 
 interface User {
   id: number;
@@ -97,6 +109,7 @@ const error = ref<string | null>(null);
 const search = ref<string>('');
 const statusFilter = ref<string>('');
 const urgencyFilter = ref<string>('');
+const typeFilter = ref<string>('');
 const isModalOpen = ref<boolean>(false);
 const selectedCall = ref<CollectionCall | undefined>();
 
@@ -116,8 +129,6 @@ async function fetchCalls() {
   error.value = null;
   try {
     const resp = await apiClient.listAllCalls();
-    console.log(resp);
-
     calls.value = resp.map((d: any) => ({
       id: d.id,
       user: d.user,
@@ -137,17 +148,54 @@ async function fetchCalls() {
 }
 
 const filteredCalls = computed(() => {
-  const term = search.value.toLowerCase();
-  return calls.value.filter((c) => {
-    const matchesTerm =
-      !term ||
-      [c.address, c.type, c.user?.first_name, c.user?.last_name, c.user?.email]
-        .filter(Boolean)
-        .some((v) => String(v).toLowerCase().includes(term));
+  const term = search.value.trim().toLowerCase();
+  const selectedStatus = statusFilter.value;
+  const selectedUrgency = urgencyFilter.value;
+  const selectedType = typeFilter.value;
 
-    const matchesStatus = !statusFilter.value || c.status === statusFilter.value;
-    const matchesUrgency = !urgencyFilter.value || c.urgency === urgencyFilter.value;
-    return matchesTerm && matchesStatus && matchesUrgency;
+  return calls.value.filter((collectionCall) => {
+    const termIsEmpty = term === '';
+    let matchesTerm = termIsEmpty;
+
+    // verifica o termo de busca
+    if (!termIsEmpty) {
+      const searchableFields = [
+        collectionCall.address,
+        collectionCall.type,
+        collectionCall.user?.first_name,
+        collectionCall.user?.last_name,
+        collectionCall.user?.email,
+      ];
+
+      for (const field of searchableFields) {
+        if (!field) {
+          continue;
+        }
+
+        const fieldMatches = String(field).toLowerCase().includes(term);
+        if (fieldMatches) {
+          matchesTerm = true;
+          break;
+        }
+      }
+    }
+
+    // filtra pelo status selecionado
+    if (selectedStatus !== '' && collectionCall.status !== selectedStatus) {
+      return false;
+    }
+
+    // filtra pela urgência selecionada
+    if (selectedUrgency !== '' && collectionCall.urgency !== selectedUrgency) {
+      return false;
+    }
+
+    // filtra pelo tipo selecionado
+    if (selectedType !== '' && collectionCall.type !== selectedType) {
+      return false;
+    }
+
+    return matchesTerm;
   });
 });
 
