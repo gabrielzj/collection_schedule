@@ -1,7 +1,15 @@
 <template>
   <div class="chart-card">
     <h3 v-if="title">{{ title }}</h3>
-    <apexchart type="bar" height="400" :options="barOptions" :series="barSeries" />
+    <div class="chart-wrapper">
+      <apexchart
+        type="bar"
+        :height="chartHeight"
+        width="100%"
+        :options="barOptions"
+        :series="barSeries"
+      />
+    </div>
   </div>
 </template>
 
@@ -88,8 +96,7 @@ function toPortugueseType(raw: string) {
 const typeCountsPt = computed(() => {
   const agg = new Map<string, number>();
   const entries = typeCounts.value;
-  for (let i = 0; i < entries.length; i++) {
-    const entry = entries[i];
+  for (const entry of entries) {
     const labelPt = toPortugueseType(entry.label);
     const prev = agg.get(labelPt);
     if (typeof prev === 'number') {
@@ -100,8 +107,7 @@ const typeCountsPt = computed(() => {
   }
   const result: Array<{ label: string; count: number }> = [];
   const aggEntries = Array.from(agg.entries());
-  for (let i = 0; i < aggEntries.length; i++) {
-    const [label, count] = aggEntries[i];
+  for (const [label, count] of aggEntries) {
     result.push({ label, count });
   }
   return result;
@@ -115,13 +121,34 @@ const maxCount = computed(() => {
     return 0;
   }
 });
-const tickAmount = computed(() => Math.max(1, maxCount.value));
+const axisMax = computed(() => {
+  if (maxCount.value <= 0) {
+    return 0;
+  }
+  return Math.ceil(maxCount.value * 1.1);
+});
+
+const tickAmount = computed(() => {
+  if (axisMax.value <= 0) {
+    return 1;
+  }
+  return Math.min(axisMax.value, 6);
+});
+
 const barSeries = computed(() => [
   {
     name: 'Chamados',
     data: seriesData.value,
   },
 ]);
+
+const chartHeight = computed(() => {
+  const rows = barCategories.value.length;
+  if (rows <= 0) {
+    return 280;
+  }
+  return Math.max(320, 80 + rows * 48);
+});
 
 const barOptions = computed(
   () =>
@@ -130,7 +157,7 @@ const barOptions = computed(
       xaxis: {
         categories: barCategories.value,
         min: 0,
-        max: tickAmount.value,
+        max: axisMax.value,
         tickAmount: tickAmount.value,
         decimalsInFloat: 0,
         labels: {
@@ -164,6 +191,9 @@ const barOptions = computed(
   border: 1px solid #e4e8ee;
   border-radius: 14px;
   padding: 1rem;
+}
+.chart-wrapper {
+  width: 100%;
 }
 .chart-card h3 {
   margin: 0 0 0.75rem 0;
