@@ -1,7 +1,7 @@
 <template>
   <div class="chart-card">
     <h3 v-if="title">{{ title }}</h3>
-    <apexchart type="pie" height="400" :options="pieOptions" :series="pieSeries" />
+    <apexchart type="pie" width="350" :options="pieOptions" :series="pieSeries" />
   </div>
 </template>
 
@@ -13,12 +13,16 @@ const props = defineProps<{
   title?: string;
 }>();
 
-// countOccurrences: conta quantas vezes cada rótulo aparece no array de entrada
+// recebe um array de strings e retorna um array de objetos com contagens por valor
+// Exemplo de retorno: [ { label: 'high', count: 10 }, { label: 'medium', count: 5 } ]
 function countOccurrences(values: string[]) {
+  // cria um novo mapa para armazenar as contagens
   const counts = new Map<string, number>();
+
   if (!Array.isArray(values)) {
     return [];
   }
+
   for (const raw of values) {
     let v = '';
     if (raw !== null && raw !== undefined) {
@@ -34,10 +38,16 @@ function countOccurrences(values: string[]) {
       counts.set(v, 1);
     }
   }
+  // converte o mapa em um array de objetos
   const result: Array<{ label: string; count: number }> = [];
   const entries = Array.from(counts.entries());
+
   for (let i = 0; i < entries.length; i++) {
-    const [label, count] = entries[i];
+    const entry = entries[i];
+    if (!entry) {
+      continue;
+    }
+    const [label, count] = entry;
     result.push({ label, count });
   }
   return result;
@@ -59,19 +69,20 @@ const URGENCY_PT: Record<string, string> = {
   high: 'Alta',
 };
 
-function toPortugueseUrgency(raw: string) {
-  let key = '';
+function toPortuguese(raw: string): string {
+  let key: string = '';
+
   if (typeof raw === 'string') {
     key = raw.trim().toLowerCase();
   }
+
   const mapped = URGENCY_PT[key];
+
   if (mapped) {
     return mapped;
   } else {
     if (raw && raw.length > 0) {
-      const first = raw.charAt(0).toUpperCase();
-      const rest = raw.slice(1);
-      return first + rest;
+      return raw;
     } else {
       return '';
     }
@@ -84,7 +95,10 @@ const urgencyEntriesPt = computed(() => {
   const entries = urgencyEntries.value;
   for (let i = 0; i < entries.length; i++) {
     const entry = entries[i];
-    const labelPt = toPortugueseUrgency(entry.label);
+    if (!entry) {
+      continue;
+    }
+    const labelPt = toPortuguese(entry.label);
     const prev = agg.get(labelPt);
     if (typeof prev === 'number') {
       agg.set(labelPt, prev + entry.count);
@@ -93,15 +107,41 @@ const urgencyEntriesPt = computed(() => {
     }
   }
   const result: Array<{ label: string; count: number }> = [];
-  const pairs = Array.from(agg.entries());
+  const iterator = agg.entries();
+  const pairs = Array.from(iterator);
   for (let i = 0; i < pairs.length; i++) {
-    const [label, count] = pairs[i];
+    const pair = pairs[i];
+    if (!pair) {
+      continue;
+    }
+    const [label, count] = pair;
     result.push({ label, count });
   }
   return result;
 });
-const pieLabels = computed(() => urgencyEntriesPt.value.map((e) => e.label));
-const pieSeries = computed(() => urgencyEntriesPt.value.map((e) => e.count));
+
+const ORDER_PT = ['Baixa', 'Moderada', 'Alta'] as const;
+
+const entriesPtSorted = computed(() => {
+  const getOrder = (label: string) => {
+    const i = ORDER_PT.indexOf(label as any);
+    return i === -1 ? 99 : i;
+  };
+  return urgencyEntriesPt.value.slice().sort((a, b) => getOrder(a.label) - getOrder(b.label));
+});
+
+const pieLabels = computed(() => entriesPtSorted.value.map((e) => e.label));
+const pieSeries = computed(() => entriesPtSorted.value.map((e) => e.count));
+
+// mapa fixo de cor por rótulo traduzido
+const COLORS_BY_LABEL_PT: Record<string, string> = {
+  Baixa: 'rgb(45, 213, 91)',
+  Moderada: 'rgb(255, 196, 9)',
+  Alta: 'rgb(197, 0, 15)',
+};
+
+// gera as cores na mesma ordem dos labels atuais
+const pieColors = computed(() => pieLabels.value.map((l) => COLORS_BY_LABEL_PT[l] ?? '#2F7DD1'));
 
 const pieOptions = computed(
   () =>
@@ -109,7 +149,7 @@ const pieOptions = computed(
       chart: { id: 'calls-by-urgency' },
       labels: pieLabels.value,
       legend: { position: 'top' },
-      colors: ['rgb(45, 213, 91)', 'rgb(255, 196, 9)', 'rgb(197, 0, 15)', '#2F7DD1', '#15AABF'],
+      colors: pieColors.value,
     }) as any,
 );
 </script>
