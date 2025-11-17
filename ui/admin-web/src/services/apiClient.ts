@@ -161,7 +161,6 @@ async function registerUser(payload: {
   phone_number?: string;
   address?: string;
 }) {
-  await handleAuthToken();
   const res = await axios.post(urlJoin(baseUrl, 'users/'), payload, {
     headers: { 'Content-Type': 'application/json' },
   });
