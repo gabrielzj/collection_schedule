@@ -126,16 +126,16 @@ npx cap open android
 
 <div style="display:flex; gap:16px; flex-wrap:wrap; align-items:flex-start;">
    <figure style="margin:0; text-align:center;">
-      <img src="/images/login.png" alt="Login and Registration" width="240" />
+      <img src="images/login.png" alt="Login and Registration" width="240" />
    </figure>
    <figure style="margin:0; text-align:center;">
-      <img src="/images/chamado1.png" alt="Collection Scheduling" width="240" />
+      <img src="images/chamado1.png" alt="Collection Scheduling" width="240" />
    </figure>
    <figure style="margin:0; text-align:center;">
-      <img src="/images/1.png" alt="Information about Waste Types" width="240" />
+      <img src="images/1.png" alt="Information about Waste Types" width="240" />
    </figure>
    <figure style="margin:0; text-align:center;">
-      <img src="/images/mycalls.png" alt="Scheduled Calls by User" width="240" />
+      <img src="images/mycalls.png" alt="Scheduled Calls by User" width="240" />
    </figure>
 </div>
 
@@ -143,15 +143,15 @@ npx cap open android
 
 <div style="display:flex; gap:16px; flex-wrap:wrap; align-items:flex-start;">
    <figure style="margin:0; text-align:center;">
-      <img src="/images/login_web.png" alt="Login Admin" width="300" />
+      <img src="images/login_web.png" alt="Login Admin" width="300" />
    </figure>
    <figure style="margin:0; text-align:center;">
-      <img src="/images/admin-web.png" alt="Dashboard" width="300" />
+      <img src="images/admin-web.png" alt="Dashboard" width="300" />
    </figure>
    <figure style="margin:0; text-align:center;">
-      <img src="/images/modal-admin.png" alt="Call Details Modal" width="300" />
+      <img src="images/modal-admin.png" alt="Call Details Modal" width="300" />
    </figure>
    <figure style="margin:0; text-align:center;">
-      <img src="/images/stats.png" alt="Statistics" width="300" />
+      <img src="images/stats.png" alt="Statistics" width="300" />
    </figure>
 </div>
