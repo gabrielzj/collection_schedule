@@ -49,7 +49,7 @@ First, clone this repository
 git clone https://github.com/gabrielzj/collection_schedule.git
 ```
 
-### 🖥️ 1) Backend
+### 🛠️ 1) Backend
 
 - Verify Python version: `python --version` or `python3 --version`
 - Verify pip version: `pip --version`
@@ -79,13 +79,13 @@ python manage.py runserver
 
 Acess `http://localhost:8000/swagger/` to see API documentation.
 
-## 🛠️ 2) Admin Web
+## 🖥️ 2) Admin Web
 
 Access admin web directory `ui/admin-web`.
 
 ```powershell
 npm install
-ionic serve or npm run dev
+npm run dev
 ```
 
 Access the project at `http://localhost:5173`
@@ -97,7 +97,12 @@ Access the app directory `ui/schedule-app`.
 ```powershell
 cd ui/schedule-app
 npm install
-npm run dev
+```
+
+On Browser:
+
+```powershell
+npm run dev or ionic serve
 ```
 
 On Android Studio:
@@ -108,9 +113,45 @@ npm install
 
 npm run build
 
-# Sincronize o projeto com o Android (Capacitor)
+# Sync the Android project
 npx cap sync android
 
-# Abra no Android Studio
+# Open in Android Studio
 npx cap open android
 ```
+
+## 4) Images
+
+### 📱 Mobile Application
+
+<div style="display:flex; gap:16px; flex-wrap:wrap; align-items:flex-start;">
+   <figure style="margin:0; text-align:center;">
+      <img src="/images/login.png" alt="Login and Registration" width="240" />
+   </figure>
+   <figure style="margin:0; text-align:center;">
+      <img src="/images/chamado1.png" alt="Collection Scheduling" width="240" />
+   </figure>
+   <figure style="margin:0; text-align:center;">
+      <img src="/images/1.png" alt="Information about Waste Types" width="240" />
+   </figure>
+   <figure style="margin:0; text-align:center;">
+      <img src="/images/mycalls.png" alt="Scheduled Calls by User" width="240" />
+   </figure>
+</div>
+
+### 🖥️ Admin Web
+
+<div style="display:flex; gap:16px; flex-wrap:wrap; align-items:flex-start;">
+   <figure style="margin:0; text-align:center;">
+      <img src="/images/login_web.png" alt="Login Admin" width="300" />
+   </figure>
+   <figure style="margin:0; text-align:center;">
+      <img src="/images/admin-web.png" alt="Dashboard" width="300" />
+   </figure>
+   <figure style="margin:0; text-align:center;">
+      <img src="/images/modal-admin.png" alt="Call Details Modal" width="300" />
+   </figure>
+   <figure style="margin:0; text-align:center;">
+      <img src="/images/stats.png" alt="Statistics" width="300" />
+   </figure>
+</div>
