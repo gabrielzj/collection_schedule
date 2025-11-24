@@ -126,34 +126,34 @@ npx cap open android
 
 #### Login and Register
 
-![Login and Register](images/login.png)
+![Login and Register](./images/login.png)
 
 #### Collection Scheduling
 
-![Collection Scheduling](images/chamado1.png)
+![Collection Scheduling](./images/chamado1.png)
 
 #### Waste type information
 
-![Waste type information](images/1.png)
+![Waste type information](./images/1.png)
 
 ### User scheduled calls
 
-![User scheduled calls](images/mycalls.png)
+![User scheduled calls](./images/mycalls.png)
 
 ### 🖥️ Admin Web
 
 #### Login and Register
 
-![Admin Web - Login and Register](images/login_web.png)
+![Admin Web - Login and Register](./images/login_web.png)
 
 #### Dashboard
 
-![Admin Web - Dashboard](images/admin-web.png)
+![Admin Web - Dashboard](./images/admin-web.png)
 
 #### Modal to view call details
 
-![Admin Web - Call Details Modal](images/modal-admin.png)
+![Admin Web - Call Details Modal](./images/modal-admin.png)
 
 #### Statistics
 
-![Admin Web - Statistics](images/stats.png)
+![Admin Web - Statistics](./images/stats.png)
