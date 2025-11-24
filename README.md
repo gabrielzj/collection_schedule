@@ -126,11 +126,11 @@ npx cap open android
 
 #### Login and Register
 
-![Login and Register](./images/login.png)
+<img width="351" height="737" alt="login" src="https://github.com/user-attachments/assets/1c3e18fc-8fb3-4cd7-9d66-0f1cff020426" />
 
 #### Collection Scheduling
 
-![Collection Scheduling](./images/chamado1.png)
+<img width="346" height="806" alt="chamado1" src="https://github.com/user-attachments/assets/ecabad80-f644-4b9e-96b9-c258dcd82642" />
 
 #### Waste type information
 
@@ -138,22 +138,23 @@ npx cap open android
 
 ### User scheduled calls
 
-![User scheduled calls](./images/mycalls.png)
+<img width="329" height="815" alt="1" src="https://github.com/user-attachments/assets/6ddb2efd-2d49-4352-a008-f22f4d4a2584" />
 
 ### 🖥️ Admin Web
 
 #### Login and Register
 
-![Admin Web - Login and Register](./images/login_web.png)
+<img width="1880" height="946" alt="login_web" src="https://github.com/user-attachments/assets/a8fb4b7b-73c6-4610-b152-6fdb366403eb" />
 
 #### Dashboard
 
-![Admin Web - Dashboard](./images/admin-web.png)
+<img width="1280" height="628" alt="admin-web" src="https://github.com/user-attachments/assets/8cdab743-ead0-4dae-9a9f-71e0005034fd" />
 
 #### Modal to view call details
 
-![Admin Web - Call Details Modal](./images/modal-admin.png)
+<img width="913" height="524" alt="modal-admin" src="https://github.com/user-attachments/assets/2ab5d8b5-adb9-48e4-81ba-683de8c4509e" />
 
 #### Statistics
 
-![Admin Web - Statistics](./images/stats.png)
+<img width="1868" height="951" alt="stats" src="https://github.com/user-attachments/assets/ed53802a-f18e-4ab2-976c-2bde21854c55" />
+
