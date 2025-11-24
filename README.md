@@ -122,36 +122,38 @@ npx cap open android
 
 ## 4) Images
 
-### 📱 Mobile Application
+### 📱 Mobile App
 
-<div style="display:flex; gap:16px; flex-wrap:wrap; align-items:flex-start;">
-   <figure style="margin:0; text-align:center;">
-      <img src="images/login.png" alt="Login and Registration" width="240" />
-   </figure>
-   <figure style="margin:0; text-align:center;">
-      <img src="images/chamado1.png" alt="Collection Scheduling" width="240" />
-   </figure>
-   <figure style="margin:0; text-align:center;">
-      <img src="images/1.png" alt="Information about Waste Types" width="240" />
-   </figure>
-   <figure style="margin:0; text-align:center;">
-      <img src="images/mycalls.png" alt="Scheduled Calls by User" width="240" />
-   </figure>
-</div>
+#### Login and Register
+
+![Login and Register](images/login.png)
+
+#### Collection Scheduling
+
+![Collection Scheduling](images/chamado1.png)
+
+#### Waste type information
+
+![Waste type information](images/1.png)
+
+### User scheduled calls
+
+![User scheduled calls](images/mycalls.png)
 
 ### 🖥️ Admin Web
 
-<div style="display:flex; gap:16px; flex-wrap:wrap; align-items:flex-start;">
-   <figure style="margin:0; text-align:center;">
-      <img src="images/login_web.png" alt="Login Admin" width="300" />
-   </figure>
-   <figure style="margin:0; text-align:center;">
-      <img src="images/admin-web.png" alt="Dashboard" width="300" />
-   </figure>
-   <figure style="margin:0; text-align:center;">
-      <img src="images/modal-admin.png" alt="Call Details Modal" width="300" />
-   </figure>
-   <figure style="margin:0; text-align:center;">
-      <img src="images/stats.png" alt="Statistics" width="300" />
-   </figure>
-</div>
+#### Login and Register
+
+![Admin Web - Login and Register](images/login_web.png)
+
+#### Dashboard
+
+![Admin Web - Dashboard](images/admin-web.png)
+
+#### Modal to view call details
+
+![Admin Web - Call Details Modal](images/modal-admin.png)
+
+#### Statistics
+
+![Admin Web - Statistics](images/stats.png)
