@@ -134,7 +134,7 @@ npx cap open android
 
 #### Waste type information
 
-![Waste type information](./images/1.png)
+<img width="329" height="815" alt="1" src="https://github.com/user-attachments/assets/d1347cc9-b8ca-42e3-8472-4d32475d0ce6" />
 
 ### User scheduled calls
 
