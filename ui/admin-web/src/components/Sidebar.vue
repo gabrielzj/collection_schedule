@@ -5,7 +5,7 @@
     </div>
 
     <nav class="sidebar-links">
-      <router-link to="/" class="item" active-class="active">
+      <router-link :to="{ name: 'dashboard' }" class="item" active-class="active">
         <!-- ícone -->
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -21,7 +21,7 @@
         <span>Chamados</span>
       </router-link>
 
-      <router-link to="/stats" class="item" active-class="active">
+      <router-link :to="{ name: 'statistics' }" class="item" active-class="active">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="18"
@@ -36,7 +36,7 @@
         <span>Estatísticas</span>
       </router-link>
 
-      <router-link to="/users" class="item" active-class="active">
+      <router-link :to="{ name: 'users' }" class="item" active-class="active">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="18"
@@ -86,7 +86,7 @@ async function doLogout() {
 
 <style scoped>
 .sidebar-container {
-  width: 250px;
+  width: 200px;
   min-width: 200px;
 
   position: fixed;
