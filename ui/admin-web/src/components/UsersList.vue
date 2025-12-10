@@ -19,7 +19,7 @@
         <tr v-for="u in users" :key="u.id">
           <td>{{ fullName(u) }}</td>
           <td>
-            <a :href="`mailto:${u.email}`">{{ u.email }}</a>
+            <span> {{ u.email }}</span>
           </td>
         </tr>
       </tbody>
@@ -105,13 +105,13 @@ function fullName(u: UserItem) {
 .table tbody tr:hover {
   background: #f8fafc;
 }
-.table a {
+/* .table span {
   color: #2f7dd1;
   text-decoration: none;
 }
-.table a:hover {
+.table span:hover {
   text-decoration: underline;
-}
+} */
 .error {
   background: #ffe1e1;
   border: 1px solid #ffb7b7;
