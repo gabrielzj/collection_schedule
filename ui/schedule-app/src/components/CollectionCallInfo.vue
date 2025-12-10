@@ -193,6 +193,7 @@ const formatOptions = {
 async function updateCall() {
   try {
     await apiClient.updateCall(props.call["id"], form);
+    closeModal();
   } catch (error: any) {
     errorExists.value = true;
     setTimeout(hideError, 3000);
