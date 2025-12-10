@@ -68,7 +68,7 @@ class CollectionCall(models.Model):
         (TYPE_ELECTRONIC, 'Eletrônico'),
         (TYPE_ORGANIC, 'Orgânico'),
         (TYPE_GLASS, 'Vidro'),
-        (TYPE_RESIDUAL_WASTE, 'Resíduo Sólido'),
+        (TYPE_RESIDUAL_WASTE, 'Rejeito'),
         (TYPE_OTHER, 'Outro'),
     ]
 
