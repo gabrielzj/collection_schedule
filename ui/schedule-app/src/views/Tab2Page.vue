@@ -8,7 +8,7 @@
         <ion-title>Criar um chamado</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content :fullscreen="true" mode="md">
+    <ion-content :fullscreen="false" mode="md">
       <div class="title">
         <h5>Como funciona</h5>
         <ion-icon
@@ -40,6 +40,9 @@
             <ion-select-option value="glass">Vidro</ion-select-option>
             <ion-select-option value="organic">Orgânico</ion-select-option>
             <ion-select-option value="electronic">Eletrônico</ion-select-option>
+            <ion-select-option value="residual_waste"
+              >Rejeito</ion-select-option
+            >
             <ion-select-option value="other">Outro</ion-select-option>
           </ion-select>
           <br />
@@ -157,6 +160,7 @@ type WasteType =
   | "glass"
   | "organic"
   | "electronic"
+  | "residual_waste"
   | "other";
 type Urgency = "low" | "medium" | "high";
 
@@ -191,7 +195,6 @@ const submitCall = async () => {
     best_time_for_collect: dayjs(date).format("YYYY-MM-DDTHH:mm:ssZ"),
   };
   try {
-    console.log("Enviando chamado:", payload);
     await apiClient.createCall(payload);
     router.replace("/home");
   } catch (error: any) {
@@ -238,10 +241,6 @@ ion-list {
 .form-container {
   padding: 20px;
 }
-
-/* .form-container ion-select::part(icon) {
-  display: none;
-} */
 
 .intro-text {
   display: block;
