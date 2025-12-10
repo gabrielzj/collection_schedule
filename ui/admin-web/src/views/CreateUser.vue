@@ -46,6 +46,7 @@
 import { reactive, ref } from 'vue';
 import { RouterLink } from 'vue-router';
 import apiClient from '@/services/apiClient';
+import router from '@/router';
 
 const form = reactive({
   first_name: '',
@@ -65,6 +66,10 @@ function clear() {
   success.value = false;
 }
 
+function redirectUser() {
+  router.replace({ name: 'login' });
+}
+
 async function onSubmit() {
   loading.value = true;
   error.value = null;
@@ -76,6 +81,9 @@ async function onSubmit() {
       password: form.password,
     });
     success.value = true;
+    setTimeout(() => {
+      redirectUser();
+    }, 1500);
   } catch (e: any) {
     error.value = formatApiError(e);
   } finally {
