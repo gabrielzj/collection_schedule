@@ -12,20 +12,11 @@
             <span class="label">Tipo de Resíduo</span>
             <span class="value">{{ typeLabel || '-' }}</span>
           </div>
-          <!-- <div class="field wide">
-            <span class="label">Status</span>
-            <span class="value status" :class="'status-' + (call?.status || 'pending')">
-              {{ statusLabel || '-' }}
-            </span>
-          </div> -->
           <div class="field wide">
             <span class="label">Urgência</span>
             <span class="value">{{ urgencyLabel || '-' }}</span>
           </div>
-          <!-- <div class="field" v-if="call?.description">
-            <span class="label">Telefone</span>
-            <span class="value">{{ call?.user.phone_number || 'Telefone não informado' }}</span>
-          </div> -->
+
           <div class="field wide">
             <span class="label">Quantidade Estimada (Kg)</span>
             <span class="value">{{ call?.amount_to_collect || '-' }}</span>
@@ -129,7 +120,6 @@ const closeModal = () => {
 
 const status_in_process = 'in_process';
 
-//  ver pq não altera o status
 const updateStatus = async () => {
   try {
     console.log(props.call.id);

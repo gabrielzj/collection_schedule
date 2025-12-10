@@ -22,8 +22,6 @@
         <option value="">Status (todos)</option>
         <option value="pending">Pendente</option>
         <option value="in_process">Em Andamento</option>
-        <!-- <option value="completed">Finalizada</option>
-        <option value="failed">Cancelada</option> -->
       </select>
       <select v-model="urgencyFilter">
         <option value="">Urgência (todas)</option>
@@ -80,7 +78,6 @@ import CollectionCallCard from '@/components/CollectionCard.vue';
 import CollectionInfoModal from '@/components/CollectionInfoModal.vue';
 import apiClient from '@/services/apiClient';
 import Sidebar from '@/components/Sidebar.vue';
-import { server } from 'typescript';
 
 interface User {
   id: number;

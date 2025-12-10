@@ -168,9 +168,9 @@ function formatDate(value?: string | null) {
 .muted {
   color: #5c6977;
 }
-.email {
+/* .email {
   font-style: italic;
-}
+} */
 .description {
   font-size: 0.75rem;
   line-height: 1.25;
