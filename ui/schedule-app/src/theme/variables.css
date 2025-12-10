@@ -6,4 +6,36 @@ http://ionicframework.com/docs/theming/ */
 :root {
   --color-light-gray: #5a5a5a;
   --ion-font-family: "Poppins", "Segoe UI", Arial, sans-serif;
+
+  /* Safe areas para Android e iOS */
+  --ion-safe-area-top: env(safe-area-inset-top);
+  --ion-safe-area-bottom: env(safe-area-inset-bottom);
+  --ion-safe-area-left: env(safe-area-inset-left);
+  --ion-safe-area-right: env(safe-area-inset-right);
+}
+
+/* Ajustes para evitar sobreposição da status bar e gestos */
+
+ion-app {
+  padding-top: var(--ion-safe-area-top);
+  padding-bottom: var(--ion-safe-area-bottom);
+}
+
+ion-content {
+  --padding-top: var(--ion-safe-area-top);
+  --padding-bottom: var(--ion-safe-area-bottom);
+}
+
+ion-header {
+  padding-top: 0 !important;
+}
+
+ion-toolbar {
+  padding-top: var(--ion-safe-area-top);
+  --min-height: calc(56px + var(--ion-safe-area-top));
+}
+
+ion-tab-bar {
+  padding-bottom: var(--ion-safe-area-bottom);
+  height: calc(50px + var(--ion-safe-area-bottom));
 }
