@@ -1,6 +1,5 @@
 import router from '@/router';
-import axios, { AxiosError } from 'axios';
-import type { InternalAxiosRequestConfig } from 'axios';
+import axios from 'axios';
 import urlJoin from 'url-join';
 
 const baseUrl: string = 'http://localhost:8000/web-api/';
