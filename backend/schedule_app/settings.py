@@ -36,8 +36,8 @@ AUTH_USER_MODEL = 'core.User'
 USERNAME_FIELD = 'email' 
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=60),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=120),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=15),
     'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True,
     'ALGORITHM': 'HS256',
@@ -71,22 +71,25 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CORS_ORIGIN_ALLOW_ALL = True
-CORS_ALLOW_ALL_ORIGINS = True
+# CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ALLOW_ALL_ORIGINS = True
 
-CORS_ALLOW_HEADERS = list(default_headers) + [
-    "ngrok-skip-browser-warning",
-]
+# CORS_ALLOW_HEADERS = list(default_headers) + [
+#     "ngrok-skip-browser-warning",
+# ]
 
 CORS_ALLOWED_ORIGINS = [
-    "https://unfielded-norbert-apparent.ngrok-free.dev",
-    "http://localhost:8000",
-    "http://127.0.0.1:8000",
-    "http://10.0.2.2:8000",
+    # "https://unfielded-norbert-apparent.ngrok-free.dev",
+    "http://10.0.2.2:5173",
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "http://localhost:8100",
+    "http://127.0.0.1:8100",
 ]
 
 CORS_ALLOWED_ORIGIN_REGEXES = [
@@ -99,10 +102,12 @@ CORS_ALLOWED_ORIGIN_REGEXES = [
 CORS_ALLOW_CREDENTIALS = True
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://unfielded-norbert-apparent.ngrok-free.dev",
-    "http://localhost:8000",
-    "http://127.0.0.1:8000",
-    "http://10.0.2.2:8000",
+    # "https://unfielded-norbert-apparent.ngrok-free.dev",
+    "http://localhost:5173",
+    "http://localhost:8100",
+    "http://127.0.0.1:8100",
+    "http://127.0.0.1:5173",
+    "http://10.0.2.2:5173",
 ]
 
 ROOT_URLCONF = 'schedule_app.urls'
