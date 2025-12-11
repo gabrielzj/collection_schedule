@@ -91,7 +91,7 @@ const TYPE_LABELS: Record<string, string> = {
   electronic: 'Eletrônico',
   organic: 'Orgânico',
   glass: 'Vidro',
-  residual_waste: 'Resíduo Sólido',
+  residual_waste: 'Rejeito',
   other: 'Outro',
 };
 

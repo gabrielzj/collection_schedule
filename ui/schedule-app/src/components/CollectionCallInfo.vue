@@ -32,6 +32,9 @@
               <ion-select-option value="electronic"
                 >Eletrônico</ion-select-option
               >
+              <ion-select-option value="residual_waste"
+                >Rejeito</ion-select-option
+              >
               <ion-select-option value="other">Outro</ion-select-option>
             </ion-select>
             <br />
