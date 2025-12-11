@@ -5,14 +5,11 @@ import { Capacitor } from "@capacitor/core";
 
 const isAndroid = Capacitor.getPlatform() === "android";
 
-const defaultBaseUrl = isAndroid
+const baseUrl = isAndroid
   ? "http://10.0.2.2:8000/app-api/"
   : "http://localhost:8000/app-api/";
 
-const baseUrl: string = import.meta.env.VITE_API_URL_NGROK || defaultBaseUrl;
 const userBaseUrl: string = urlJoin(baseUrl, "users/");
-
-axios.defaults.headers.common["ngrok-skip-browser-warning"] = "true";
 
 interface AuthResponse {
   access?: string;
@@ -36,7 +33,6 @@ async function getAuth(email: string, password: string): Promise<AuthResponse> {
       },
       headers: {
         "Content-Type": "application/json",
-        "ngrok-skip-browser-warning": "true",
       },
     });
     return res.data;
@@ -66,17 +62,15 @@ async function verifyAuth(token: string): Promise<boolean> {
       },
       headers: {
         "Content-Type": "application/json",
-        "ngrok-skip-browser-warning": "true",
       },
     });
     return true;
   } catch (error: any) {
-    // Se for erro de rede (ex.: backend offline), não considerar o token inválido.
     if (axios.isAxiosError(error) && !error.response) {
       console.warn(
         "Não foi possível verificar o token (servidor indisponível). Mantendo sessão até reconexão."
       );
-      return true; // Preserva sessão para evitar logout indevido quando o backend estiver offline
+      return true;
     }
     console.error(
       "Token inválido:",
@@ -100,7 +94,6 @@ async function refreshAuth(token: string): Promise<AuthResponse> {
       },
       headers: {
         "Content-Type": "application/json",
-        "ngrok-skip-browser-warning": "true",
       },
     });
     return res.data;
@@ -130,10 +123,8 @@ async function handleAuthToken(): Promise<void> {
     throw new Error("Token de acesso não encontrado");
   }
 
-  // Verifica se o access token é válido
   const isAccessTokenValid = await verifyAuth(accessToken);
 
-  // Access token inválido, tenta renovar com refresh token
   if (!isAccessTokenValid) {
     console.log("Access token inválido, tentando renovar...");
 
@@ -151,11 +142,9 @@ async function handleAuthToken(): Promise<void> {
       throw new Error("Refresh token não encontrado");
     }
 
-    // Verifica se o refresh token é válido
     const isRefreshTokenValid = await verifyAuth(refreshToken);
     if (!isRefreshTokenValid) {
       console.log("Refresh token inválido, redirecionando para login...");
-      // Refresh token também inválido, redireciona para login
       localStorage.removeItem("access_token");
       localStorage.removeItem("refresh_token");
       sessionStorage.removeItem("access_token");
@@ -166,7 +155,6 @@ async function handleAuthToken(): Promise<void> {
 
     try {
       console.log("Refresh válido, renovando access token...");
-      // Renova o access token usando o refresh token
       const newTokens = await refreshAuth(refreshToken);
       (storage || localStorage).setItem("access_token", newTokens.access || "");
 
@@ -174,15 +162,13 @@ async function handleAuthToken(): Promise<void> {
         (storage || localStorage).setItem("refresh_token", newTokens.refresh);
       }
     } catch (error) {
-      // Se for erro de rede, manter sessão e permitir que a chamada original falhe por rede.
       if (axios.isAxiosError(error) && !error.response) {
         console.warn(
           "Servidor indisponível ao tentar renovar token. Mantendo sessão e aguardando reconexão."
         );
-        return; // Não limpa tokens nem redireciona em caso de offline
+        return;
       }
       console.log("Erro ao renovar token, redirecionando para login...");
-      // Erro ao renovar token (não relacionado à rede)
       localStorage.removeItem("access_token");
       localStorage.removeItem("refresh_token");
       sessionStorage.removeItem("access_token");
@@ -243,7 +229,6 @@ async function createCall(payload: any): Promise<any> {
       data: payload,
       headers: {
         "Content-Type": "application/json",
-        "ngrok-skip-browser-warning": "true",
         Authorization: `Bearer ${
           localStorage.getItem("access_token") ||
           sessionStorage.getItem("access_token")
@@ -251,7 +236,6 @@ async function createCall(payload: any): Promise<any> {
       },
     });
     console.log(res.data);
-    // router.replace({ name: "Login" });
     return res.data;
   } catch (error: any) {
     if (axios.isAxiosError(error)) {
@@ -276,12 +260,10 @@ async function registerUser(payload: any): Promise<any> {
   try {
     const res = await axios({
       method: "POST",
-      // url: urlJoin(baseUrl, "users/"),
       url: userBaseUrl,
       data: payload,
       headers: {
         "Content-Type": "application/json",
-        "ngrok-skip-browser-warning": "true",
       },
     });
     console.log("Usuário criado");
@@ -310,7 +292,6 @@ async function getUser(userID: any): Promise<any> {
       url: urlJoin(userBaseUrl, userID.toString()),
       headers: {
         "Content-Type": "application/json",
-        "ngrok-skip-browser-warning": "true",
         Authorization: `Bearer ${
           localStorage.getItem("access_token") ||
           sessionStorage.getItem("access_token")
@@ -346,7 +327,6 @@ async function updateUser(
       data: payload,
       headers: {
         "Content-Type": "application/json",
-        "ngrok-skip-browser-warning": "true",
         Authorization: `Bearer ${
           localStorage.getItem("access_token") ||
           sessionStorage.getItem("access_token")
@@ -374,7 +354,6 @@ async function getCalls(): Promise<any> {
       url: urlJoin(baseUrl, "calls/"),
       headers: {
         "Content-Type": "application/json",
-        "ngrok-skip-browser-warning": "true",
         Authorization: `Bearer ${
           localStorage.getItem("access_token") ||
           sessionStorage.getItem("access_token")
@@ -404,7 +383,6 @@ async function deleteCall(callID: number): Promise<any> {
       url: urlJoin(baseUrl, "calls/", callID.toString(), "/"),
       headers: {
         "Content-Type": "application/json",
-        "ngrok-skip-browser-warning": "true",
         Authorization: `Bearer ${
           localStorage.getItem("access_token") ||
           sessionStorage.getItem("access_token")
@@ -432,7 +410,6 @@ async function updateCall(
   await handleAuthToken();
   console.log("id no apiclient:", callID);
   console.log("data no apiclient:", payload);
-  // String(callID)
   try {
     const res = await axios({
       method: "PUT",
@@ -440,7 +417,6 @@ async function updateCall(
       url: urlJoin(baseUrl, "calls/", String(callID), "/"),
       headers: {
         "Content-Type": "application/json",
-        "ngrok-skip-browser-warning": "true",
         Authorization: `Bearer ${
           localStorage.getItem("access_token") ||
           sessionStorage.getItem("access_token")
