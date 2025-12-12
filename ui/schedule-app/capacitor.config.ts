@@ -8,6 +8,19 @@ const config: CapacitorConfig = {
     androidScheme: "http",
     cleartext: true,
   },
+  plugins: {
+    StatusBar: {
+      overlaysWebView: false,
+      style: "DARK",
+      backgroundColor: "#ffffffff",
+    },
+    Keyboard: {
+      resizeOnFullScreen: false,
+    },
+    EdgeToEdge: {
+      backgroundColor: "#263973",
+    },
+  },
 };
 
 export default config;
