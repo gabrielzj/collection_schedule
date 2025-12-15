@@ -9,16 +9,16 @@ const config: CapacitorConfig = {
     cleartext: true,
   },
   plugins: {
-    StatusBar: {
-      overlaysWebView: false,
-      style: "DARK",
-      backgroundColor: "#ffffffff",
-    },
+    // StatusBar: {
+    // overlaysWebView: false,
+    // style: "DARK",
+    // backgroundColor: "--ion-color-primary",
+    // },
     Keyboard: {
       resizeOnFullScreen: false,
     },
     EdgeToEdge: {
-      backgroundColor: "#263973",
+      backgroundColor: "transparent",
     },
   },
 };
