@@ -24,6 +24,8 @@
         v-for="(modal, index) in wasteModal"
         :key="index"
         :is-open="isModalOpen[modal.type]"
+        :initial-breakpoint="1"
+        :breakpoints="[0, 1]"
         @dismiss="closeModal(modal.type)"
         :title="modal.title"
         :id="modal.id"
@@ -34,13 +36,8 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-// const reloadContent = ref(0);
-
-// onIonViewWillEnter(() => {
-//   reloadContent.value++;
-// });
-
-//TODO: adicionar novos tipos de resíduos, perigosos, talvez borracha
+import { StatusBar } from "@capacitor/status-bar";
+import { EdgeToEdge } from "@capawesome/capacitor-android-edge-to-edge-support";
 
 import {
   IonPage,
@@ -61,7 +58,6 @@ import otherWaste from "@/assets/other-waste.jpg";
 import paperWaste from "@/assets/paper-waste.jpg";
 import plasticWaste from "@/assets/plastic-waste.jpg";
 import residualWaste from "@/assets/residual-waste.jpg";
-import specialWaste from "@/assets/special-waste.jpg";
 
 type WasteType =
   | "paper"
@@ -188,11 +184,6 @@ const wasteModal: WasteModal[] = [
     title: "Outros",
     id: 8,
   },
-  // {
-  //   type: "special",
-  //   title: "Especiais",
-  //   id: 9,
-  // },
 ];
 
 const isModalOpen = ref({

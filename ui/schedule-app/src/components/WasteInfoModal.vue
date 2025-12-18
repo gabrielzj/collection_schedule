@@ -1,5 +1,9 @@
 <template>
-  <ion-modal :is-open="isOpen">
+  <ion-modal
+    :is-open="isOpen"
+    @didDismiss="closeModal"
+    @ionBreakpointDidChange="onBreakpointDidChange"
+  >
     <ion-page>
       <ion-header>
         <ion-toolbar>
@@ -641,9 +645,22 @@ const emit = defineEmits(["dismiss"]);
 const closeModal = () => {
   emit("dismiss");
 };
+
+const onBreakpointDidChange = (ev: CustomEvent<{ breakpoint: number }>) => {
+  if (ev.detail?.breakpoint === 0) closeModal();
+};
 </script>
 
 <style scoped>
+/* ion-modal {
+  --border-radius: 15px;
+} */
+
+/* Empurra o conteúdo do modal para baixo respeitando a safe-area */
+/* ion-modal::part(content) {
+  padding-top: var(--ion-safe-area-top, env(safe-area-inset-top));
+} */
+
 p {
   color: var(--color-light-gray);
   font-size: 1rem;
