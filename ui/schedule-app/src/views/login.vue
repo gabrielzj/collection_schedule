@@ -183,6 +183,7 @@ async function handleLogin(): Promise<void> {
   color: var(--ion-color-primary);
   text-decoration: none;
   font-size: 0.9rem;
+  cursor: pointer;
 }
 
 .signup span:hover {
