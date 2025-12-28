@@ -36,7 +36,6 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { SystemBars, SystemBarsStyle } from "@capacitor/core";
 
 import {
   IonPage,
