@@ -40,12 +40,8 @@
           </ion-button>
 
           <div class="signup">
-            Não tem uma conta?<router-link
-              to="/register"
-              router-direction="forward"
-            >
-              Registre-se
-            </router-link>
+            Não tem uma conta?
+            <span @click="redirectSignup"> Registre-se </span>
           </div>
         </div>
       </div>
@@ -62,19 +58,23 @@ import {
   IonLabel,
   IonItem,
   IonInputPasswordToggle,
+  useIonRouter,
 } from "@ionic/vue";
 import { ref } from "vue";
 import apiClient from "@/services/apiClient";
-import { Router, useRouter } from "vue-router";
 
 const email = ref("");
 const password = ref("");
 const keepConnected = ref(false);
 
-const router: Router = useRouter();
+const ionRouter = useIonRouter();
+
+function redirectSignup() {
+  ionRouter.navigate("/register", "forward");
+}
 
 async function handleRedirect() {
-  router.replace("/home");
+  ionRouter.navigate("/home", "root");
 }
 
 async function handleLogin(): Promise<void> {
@@ -179,13 +179,14 @@ async function handleLogin(): Promise<void> {
   text-align: center;
 }
 
-.signup a {
+.signup span {
   color: var(--ion-color-primary);
   text-decoration: none;
   font-size: 0.9rem;
+  cursor: pointer;
 }
 
-.signup a:hover {
+.signup span:hover {
   text-decoration: underline;
 }
 </style>

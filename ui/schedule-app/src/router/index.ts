@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from "@ionic/vue-router";
 import { RouteRecordRaw } from "vue-router";
-import TabsPage from "../views/TabsPage.vue";
-import Tab1Page from "@/views/Tab1Page.vue";
-import Tab2Page from "@/views/Tab2Page.vue";
+import FooterBar from "@/views/FooterBar.vue";
+import WasteTypes from "@/views/WasteTypes.vue";
+import CreateCall from "@/views/CreateCall.vue";
 import loginPage from "@/views/login.vue";
 import registerPage from "@/views/Register.vue";
 import MyCallsPage from "@/views/MyCallsPage.vue";
@@ -33,7 +33,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/home",
     meta: { requiresAuth: true },
-    component: TabsPage,
+    component: FooterBar,
     children: [
       {
         path: "",
@@ -42,12 +42,12 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "waste-info",
         name: "WasteInfo",
-        component: Tab1Page,
+        component: WasteTypes,
       },
       {
         path: "call",
         name: "Call",
-        component: Tab2Page,
+        component: CreateCall,
       },
       {
         path: "user",
