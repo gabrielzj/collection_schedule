@@ -36,8 +36,6 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { StatusBar } from "@capacitor/status-bar";
-import { EdgeToEdge } from "@capawesome/capacitor-android-edge-to-edge-support";
 
 import {
   IonPage,
@@ -83,7 +81,6 @@ interface WasteModal {
   id: number;
 }
 
-// alterar import das imagens para evitar problemas no build
 const wasteInfo: WasteInfo[] = [
   {
     type: "paper",
