@@ -7,7 +7,7 @@ This project was developed as the final project for the Computer Engineering deg
 - Python
 - Django and DRF (Django REST Framework)
 - SQLite
-- JavaScript
+- TypeScript
 - Vue
 - Ionic and Capacitor
 
