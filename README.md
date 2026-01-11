@@ -6,11 +6,9 @@ This project was developed as the final project for the Computer Engineering deg
 
 - Python
 - Django and DRF (Django REST Framework)
-- SimpleJWT
-- Ngrok
 - SQLite
 - JavaScript
-- Vue and Vite
+- Vue
 - Ionic and Capacitor
 
 ## 📦 Requirements
@@ -102,7 +100,11 @@ npm install
 On Browser:
 
 ```powershell
-npm run dev or ionic serve
+npm run dev
+```
+or
+```powershell
+ionic serve
 ```
 
 On Android Studio:
