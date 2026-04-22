@@ -102,7 +102,9 @@ On Browser:
 ```powershell
 npm run dev
 ```
+
 or
+
 ```powershell
 ionic serve
 ```
@@ -160,3 +162,6 @@ npx cap open android
 
 <img width="1868" height="951" alt="stats" src="https://github.com/user-attachments/assets/ed53802a-f18e-4ab2-976c-2bde21854c55" />
 
+## Copyright
+
+This repository is made publicly available for viewing and educational purposes only. It is not intended for commercial use or distribution.
